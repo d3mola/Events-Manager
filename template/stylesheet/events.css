@@ -1,16 +1,24 @@
 body {
-	font-family: 'Quicksand', sans-serif;
+  /*font-family: 'Quicksand', sans-serif;*/
+  font-family: 'Lato', sans-serif;
   min-height: 1000px;
   /*background: url(https://images.unsplash.com/photo-1500862341394-4477ad3e8af2?auto=format&fit=crop&w=500&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D) no-repeat center center fixed;*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
+h2 {
+  font-family: 'Dancing Script', Georgia, Times, serif;
+  margin-top: 40px;
+}
 
-#introduction {
-  /*font-family: 'Dancing Script', Georgia, Times, serif;*/
+h2:hover {
+  font-size: 50px;
+}
+
+#form {
   font-family: 'Quicksand', sans-serif;
-  background: url(https://goo.gl/NKjMHZ) 0% 0%/cover;/*https://goo.gl/wQciEr  https://goo.gl/uNFTY5**/
+  background: url(https://goo.gl/ZT1Nhq) 0% 0%/cover;/*https://goo.gl/wQciEr  https://goo.gl/uNFTY5**/
   font-weight: 600;
   color: white;
 }
@@ -21,6 +29,7 @@ body {
 
 #header {
   background-color: #16534e;
+  /*background-color: #1abc9c;*/
 }
 
 .navbar-toggler-icon {
@@ -28,9 +37,15 @@ body {
   height: 0.1em;
 }
 
-img {
-  width: 100%;
-  height: 300px;
+.card {
+  margin-top: 30px;
+  color: white;
+  background-color: #726f75
+}
+
+.card:hover {
+  color: black;
+  background-color: #0cb940
 }
 
 a.navbar-brand {
