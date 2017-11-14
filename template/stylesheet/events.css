@@ -1,0 +1,111 @@
+body {
+  /*font-family: 'Quicksand', sans-serif;*/
+  font-family: 'Lato', sans-serif;
+  min-height: 1000px;
+  /*background: url(https://images.unsplash.com/photo-1500862341394-4477ad3e8af2?auto=format&fit=crop&w=500&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D) no-repeat center center fixed;*/
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+h2 {
+  font-family: 'Dancing Script', Georgia, Times, serif;
+  margin-top: 40px;
+}
+
+h2:hover {
+  font-size: 50px;
+}
+
+#form {
+  font-family: 'Quicksand', sans-serif;
+  background: url(https://goo.gl/ZT1Nhq) 0% 0%/cover;/*https://goo.gl/wQciEr  https://goo.gl/uNFTY5**/
+  font-weight: 600;
+  color: white;
+}
+
+.fill-viewport {
+  min-height: 100vh;
+}
+
+#header {
+  background-color: #16534e;
+  /*background-color: #1abc9c;*/
+}
+
+.navbar-toggler-icon {
+  background-color: white;
+  height: 0.1em;
+}
+
+.card {
+  margin-top: 30px;
+  color: white;
+  background-color: #726f75
+}
+
+.card:hover {
+  color: black;
+  background-color: #0cb940
+}
+
+a.navbar-brand {
+  font-family: 'Dancing Script', Georgia, Times, serif;
+  font-weight: 700;
+  font-size: 21px;
+}
+
+a.navbar-brand:hover {
+  font-size: 31px;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: greenyellow;
+  font-size: 21px;
+}
+
+h4 {
+  margin-top: 30px;
+}
+
+footer {
+  background-color: #16534e;
+}
+
+.footer-header {
+  font-family: 'Dancing Script', Georgia, Times, serif;
+  color: white;
+  font-weight: 700;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.footer-header:hover {
+  font-size: 50px;
+  color: yellowgreen;
+}
+
+.footer-para {
+  color: white;
+}
+
+.social-link {
+  color: white;
+  display: block;
+  margin-bottom: 25px;
+}
+
+.social-link:hover {
+  color: yellowgreen;
+  font-size: 25px;
+  text-decoration: none;
+}
+
+.footer-list {
+  list-style: none;
+  display: block;
+  margin-bottom: 25px;
+}
