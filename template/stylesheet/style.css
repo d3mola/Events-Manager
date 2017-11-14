@@ -1,12 +1,23 @@
 body {
 	background-color: #16534e;
 	font-family: 'Quicksand', sans-serif;
-  color: black;
   min-height: 1000px;
 }
 
+#header {
+  background-color: black;
+}
+
 a.navbar-brand{
-  font-weight: 600;
+  font-weight: 500;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: white;
 }
 
 
