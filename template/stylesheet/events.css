@@ -23,6 +23,13 @@ h2:hover {
   color: white;
 }
 
+#modify-form {
+  font-family: 'Quicksand', sans-serif;
+  background: url(https://goo.gl/rHLz65) 0% 0%/cover;/*https://goo.gl/wQciEr  https://goo.gl/uNFTY5**/
+  font-weight: 600;
+  color: white;
+}
+
 .fill-viewport {
   min-height: 100vh;
 }
@@ -37,15 +44,21 @@ h2:hover {
   height: 0.1em;
 }
 
+#cards {
+  background-color: #f3ecec;
+}
+
 .card {
   margin-top: 30px;
   color: white;
-  background-color: #726f75
+  background-color: #726f75;
 }
 
 .card:hover {
-  color: black;
-  background-color: #0cb940
+  /* color: black;*/
+  background-color: #16534e;
+  /* background-color: #0cb940;*/
+  bottom: 5px;
 }
 
 a.navbar-brand {
