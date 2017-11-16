@@ -1,19 +1,13 @@
 body {
   /*font-family: 'Quicksand', sans-serif;*/
   font-family: 'Lato', sans-serif;
-  min-height: 1000px;
   /*background: url(https://images.unsplash.com/photo-1500862341394-4477ad3e8af2?auto=format&fit=crop&w=500&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D) no-repeat center center fixed;*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 h2 {
-  font-family: 'Dancing Script', Georgia, Times, serif;
   margin-top: 40px;
-}
-
-h2:hover {
-  font-size: 50px;
 }
 
 #form {
@@ -39,9 +33,11 @@ h2:hover {
   /*background-color: #1abc9c;*/
 }
 
-.navbar-toggler-icon {
+span.navbar-toggler-icon {
   background-color: white;
   height: 0.1em;
+  margin-bottom: 5px;
+  display: block;
 }
 
 #cards {
@@ -62,13 +58,12 @@ h2:hover {
 }
 
 a.navbar-brand {
-  font-family: 'Dancing Script', Georgia, Times, serif;
   font-weight: 700;
   font-size: 21px;
 }
 
 a.navbar-brand:hover {
-  font-size: 31px;
+  font-size: 22px;
 }
 
 a {
@@ -77,7 +72,7 @@ a {
 
 a:hover {
   color: greenyellow;
-  font-size: 21px;
+  font-size: 20px;
 }
 
 h4 {
@@ -89,16 +84,12 @@ footer {
 }
 
 .footer-header {
-  font-family: 'Dancing Script', Georgia, Times, serif;
+  font-family: 'Quicksand', sans-serif;
+  /*font-family: 'Dancing Script', Georgia, Times, serif;*/
   color: white;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 30px;
   margin-top: 30px;
-}
-
-.footer-header:hover {
-  font-size: 50px;
-  color: yellowgreen;
 }
 
 .footer-para {
@@ -113,12 +104,6 @@ footer {
 
 .social-link:hover {
   color: yellowgreen;
-  font-size: 25px;
+  font-size: 20px;
   text-decoration: none;
-}
-
-.footer-list {
-  list-style: none;
-  display: block;
-  margin-bottom: 25px;
 }

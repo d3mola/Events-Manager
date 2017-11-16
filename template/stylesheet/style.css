@@ -1,11 +1,17 @@
 body {
 	background-color: #16534e;
 	font-family: 'Quicksand', sans-serif;
-  min-height: 1000px;
 }
 
 #header {
   background-color: black;
+}
+
+span.navbar-toggler-icon {
+  background-color: white;
+  height: 0.1em;
+  margin-bottom: 5px;
+  display: block;
 }
 
 a.navbar-brand{
@@ -18,19 +24,18 @@ a {
 
 a:hover {
   color: greenyellow;
-  font-size: 21px;
+  font-size: 20px;
 }
 
 
 h2 {
-	font-family: 'Dancing Script', Georgia, Times, serif;
-	font-size: 59px;
+	font-size: 45px;
   line-height: 60px;
   margin-bottom: 30px;
   color: #16534e;
 }
 h2:hover {
-  font-size: 70px;
+  font-size: 50px;
 }
 
 #form-box {
