@@ -1,0 +1,44 @@
+{
+  "name": "events-manager",
+  "version": "1.0.0",
+  "description": "manage applications to your event facilities",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel src -d lib",
+    "dev": "nodemon ./bin/www --exec babel-node",
+    "eslint": "./node_modules/.bin/eslint app.js",
+    "nodemon": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3mola/Events-Manager.git"
+  },
+  "keywords": [
+    "express",
+    "postgres",
+    "sequelize",
+    "node"
+  ],
+  "author": "Ademola Ariya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d3mola/Events-Manager/issues"
+  },
+  "homepage": "https://github.com/d3mola/Events-Manager#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "nodemon": "^1.12.1"
+  }
+}
