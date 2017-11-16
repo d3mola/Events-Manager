@@ -1,0 +1,25 @@
+{
+  "name": "events-manager",
+  "version": "1.0.0",
+  "description": "manage applications to your event facilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3mola/Events-Manager.git"
+  },
+  "keywords": [
+    "express",
+    "postgres",
+    "sequelize",
+    "node"
+  ],
+  "author": "Ademola Ariya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d3mola/Events-Manager/issues"
+  },
+  "homepage": "https://github.com/d3mola/Events-Manager#readme"
+}
