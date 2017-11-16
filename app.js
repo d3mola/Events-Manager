@@ -1,6 +1,6 @@
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
 
 // Set up the express app
 const app = express();
@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => res.status(200).send({
+  success: true,
   message: 'Welcome to the Party Palace',
 }));
 
-module.exports = app;
+export default app;
