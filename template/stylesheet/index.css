@@ -1,6 +1,5 @@
 body {
 	font-family: 'Quicksand', sans-serif;
-  min-height: 1000px;
   /*background: url(https://images.unsplash.com/photo-1500862341394-4477ad3e8af2?auto=format&fit=crop&w=500&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D) no-repeat center center fixed;*/
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,9 +22,11 @@ body {
   background-color: #16534e;
 }
 
-.navbar-toggler-icon {
+span.navbar-toggler-icon {
   background-color: white;
   height: 0.1em;
+  margin-bottom: 5px;
+  display: block;
 }
 
 img {
@@ -34,7 +35,6 @@ img {
 }
 
 a.navbar-brand {
-  font-family: 'Dancing Script', Georgia, Times, serif;
   font-weight: 700;
   font-size: 21px;
 }
@@ -61,7 +61,6 @@ footer {
 }
 
 .footer-header {
-  font-family: 'Dancing Script', Georgia, Times, serif;
   color: white;
   font-weight: 700;
   margin-bottom: 30px;
