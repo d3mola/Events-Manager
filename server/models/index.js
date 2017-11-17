@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import Sequelize from 'sequelize';
 import dbConfig from '../config/config.json';
 
+// Load .env
 dotenv.config();
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
