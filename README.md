@@ -5,7 +5,7 @@ Templates are hosted on [gh-pages](https://d3mola.github.io/Events-Manager/index
 
 ## Project Description
 Project is didvided into 3 phases
-- Templates that show webpages(hosted on gh-pages)
+- Templates that show web pages (hosted on gh-pages)
 - Server for the client side of the app (sequelize, postges)
 - Client - Single page for the app (React, redux)
 
