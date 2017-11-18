@@ -9,5 +9,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/users', userController.create);
+router.post('/users/login', userController.login);
 
 export default router;
