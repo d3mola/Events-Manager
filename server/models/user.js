@@ -2,22 +2,40 @@ export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
+      allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Username taken! Please enter a new username.'
+      },
+      validate: {
+        is: {
+          args: /^[a-zA-Z0-9_]*$/,
+          msg: 'No spaces or symbols allowed!'
+        }
+      }
     },
     email: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Email already exists!'
+      },
       allowNull: false,
       validate: {
-        isEmail: true
+        isEmail: {
+          args: true,
+          msg: 'Invalid email!'
+        }
       }
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [6, 20]
+        len: {
+          args: [6],
+          msg: 'Minimum of 6 characters'
+        }
       }
     },
     isAdmin: {
