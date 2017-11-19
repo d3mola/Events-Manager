@@ -4,7 +4,7 @@ const User = db.User;
 
 export default {
 
-  create(req, res) {
+  signup(req, res) {
     return User
       .create({
         username: req.body.username,

@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   res.send('Welcome to Party Palace API');
 });
 
-router.post('/users', userController.create);
+router.post('/users', userController.signup);
 router.post('/users/login', userController.login);
 
 export default router;
