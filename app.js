@@ -3,6 +3,10 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
+// import routes
+import routes from './server/routes/users';
+// import routes from './server/routes/index';
+
 // Load .env
 dotenv.config();
 
@@ -16,10 +20,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// use imported routes
+app.use('/api', routes);
+
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => res.status(200).send({
   success: true,
-  message: 'Welcome to the Party Palace',
+  message: 'Welcome to the our CATCH ALL ROUTE',
 }));
 
 export default app;
