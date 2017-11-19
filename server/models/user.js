@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -44,6 +46,31 @@ export default (sequelize, DataTypes) => {
       defaultValue: false
     }
   });
+
+  /* User.beforeCreate(user => bcrypt.hash(user.password, 10)
+    .then((hash) => {
+      user.password = hash;
+      console.log(`Password is: ${user.password}`);
+    }).catch(error => console.log(error)));
+
+  User.afterValidate('myHookAfter', (user) => {
+    bcrypt.compare(user.password, hash).then((res) => {
+      user.password = hash;
+    });
+  }); */
+
+  /**
+   *  {
+    hooks: {
+      beforeCreate: (user) => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
+      }
+    },
+    instanceMethods: {
+      validPassword: password => bcrypt.compareSync(password, this.password)
+    }
+  }); */
 
   User.associate = ((models) => {
     User.hasMany(models.Event, {

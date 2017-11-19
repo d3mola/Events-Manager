@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/d3mola/Events-Manager#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
