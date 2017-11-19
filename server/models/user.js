@@ -36,7 +36,7 @@ export default (sequelize, DataTypes) => {
       validate: {
         len: {
           args: [6, 20],
-          msg: 'Minimum of 6 characters'
+          msg: 'Password should have a minimum of 6 characters'
         }
       }
     },
