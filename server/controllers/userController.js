@@ -1,6 +1,6 @@
 import db from '../models';
 
-const User = db.User;
+const { User } = db;
 
 export default {
 
