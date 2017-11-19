@@ -33,7 +33,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: {
-          args: [6],
+          args: [6, 20],
           msg: 'Minimum of 6 characters'
         }
       }
