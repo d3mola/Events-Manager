@@ -1,5 +1,10 @@
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+
 import db from '../models';
 
+dotenv.config();
 const { User } = db;
 
 export default {
@@ -19,12 +24,12 @@ export default {
       where: {
         $or: [{ username: req.body.username }, { email: req.body.email }]
       }
-    }).then((existingUser) => {
-      if (existingUser && existingUser.username === req.body.username) {
-        return res.status(400).send('Username taken!');
+    }).then((foundUser) => {
+      if (foundUser && foundUser.username === req.body.username) {
+        return res.status(403).send('Username taken!');
       }
-      if (existingUser && existingUser.email === req.body.email) {
-        return res.status(400).send('Another account uses this email!');
+      if (foundUser && foundUser.email === req.body.email) {
+        return res.status(403).send('Another account uses this email!');
       }
       // if username/ password arent already taken, create the user
       User.create({
@@ -32,31 +37,78 @@ export default {
         email: req.body.email,
         password: req.body.password,
         isAdmin: req.body.isAdmin
-      })
-        .then(user => res.status(201).send({
-          status: 'success',
-          message: 'Congrats!!! Registration succesfully!',
-          user
-        }))
+      }) // generate token
+        .then((user) => {
+          const payload = {
+            isAdmin: user.isAdmin,
+            username: user.username
+          };
+          const token = jwt.sign(payload, process.env.SECRET, {
+            expiresIn: 1440 // expires in 5 mins
+          });
+          return res.json({
+            success: true,
+            message: 'Congrats!!! Registration succesfull! Enjoy your token!',
+            token,
+            user
+          });
+        })
         .catch(error => res.status(400).send(error.toString()));
     }).catch(error => res.status(500).send(error).toString());
-
-    /*  */
   },
+
+  // authenticate user
 
   login(req, res) {
     // check for empty username or password
-    if (!req.body.username/* || !req.body.password */) {
+    /* if (!req.body.username || !req.body.password) {
       return res.status(400).send('Incomplete credentials');
-    }
+    } */
+
+    // find the user, then send
     return User
       .findOne({
         where: {
           username: req.body.username,
-          // password: req.body.password
+        /*  password: req.body.password */
         }
       })
-      .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send(error));
+      .then((user) => {
+        if (!user) {
+          res.status(403).send('Incorrect username');
+        } else if (user) {
+          bcrypt.compare(req.body.password, user.password).then((result) => {
+            if (!result) {
+              res.status(403).send('Incorrect password');
+            }
+
+            const payload = {
+              isAdmin: user.isAdmin,
+              username: user.username
+            };
+
+            const token = jwt.sign(payload, process.env.SECRET, {
+              expiresIn: 1440 // expires in 5 mins
+            });
+
+            res.json({
+              success: true,
+              message: 'Enjoy your token!',
+              token,
+              user
+            });
+          }).catch();
+        }
+      }).catch(error => res.status(400).send({
+        status: 'failure',
+        error,
+        message: 'Authentication failed',
+      }));
+    /*  .then(user => res.status(201).send(user))
+      .catch(error => res.status(400).send({
+        status: 'failure',
+        error,
+        message: 'Authentication failed'
+      })); */
   }
 };
