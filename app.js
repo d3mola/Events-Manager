@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 // import routes
 import routes from './server/routes/users';
