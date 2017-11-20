@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import hashPwd from '../helpers/hashPwd';
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -36,7 +36,7 @@ export default (sequelize, DataTypes) => {
       validate: {
         len: {
           args: [6, 20],
-          msg: 'Minimum of 6 characters'
+          msg: 'Password should have a minimum of 6 characters'
         }
       }
     },
@@ -44,6 +44,13 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    }
+  });
+
+  User.beforeCreate(user => hashPwd(user), { individualHooks: true });
+  User.beforeUpdate((user) => {
+    if (user.changed('password')) {
+      user = hashPwd(user);
     }
   });
 
