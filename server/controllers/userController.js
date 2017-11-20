@@ -9,7 +9,7 @@ const { User } = db;
 
 export default {
 
-  signup(req, res) {
+  signup: (req, res) => {
     // check for empty password.. Add reqex to validate password later
     if (!req.body.password) {
       return res.status(400).send('Enter a password! (`_`)/```');
@@ -44,7 +44,7 @@ export default {
             username: user.username
           };
           const token = jwt.sign(payload, process.env.SECRET, {
-            expiresIn: 1440 // expires in 5 mins
+            expiresIn: '24h' // expires in 24hrs
           });
           return res.json({
             success: true,
@@ -53,24 +53,24 @@ export default {
             user
           });
         })
-        .catch(error => res.status(400).send(error.toString()));
-    }).catch(error => res.status(500).send(error).toString());
+        .catch(error => res.status(400).json({
+          success: false,
+          message: error
+        }));
+    }).catch(error => res.status(500).json({
+      success: false,
+      message: error
+    }));
   },
 
   // authenticate user
 
-  login(req, res) {
-    // check for empty username or password
-    /* if (!req.body.username || !req.body.password) {
-      return res.status(400).send('Incomplete credentials');
-    } */
-
+  login: (req, res) =>
     // find the user, then send
-    return User
+    User
       .findOne({
         where: {
-          username: req.body.username,
-        /*  password: req.body.password */
+          username: req.body.username
         }
       })
       .then((user) => {
@@ -79,16 +79,21 @@ export default {
         } else if (user) {
           bcrypt.compare(req.body.password, user.password).then((result) => {
             if (!result) {
-              res.status(403).send('Incorrect password');
+              res.status(403).json({
+                success: false,
+                message: 'Incorrect password'
+              });
             }
 
             const payload = {
+              id: user.id,
               isAdmin: user.isAdmin,
-              username: user.username
+              username: user.username,
+              email: user.email
             };
 
             const token = jwt.sign(payload, process.env.SECRET, {
-              expiresIn: 1440 // expires in 5 mins
+              expiresIn: '24h' // expires in 24hrs
             });
 
             res.json({
@@ -99,16 +104,10 @@ export default {
             });
           }).catch();
         }
-      }).catch(error => res.status(400).send({
+      }).catch(error => res.status(400).json({
         status: 'failure',
         error,
         message: 'Authentication failed',
-      }));
-    /*  .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send({
-        status: 'failure',
-        error,
-        message: 'Authentication failed'
-      })); */
-  }
+      }))
+
 };
