@@ -9,4 +9,6 @@ router.post('/centers', authenticate, adminCheck, centerController.create);
 
 router.put('/centers/:centerId', authenticate, adminCheck, centerController.update);
 
+router.get('/centers', authenticate, centerController.getAllCenters);
+
 export default router;
