@@ -6,7 +6,15 @@ export default (sequelize, DataTypes) => {
     },
     notes: {
       type: DataTypes.TEXT,
-    }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'id',
+        as: 'userId',
+      },
+    },
   });
 
   Event.associate = (models) => {
