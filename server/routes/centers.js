@@ -7,8 +7,10 @@ const router = express.Router();
 
 router.post('/centers', authenticate, adminCheck, centerController.create);
 
+router.get('/centers', authenticate, centerController.getAllCenters);
+
 router.put('/centers/:centerId', authenticate, adminCheck, centerController.update);
 
-router.get('/centers', authenticate, centerController.getAllCenters);
+router.get('/centers/:centerId', authenticate, centerController.getACenter);
 
 export default router;
