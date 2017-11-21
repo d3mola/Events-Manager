@@ -41,24 +41,29 @@ export default {
    * @returns {object} updated center
    */
   update: (req, res) => {
-    if (req.user && req.user.isAdmin) {
-      return Center
-        .update(req.body, { where: { id: req.params.centerId } })
-        .then(center => res.status(200).json({
-          success: true,
-          message: 'Center updated succesfully',
-          center
-        }))
-        .catch(error => res.status(500).json({
-          success: false,
-          message: 'Something went wrong',
-          error
-        }));
-    }
-    res.status(401).json({
-      success: false,
-      message: 'Unauthohrized access'
-    });
+    Center
+      .findOne({
+        where: {
+          id: req.params.centerId
+        }
+      }).then((center) => {
+        center.update(req.body)
+          .then(updatedCenter => res.status(200).json({
+            success: true,
+            message: 'Center updated succesfully!',
+            updatedCenter
+          }))
+          .catch(error => res.status(500).json({
+            success: false,
+            message: 'Could not update center',
+            error: error.toString()
+          }));
+      })
+      .catch(error => res.status(500).json({
+        success: false,
+        message: 'Center doesnt exist',
+        error: error.toString()
+      }));
   },
 
   // get all centers
