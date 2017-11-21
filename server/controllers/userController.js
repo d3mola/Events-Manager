@@ -9,39 +9,55 @@ const { User } = db;
 
 export default {
 
+  /**
+   * @description adds a new user to the database
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   * @returns {object} new user
+   */
   signup: (req, res) => {
+    const {
+      username, password, email, isAdmin
+    } = req.body;
     // check for empty password.. Add reqex to validate password later
-    if (!req.body.password) {
-      return res.status(400).send('Enter a password! (`_`)/```');
+    if (!password || !username || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill all the fields!'
+      });
     }
     // check password length
-    if (req.body.password.length < 6) {
-      return res.status(400).send('Password should be atleast 6 characters long!');
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password should be atleast 6 characters long!'
+      });
     }
 
     // check if username/ email are already taken, then return error messages
     return User.find({
       where: {
-        $or: [{ username: req.body.username }, { email: req.body.email }]
+        $or: [{ username }, { email }]
       }
     }).then((foundUser) => {
-      if (foundUser && foundUser.username === req.body.username) {
+      if (foundUser && foundUser.username === username) {
         return res.status(403).send('Username taken!');
       }
-      if (foundUser && foundUser.email === req.body.email) {
+      if (foundUser && foundUser.email === email) {
         return res.status(403).send('Another account uses this email!');
       }
       // if username/ password arent already taken, create the user
       User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        isAdmin: req.body.isAdmin
+        username,
+        email,
+        password,
+        isAdmin
       }) // generate token
         .then((user) => {
           const payload = {
             isAdmin: user.isAdmin,
-            username: user.username
+            username: user.username,
+            userId: user.id
           };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '24h' // expires in 24hrs
@@ -59,25 +75,40 @@ export default {
         }));
     }).catch(error => res.status(500).json({
       success: false,
-      message: error
+      error
     }));
   },
 
-  // authenticate user
 
-  login: (req, res) =>
-    // find the user, then send
+  /**
+   * @description authenticates a user
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   * @returns {object} authenticated user
+   */
+  login: (req, res) => {
+    const {
+      username, password
+    } = req.body;
+
+    // validate user input
+    if (!username || !password) {
+      res.status(500).json({
+        success: false,
+        message: 'Incomplete credentials'
+      });
+    }
     User
       .findOne({
         where: {
-          username: req.body.username
+          username
         }
       })
       .then((user) => {
         if (!user) {
           res.status(403).send('Incorrect username');
         } else if (user) {
-          bcrypt.compare(req.body.password, user.password).then((result) => {
+          bcrypt.compare(password, user.password).then((result) => {
             if (!result) {
               res.status(403).json({
                 success: false,
@@ -98,9 +129,8 @@ export default {
 
             res.json({
               success: true,
-              message: 'Enjoy your token!',
-              token,
-              user
+              message: `Enjoy your token! ${user.username}`,
+              token
             });
           }).catch();
         }
@@ -108,6 +138,6 @@ export default {
         status: 'failure',
         error,
         message: 'Authentication failed',
-      }))
-
+      }));
+  }
 };

@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 // import routes
 import routes from './server/routes/users';
 import centerRoutes from './server/routes/centers';
+import eventRoutes from './server/routes/events';
 // import routes from './server/routes/index';
 
 // Load .env
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // use imported routes
 app.use('/api', routes);
 app.use('/api', centerRoutes);
+app.use('/api', eventRoutes);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => res.status(200).send({

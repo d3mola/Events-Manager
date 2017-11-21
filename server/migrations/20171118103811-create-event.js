@@ -13,6 +13,10 @@ module.exports = {
     notes: {
       type: Sequelize.TEXT
     },
+    date: {
+      type: Sequelize.DATEONLY,
+      allowNull: false
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
@@ -27,6 +31,14 @@ module.exports = {
         model: 'Users',
         key: 'id',
         as: 'userId',
+      },
+    },
+    centerId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Centers',
+        key: 'id',
+        as: 'centerId',
       },
     },
   }),
