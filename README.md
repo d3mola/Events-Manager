@@ -6,28 +6,47 @@ Templates are hosted on [gh-pages](https://d3mola.github.io/Events-Manager/)
 ## Getting Started
 Follow the following instructions to get a copy of the project running on your local machine.
 
-### Prerequisites
+#### Prerequisites
 Download and install [postgres](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
-### Installation instructions to get started
+#### Features
+- Authentication with [**JSON Web Tokens**](https://jwt.io/)
+- `Signup` to get registered `POST/api/users`
+- `Login` to be access endpoints `POST/api/users/login`
+- `Create a center` to add a new center. Only an admin can access this route `POST/api/centers`
+- `Update a center`to modify center information. Only an admin can access this route `POST/api/centers/:centerId`
 
-- Clone the repo
+#### Installation instructions to get started
 
-`git clone https://github.com/d3mola/Events-Manager.git`
+```
+Clone the repo
 
-- Install dependencies
+git clone https://github.com/d3mola/Events-Manager.git
 
-`npm install`
+Install dependencies
 
-- Run migrations
+npm install
 
-`node_modules/.bin/sequelize db:migrate`
+Run migrations
 
-- Start the server
+node_modules/.bin/sequelize db:migrate
 
-`npm run dev`
+Start the server
 
-- Then visit [localhost:8000](localhost:8000)
+npm run dev
+
+Then visit [localhost:8000](http://localhost:8000)
+
+To vist the above routes, open POSTMAN
+
+Send requests to the endpoints stated
+
+Body of the user routes should be supplied with the following data -
+username, email, password, isAdmin(true/false)
+
+Body of the center routes should be supplied with the following data - 
+name, loaction, capacity, price, isAvailable(true/ false)
+```
 
 ## Technologies
 - Node js
