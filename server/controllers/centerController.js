@@ -59,5 +59,18 @@ export default {
       success: false,
       message: 'Unauthohrized access'
     });
-  }
+  },
+
+  // get all centers
+  getAllCenters: (req, res) => Center
+    .findAll()
+    .then(centers => res.status(200).json({
+      success: true,
+      centers
+    }))
+    .catch(error => res.status(500).json({
+      success: false,
+      message: 'Could not get centers',
+      error: error.toString()
+    })),
 };
