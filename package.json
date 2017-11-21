@@ -8,7 +8,12 @@
     "dev": "nodemon ./bin/www --exec babel-node",
     "eslint": "./node_modules/.bin/eslint app.js",
     "nodemon": "nodemon ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo:all",
+    "seed:create": "sequelize seed:generate --name",
+    "seed": "sequelize db:seed:all",
+    "seed:undo": "sequelize db:seed:undo:all"
   },
   "repository": {
     "type": "git",
