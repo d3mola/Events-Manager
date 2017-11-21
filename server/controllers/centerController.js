@@ -19,7 +19,8 @@ export default {
       location,
       capacity,
       price,
-      isAvailable
+      isAvailable,
+      userId: req.user.id
     })
       .then(center => res.status(201).json({
         success: true,
@@ -78,4 +79,20 @@ export default {
       message: 'Could not get centers',
       error: error.toString()
     })),
+
+
+  getACenter: (req, res) =>
+    Center.findOne({
+      where: {
+        id: req.params.centerId
+      }
+    }).then(center => res.status(200).json({
+      success: true,
+      message: center
+    }))
+      .catch(error => res.status(500).json({
+        success: false,
+        message: ('Could not get the center details'),
+        error
+      })),
 };
