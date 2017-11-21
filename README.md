@@ -11,10 +11,12 @@ Download and install [postgres](https://www.enterprisedb.com/downloads/postgres-
 
 #### Features
 - Authentication with [**JSON Web Tokens**](https://jwt.io/)
-- `Signup` to get registered `POST/api/users`
-- `Login` to be access endpoints `POST/api/users/login`
-- `Create a center` to add a new center. Only an admin can access this route `POST/api/centers`
-- `Update a center`to modify center information. Only an admin can access this route `POST/api/centers/:centerId`
+- `Signup` - to get registered `POST/api/users`
+- `Login` - to be access endpoints `POST/api/users/login`
+- `Create a center` - to add a new center. Only an admin can access this route `POST/api/centers`
+- `Update a center` - to modify center information. Only an admin can access this route `POST/api/centers/:centerId`
+- `Get all centers` - to get a list of all centers. `GET/api/centers/:centerId`
+- `Get the details of a center` - to modify center information. Only an admin can access this route `GET/api/centers/:centerId`
 
 #### Installation instructions to get started
 
