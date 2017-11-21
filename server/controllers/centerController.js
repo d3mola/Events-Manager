@@ -48,6 +48,12 @@ export default {
           id: req.params.centerId
         }
       }).then((center) => {
+        if (!center.body) {
+          res.status(400).json({
+            success: false,
+            message: 'Incomplete credentials'
+          });
+        }
         center.update(req.body)
           .then(updatedCenter => res.status(200).json({
             success: true,
@@ -67,7 +73,13 @@ export default {
       }));
   },
 
-  // get all centers
+
+  /**
+   * @description gets all centers
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   * @returns {object} centers
+   */
   getAllCenters: (req, res) => Center
     .findAll()
     .then(centers => res.status(200).json({
@@ -81,6 +93,12 @@ export default {
     })),
 
 
+  /**
+   * @description gets a center
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   * @returns {object} center
+   */
   getACenter: (req, res) =>
     Center.findOne({
       where: {
@@ -88,11 +106,11 @@ export default {
       }
     }).then(center => res.status(200).json({
       success: true,
-      message: center
+      center
     }))
       .catch(error => res.status(500).json({
         success: false,
-        message: ('Could not get the center details'),
+        message: 'Could not get the center details',
         error
       })),
 };
