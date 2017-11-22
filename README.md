@@ -17,6 +17,8 @@ Download and install [postgres](https://www.enterprisedb.com/downloads/postgres-
 - `Update a center` - to modify center information. Only an admin can access this route `POST/api/centers/:centerId`
 - `Get all centers` - to get a list of all centers. `GET/api/centers/:centerId`
 - `Get the details of a center` - to modify center information. Only an admin can access this route `GET/api/centers/:centerId`
+- `Create an event` - to create an event - `POST/api/events`
+- `Modify an event` - to modify an event - `PUT/api/events/:eventId`
 
 #### Installation instructions to get started
 
