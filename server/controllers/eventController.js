@@ -82,8 +82,46 @@ export default {
         success: false,
         message: 'Incomplete credentials'
       });
-    }
-    return Event.find({
+    } else {
+      Event.find({
+        where: {
+          centerId,
+          date
+        }
+      })
+        .then((existingEvent) => {
+          if (existingEvent) {
+            res.status(404).json({
+              success: false,
+              message: 'This date is not available'
+            });
+          } else {
+            Event.findOne({
+              where: {
+                id: req.params.eventId
+              }
+            })
+              .then((updatedEvent) => {
+                res.status(201).json({
+                  success: true,
+                  updatedEvent
+                });
+              }).catch(error => res.status(500).json({
+                success: false,
+                message: 'Could nit update event',
+                error
+              }));
+          }
+        }).catch(error => res.status(500).json({
+          success: false,
+          message: 'Could nit update event',
+          error
+        }));
+    }// end of else
+  }, // update end
+};
+/*
+return Event.find({
       where: {
         centerId,
         date
@@ -129,5 +167,4 @@ export default {
             }));
         } // else end
       }).catch();
-  }, // update end
-};
+ */
