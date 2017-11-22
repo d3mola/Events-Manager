@@ -1,0 +1,15 @@
+language: node_js
+    - "7"
+install: 
+    - npm install 
+services: 
+    - postgresql 
+cache: 
+    directories: 
+        - "node_modules"
+script: npm run test
+before_script:
+    - psql -c "CREATE DATABASE events_manager_test;" -U postgres
+    - npm install -nyc
+after_script: 
+    - nyc report --reporter=text-lcov | coveralls
