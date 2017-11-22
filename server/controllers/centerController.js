@@ -78,14 +78,23 @@ export default {
    * @description gets all centers
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * @returns {object} centers
+   * @returns {object} list of centers
    */
   getAllCenters: (req, res) => Center
     .findAll()
-    .then(centers => res.status(200).json({
-      success: true,
-      centers
-    }))
+    .then((centers)=> {
+      if (!centers.length) {
+        res.status(400).json({
+          success: false,
+          message: 'There are no centers at thsi time',
+          centers: []
+        });
+      }
+      res.status(200).json({
+        success: true,
+        centers
+      });
+    })
     .catch(error => res.status(500).json({
       success: false,
       message: 'Could not get centers',
