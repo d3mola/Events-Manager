@@ -62,7 +62,7 @@ export default {
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '24h' // expires in 24hrs
           });
-          return res.json({
+          return res.status(201).json({
             success: true,
             message: 'Congrats!!! Registration succesfull! Enjoy your token!',
             token,
