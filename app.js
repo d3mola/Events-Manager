@@ -23,9 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // use imported routes
-app.use('/api', routes);
-app.use('/api', centerRoutes);
-app.use('/api', eventRoutes);
+app.use('/api/v1', routes);
+app.use('/api/v1', centerRoutes);
+app.use('/api/v1', eventRoutes);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => res.status(200).send({
