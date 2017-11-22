@@ -9,8 +9,8 @@ describe('User API', () => {
   describe('POST /users', () => {
     beforeEach(() => {
       data = {
-        username: 'ademola1',
-        password: '123243254',
+        username: 'ademola1234',
+        password: '123456',
         email: 'ademola1@gmail.com'
       };
     });
@@ -76,11 +76,12 @@ describe('User API', () => {
     it('should return 403 if the email is already taken', (done) => {
       request.post('/api/v1/users')
         .send({
-          username: 'ademola5',
-          password: '1234657',
+          username: 'randonname',
+          password: '123456',
           email: 'ademola1@gmail.com'
         })
         .end((err, res) => {
+          console.log(err);
           expect(res.status).to.equal(403);
           expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('Another account uses this email!');
