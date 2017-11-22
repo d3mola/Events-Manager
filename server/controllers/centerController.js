@@ -104,10 +104,19 @@ export default {
       where: {
         id: req.params.centerId
       }
-    }).then(center => res.status(200).json({
-      success: true,
-      center
-    }))
+    })
+      .then((center) => {
+        if (!center) {
+          res.status(404).json({
+            success: false,
+            message: 'Center doesnt exist'
+          });
+        }
+        res.status(200).json({
+          success: true,
+          center
+        });
+      })
       .catch(error => res.status(500).json({
         success: false,
         message: 'Could not get the center details',
