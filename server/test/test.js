@@ -76,12 +76,12 @@ describe('User API', () => {
     it('should return 403 if the email is already taken', (done) => {
       request.post('/api/v1/users')
         .send({
-          username: 'randonname',
+          username: 'randonnname',
           password: '123456',
           email: 'ademola1@gmail.com'
         })
         .end((err, res) => {
-          console.log(err);
+          // console.log(err);
           expect(res.status).to.equal(403);
           expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('Another account uses this email!');
