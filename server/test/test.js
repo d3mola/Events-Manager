@@ -1,11 +1,19 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
 import app from '../../app';
+import db from '../models/index';
 
 const request = supertest(app);
 let data = {};
 // const url = '/api/v1';
 describe('User API', () => {
+  beforeEach((done) => {
+    db.User.destroy({
+      where: {}
+    });
+    done();
+  });
+
   describe('POST /users', () => {
     beforeEach(() => {
       data = {
