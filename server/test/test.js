@@ -1,18 +1,25 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
 import app from '../../app';
-import db from '../models/index';
+import db from '../models';
 
 const request = supertest(app);
 let data = {};
 // const url = '/api/v1';
-describe('User API', () => {
+describe('User', () => {
   /* beforeEach((done) => {
     db.User.destroy({
       where: {}
     });
     done();
   }); */
+  before((done) => {
+    db.sequelize.sync({ force: true }).then(() => {
+      done(null);
+    }).catch((error) => {
+      done(error);
+    });
+  });
 
   describe('POST /users', () => {
     beforeEach(() => {
