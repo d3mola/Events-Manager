@@ -44,7 +44,10 @@ export default {
         return res.status(403).send('Username taken!');
       }
       if (foundUser && foundUser.email === email) {
-        return res.status(403).send('Another account uses this email!');
+        return res.status(403).json({
+          success: false,
+          message: 'Another account uses this email!'
+        });
       }
       // if username/ password arent already taken, create the user
       User.create({
