@@ -37,7 +37,7 @@ describe('Center', () => {
     // done();//
   });
   describe('POST / centers', () => {
-    it.only('should create a new center and return 201', (done) => {
+    it('should create a new center and return 201', (done) => {
       request.post('/api/v1/centers')
         .send({
           name: 'Ruby Hall',

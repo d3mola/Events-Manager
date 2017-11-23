@@ -54,7 +54,7 @@ describe('User', () => {
         });
     });
 
-    it('should return 400 if the user eneters a pssword less than 6 characters', (done) => {
+    it('should return 400 if the user enters a pssword less than 6 characters', (done) => {
       request.post('/api/v1/users')
         .send({
           username: 'ademola4',
