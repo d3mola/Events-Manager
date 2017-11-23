@@ -136,7 +136,7 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            res.status(200).json({
+            res.status(202).json({
               success: true,
               message: `Enjoy your token! ${user.username}`,
               token
