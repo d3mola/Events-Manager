@@ -8,6 +8,6 @@ router.post('/events', authenticate, eventController.createEvent);
 
 router.put('/events/:eventId', authenticate, eventController.updateEvent);
 
-// router.delete('/events/:eventId', authenticate, eventController.deleteEvent);
+router.delete('/events/:eventId', authenticate, eventController.deleteEvent);
 
 export default router;
