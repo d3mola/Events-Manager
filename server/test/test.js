@@ -114,5 +114,18 @@ describe('User', () => {
           done();
         });
     });
+
+    it('should return 403 if the username is alredy taken', (done) => {
+      request.post('/api/v1/users')
+        .send({
+          username: 'ademola',
+          password: '123456',
+          email: 'ademolaasdgfd@gmail.com'
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(403);
+          done();
+        });
+    });
   }); // end of POST rreq
 }); // end of USER API

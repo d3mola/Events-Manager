@@ -41,7 +41,10 @@ export default {
       }
     }).then((foundUser) => {
       if (foundUser && foundUser.username === username) {
-        return res.status(403).send('Username taken!');
+        return res.status(403).json({
+          success: false,
+          message: 'Username taken!'
+        });
       }
       if (foundUser && foundUser.email === email) {
         return res.status(403).json({
