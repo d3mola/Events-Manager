@@ -4,3 +4,4 @@ WORKFLOW.md
 npm-debug.log
 .nyc_output
 coverage
+.coveralls.yml
