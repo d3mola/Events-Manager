@@ -112,7 +112,10 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          res.status(403).send('Incorrect username');
+          res.status(403).json({
+            success: false,
+            message: 'Incorrect username'
+          });
         } else if (user) {
           bcrypt.compare(password, user.password).then((result) => {
             if (!result) {
@@ -133,7 +136,7 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            res.json({
+            res.status(200).json({
               success: true,
               message: `Enjoy your token! ${user.username}`,
               token
@@ -141,7 +144,7 @@ export default {
           }).catch();
         }
       }).catch(error => res.status(400).json({
-        status: 'failure',
+        success: false,
         error,
         message: 'Authentication failed',
       }));
