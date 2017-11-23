@@ -13,7 +13,8 @@ export default {
     const {
       name, location, capacity, price, isAvailable
     } = req.body;
-    if (!name || !location || !capacity || !price || !isAvailable) {
+    // console.log("======================+>", req.body);
+    if (!name || !location || !capacity || !price) {
       res.status(500).json({
         success: false,
         message: 'Incomplete credentials'
