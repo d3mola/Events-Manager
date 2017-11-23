@@ -106,19 +106,50 @@ export default {
                   success: true,
                   updatedEvent
                 });
-              }).catch(error => res.status(500).json({
-                success: false,
-                message: 'Could nit update event',
-                error
-              }));
+              });
           }
-        }).catch(error => res.status(500).json({
+        }).catch(error => res.status(400).json({
           success: false,
-          message: 'Could nit update event',
+          message: 'Could not update event',
           error
         }));
     }// end of else
   }, // update end
+
+  /**
+   * @description deletes an event
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   * @returns {object} message
+   */
+  deleteEvent: (req, res) => {
+    /**
+     * look for the event by param, then, if the event doesnt exist, throw err
+     * else look for the center associted with the event and set the isavailble status to false
+     * then destroy
+     */
+    const id = req.params.eventId;
+    Event.findById(id)
+      .then((event) => {
+        if (!event) {
+          res.status(400).json({
+            success: false,
+            message: 'Event does not exist'
+          });
+        } else {
+          event.destroy()
+            .then(res.status(200).send({
+              success: false,
+              message: 'Event deleted succesfully'
+            }));
+        }
+      })
+      .catch(error => res.status(400).send({
+        success: false,
+        message: 'Something went wrong',
+        error
+      }));
+  },
 };
 /*
 return Event.find({
