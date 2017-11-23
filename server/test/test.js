@@ -1,37 +1,44 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
+import dotenv from 'dotenv';
 import app from '../../app';
 import db from '../models';
+import mock from '../mock/mock';
 
+dotenv.config();
+const { User } = db;
 const request = supertest(app);
-let data = {};
+// let data = {};
 // const url = '/api/v1';
 describe('User', () => {
+  // let regularToken, adminToken;
   /* beforeEach((done) => {
     db.User.destroy({
       where: {}
     });
     done();
   }); */
-  before((done) => {
+  beforeEach((done) => {
     db.sequelize.sync({ force: true }).then(() => {
       done(null);
     }).catch((error) => {
       done(error);
     });
   });
+  beforeEach((done) => {
+    User.create({
+      username: 'ademola',
+      email: 'ademola@gmail.com',
+      password: 'password1',
+      isAdmin: true
+    });
+    done();
+  });
 
   describe('POST /users', () => {
-    beforeEach(() => {
-      data = {
-        username: 'ademola1234',
-        password: '123456',
-        email: 'ademola1@gmail.com'
-      };
-    });
     it('should create a new user and return 201', (done) => {
       request.post('/api/v1/users')
-        .send(data)
+        .send(mock.newUser)
         .end((err, res) => {
           expect(res.status).to.equal(201);
           expect(res.body.success).to.equal(true);
@@ -43,9 +50,9 @@ describe('User', () => {
     it('should create a second user and return 201', (done) => {
       request.post('/api/v1/users')
         .send({
-          username: 'demola',
+          username: 'ademola1',
           password: '123456',
-          email: 'demola@gmail.com'
+          email: 'ademola1@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -78,7 +85,7 @@ describe('User', () => {
         .send({
           username: 'ademola4',
           password: '1234',
-          email: 'ademola$@gmail.com'
+          email: 'ademola4@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -93,7 +100,7 @@ describe('User', () => {
         .send({
           username: 'randonnname',
           password: '123456',
-          email: 'ademola1@gmail.com'
+          email: 'ademola@gmail.com'
         })
         .end((err, res) => {
           // console.log(err);
