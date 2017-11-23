@@ -3,6 +3,7 @@ Event-Manager helps manage applications to your event center/ facilities and wil
 
 Templates are hosted on [gh-pages](https://d3mola.github.io/Events-Manager/)
 
+[![Build Status](https://travis-ci.org/d3mola/Events-Manager.svg?branch=develop)](https://travis-ci.org/d3mola/Events-Manager)
 [![Coverage Status](https://coveralls.io/repos/github/d3mola/Events-Manager/badge.svg?branch=develop)](https://coveralls.io/github/d3mola/Events-Manager?branch=develop)
 
 ## Getting Started
