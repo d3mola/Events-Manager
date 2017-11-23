@@ -41,10 +41,16 @@ export default {
       }
     }).then((foundUser) => {
       if (foundUser && foundUser.username === username) {
-        return res.status(403).send('Username taken!');
+        return res.status(403).json({
+          success: false,
+          message: 'Username taken!'
+        });
       }
       if (foundUser && foundUser.email === email) {
-        return res.status(403).send('Another account uses this email!');
+        return res.status(403).json({
+          success: false,
+          message: 'Another account uses this email!'
+        });
       }
       // if username/ password arent already taken, create the user
       User.create({
@@ -62,7 +68,7 @@ export default {
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '24h' // expires in 24hrs
           });
-          return res.json({
+          return res.status(201).json({
             success: true,
             message: 'Congrats!!! Registration succesfull! Enjoy your token!',
             token,
@@ -106,7 +112,10 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          res.status(403).send('Incorrect username');
+          res.status(403).json({
+            success: false,
+            message: 'Incorrect username'
+          });
         } else if (user) {
           bcrypt.compare(password, user.password).then((result) => {
             if (!result) {
@@ -127,7 +136,7 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            res.json({
+            res.status(202).json({
               success: true,
               message: `Enjoy your token! ${user.username}`,
               token
@@ -135,7 +144,7 @@ export default {
           }).catch();
         }
       }).catch(error => res.status(400).json({
-        status: 'failure',
+        success: false,
         error,
         message: 'Authentication failed',
       }));

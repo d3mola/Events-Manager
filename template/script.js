@@ -1,3 +1,4 @@
+/* eslint-disable */
 $(document).ready(() => {
   let notdone = true;
   $('#btn').click(() => {
