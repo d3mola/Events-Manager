@@ -14,7 +14,8 @@
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed:create": "sequelize seed:generate --name",
     "seed": "sequelize db:seed:all",
-    "seed:undo": "sequelize db:seed:undo:all"
+    "seed:undo": "sequelize db:seed:undo:all",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",

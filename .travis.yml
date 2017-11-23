@@ -16,3 +16,6 @@ before_script:
     - npm install -nyc
 after_script: 
     - nyc report --reporter=text-lcov | coveralls
+after_success:
+  - npm run coverage
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
