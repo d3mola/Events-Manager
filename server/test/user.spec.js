@@ -13,7 +13,7 @@ const request = supertest(app);
 
 describe('User', () => {
   beforeEach((done) => {
-    db.sequelize.sync({ force: true }).then(() => {
+    User.sequelize.sync({ force: true }).then(() => {
       done(null);
     }).catch((error) => {
       done(error);
