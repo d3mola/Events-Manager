@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 /**
- * checks if a user has access based on their token
+ * @description checks if a user has access based on their token
  * @param {object} req - request
  * @param {object} res - response
  * @param {function} next - calls next middleware
