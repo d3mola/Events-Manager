@@ -12,6 +12,4 @@ const hashPwd = ((user) => {
   return user;
 });
 
-// bcrypt.compareSync(myPlaintextPassword, hash);
-
 export default hashPwd;
