@@ -1,5 +1,7 @@
 language: node_js
-    - "7"
+    - node
+notifications:
+  email: false
 install: 
     - npm install 
 services: 
@@ -9,7 +11,8 @@ cache:
         - "node_modules"
 script: npm run test
 before_script:
-    - psql -c "CREATE DATABASE events_manager_test;" -U postgres
+    - psql -c 'drop database if exists events_manager_test;' -U postgres
+    - psql -c 'CREATE DATABASE events_manager_test;' -U postgres
     - npm install -nyc
 after_script: 
     - nyc report --reporter=text-lcov | coveralls

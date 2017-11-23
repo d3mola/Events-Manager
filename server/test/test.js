@@ -111,10 +111,6 @@ describe('User', () => {
     });
 
     it('should return 400 if the user omits a field', (done) => {
-      /* const badData = Object.assign({}, data);
-      badData.username = 'demola';
-      badData.password = '123456';
-      badData.email = 'another@gmail.com'; */
       request.post('/api/v1/users')
         .send({
           username: 'ademola3',
