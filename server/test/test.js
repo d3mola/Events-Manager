@@ -51,39 +51,6 @@ describe('User', () => {
         });
     });
 
-    it('should create a second user and return 201', (done) => {
-      request.post('/api/v1/users')
-        .send({
-          username: 'wura',
-          password: '123456',
-          email: 'wurawura@gmail.com'
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(201);
-          expect(res.body.success).to.equal(true);
-          expect(res.body.message).to.equal('Congrats!!! Registration succesfull! Enjoy your token!');
-          done();
-        });
-    });
-
-    it('should return 400 if the user omits a field', (done) => {
-      /* const badData = Object.assign({}, data);
-      badData.username = 'demola';
-      badData.password = '123456';
-      badData.email = 'another@gmail.com'; */
-      request.post('/api/v1/users')
-        .send({
-          username: 'ademola3',
-          password: '123456'
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(400);
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal('Please fill all the fields!');
-          done();
-        });
-    });
-
     it('should return 400 if the user eneters a pssword less than 6 characters', (done) => {
       request.post('/api/v1/users')
         .send({
@@ -124,6 +91,39 @@ describe('User', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(403);
+          done();
+        });
+    });
+
+    it('should create a second user and return 201', (done) => {
+      request.post('/api/v1/users')
+        .send({
+          username: 'wura',
+          password: '123456',
+          email: 'wurawura@gmail.com'
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          expect(res.body.success).to.equal(true);
+          expect(res.body.message).to.equal('Congrats!!! Registration succesfull! Enjoy your token!');
+          done();
+        });
+    });
+
+    it('should return 400 if the user omits a field', (done) => {
+      /* const badData = Object.assign({}, data);
+      badData.username = 'demola';
+      badData.password = '123456';
+      badData.email = 'another@gmail.com'; */
+      request.post('/api/v1/users')
+        .send({
+          username: 'ademola3',
+          password: '123456'
+        })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Please fill all the fields!');
           done();
         });
     });
