@@ -13,7 +13,7 @@ script: npm run test
 before_script:
     - psql -c 'drop database if exists events_manager_test;' -U postgres
     - psql -c 'CREATE DATABASE events_manager_test;' -U postgres
-    - npm install -nyc
+    - npm install nyc coveralls codeclimate-test-reporter -g
 after_script: 
     - nyc report --reporter=text-lcov | coveralls
 after_success:
