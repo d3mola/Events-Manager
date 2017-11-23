@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import dotenv from 'dotenv';
 import app from '../../app';
 import db from '../models';
-import mock from '../mock/mock';
+// import mock from '../mock/mock';
 
 dotenv.config();
 const { User } = db;
@@ -38,7 +38,11 @@ describe('User', () => {
   describe('POST /users', () => {
     it('should create a new user and return 201', (done) => {
       request.post('/api/v1/users')
-        .send(mock.newUser)
+        .send({
+          username: 'mary',
+          password: 'marymary',
+          email: 'mary@gmail.com'
+        })
         .end((err, res) => {
           expect(res.status).to.equal(201);
           expect(res.body.success).to.equal(true);
@@ -50,9 +54,9 @@ describe('User', () => {
     it('should create a second user and return 201', (done) => {
       request.post('/api/v1/users')
         .send({
-          username: 'ademola1',
+          username: 'wura',
           password: '123456',
-          email: 'ademola1@gmail.com'
+          email: 'wurawura@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).to.equal(201);
