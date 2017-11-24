@@ -1,1 +1,1 @@
-web: npm run start
+web: ./node_modules/.bin/babel ./server -d dist && node dist/app.js
