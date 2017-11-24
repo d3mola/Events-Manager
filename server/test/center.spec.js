@@ -30,7 +30,7 @@ describe('Center', () => {
           .post('/api/v1/users/login')
           .send({ username: 'ademola', password: 'password1' })
           .end((err, res) => {
-            expect(res.status).to.equal(202);
+            expect(res.status).to.equal(200);
             adminToken = res.body.token;
             done();
           });
@@ -48,7 +48,7 @@ describe('Center', () => {
           .post('/api/v1/users/login')
           .send({ username: 'normaluser', password: 'password1' })
           .end((err, res) => {
-            expect(res.status).to.equal(202);
+            expect(res.status).to.equal(200);
             userToken = res.body.token;
             done();
           });
@@ -111,23 +111,48 @@ describe('Center', () => {
         });
     });
   });
-/*
-  describe('POST / centers', () => {
-    it('should send 401 if the token isnt correct', (done) => {
-      request.post('/api/v1/centers')
-        .send({
-          name: 'Diamond Hall',
-          location: 'Abuja',
-          capacity: 30000,
-          price: 1000000,
-          userToken: 'lkdfsgk;fd'
-        })
-        .end((err, res) => {
-          expect(res.status).to.equal(401);
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal('token issues');
-          done();
-        });
-    });
-  }); */
+
+  it('should send 400 if the admin doesnt enter the center capacity', (done) => {
+    request.post('/api/v1/centers')
+      .send({
+        name: 'Diamond Hall',
+        location: 'Abuja',
+        token: adminToken
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.success).to.equal(false);
+        expect(res.body.message).to.equal('Incomplete credentials');
+        done();
+      });
+  });
+
+  it('should send 400 if the admin doesnt enter a center name', (done) => {
+    request.post('/api/v1/centers')
+      .send({
+        location: 'Abuja',
+        capacity: 30000,
+        token: adminToken
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.success).to.equal(false);
+        expect(res.body.message).to.equal('Incomplete credentials');
+        done();
+      });
+  });
+  it('should send 400 if the admin doesnt enter a location', (done) => {
+    request.post('/api/v1/centers')
+      .send({
+        name: 'Sapphire',
+        capacity: 30000,
+        token: adminToken
+      })
+      .end((err, res) => {
+        expect(res.status).to.equal(400);
+        expect(res.body.success).to.equal(false);
+        expect(res.body.message).to.equal('Incomplete credentials');
+        done();
+      });
+  });
 });// end of center api

@@ -13,9 +13,9 @@ export default {
     const {
       name, location, capacity, price, isAvailable
     } = req.body;
-    // console.log("======================+>", req.body);
+
     if (!name || !location || !capacity || !price) {
-      res.status(500).json({
+      res.status(400).json({
         success: false,
         message: 'Incomplete credentials'
       });
@@ -55,12 +55,6 @@ export default {
           id: req.params.centerId
         }
       }).then((center) => {
-      /*  if (!center.body) {
-          res.status(400).json({
-            success: false,
-            message: 'Incomplete credentials'
-          });
-        } */
         center.update(req.body)
           .then(updatedCenter => res.status(200).json({
             success: true,
@@ -93,14 +87,14 @@ export default {
       if (!centers.length) {
         res.status(400).json({
           success: false,
-          message: 'There are no centers at thsi time',
-          centers: []
+          message: 'There are no centers at this time'
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          centers
         });
       }
-      res.status(200).json({
-        success: true,
-        centers
-      });
     })
     .catch(error => res.status(500).json({
       success: false,

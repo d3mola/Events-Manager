@@ -71,14 +71,9 @@ export default {
           return res.status(201).json({
             success: true,
             message: 'Congrats!!! Registration succesfull! Enjoy your token!',
-            token,
-            user
+            token
           });
-        })
-        .catch(error => res.status(400).json({
-          success: false,
-          message: error
-        }));
+        });
     }).catch(error => res.status(500).json({
       success: false,
       error
@@ -87,7 +82,7 @@ export default {
 
 
   /**
-   * @description authenticates a user
+   * @description authenticates and logs in a user
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
    * @returns {object} authenticated user
@@ -136,12 +131,12 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            res.status(202).json({
+            res.status(200).json({
               success: true,
               message: `Enjoy your token! ${user.username}`,
               token
             });
-          }).catch();
+          });
         }
       }).catch(error => res.status(400).json({
         success: false,
