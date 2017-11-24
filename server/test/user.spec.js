@@ -129,14 +129,14 @@ describe('User', () => {
   }); // end of POST rreq
 
   describe('POST /api/users/login', () => {
-    it('return 202 when admin login is succesful', (done) => {
+    it('return 200 when admin login is succesful', (done) => {
       request.post('/api/v1/users/login')
         .send({
           username: 'ademola',
           password: 'password1'
         })
         .end((err, res) => {
-          expect(res.status).to.equal(202);
+          expect(res.status).to.equal(200);
           expect(res.body.success).to.equal(true);
           done();
         });
@@ -184,7 +184,7 @@ describe('User', () => {
         });
     });
 
-    it('return 202 for successful login', (done) => {
+    it('return 200 for successful login', (done) => {
       request.post('/api/v1/users/login')
         .send({
           username: 'ademola',
@@ -192,7 +192,7 @@ describe('User', () => {
         })
         .end((err, res) => {
           // userToken1 = res.body.token;
-          expect(res.status).to.equal(202);
+          expect(res.status).to.equal(200);
           expect(res.body.success).to.equal(true);
           expect(res.body.message).to.equal('Enjoy your token! ademola');
           done();

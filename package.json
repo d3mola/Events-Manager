@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/babel ./server -d dist",
-    "dev": "nodemon app --exec babel-node",
-    "eslint": "./node_modules/.bin/eslint .srver/app.js",
+    "dev": "nodemon ./server/app --exec babel-node",
+    "eslint": "./node_modules/.bin/eslint ./server/app.js",
     "nodemon": "nodemon ./server/app",
     "test:db": "cross-env NODE_ENV=test sequelize db:migrate:undo:all &&cross-env NODE_ENV=test sequelize db:migrate",
     "test": "npm run test:db &&cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.spec.js --exit",
