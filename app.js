@@ -7,14 +7,13 @@ import dotenv from 'dotenv';
 import routes from './server/routes/users';
 import centerRoutes from './server/routes/centers';
 import eventRoutes from './server/routes/events';
-// import routes from './server/routes/index';
 
 // Load .env
 dotenv.config();
 
 // Set up the express app
 const app = express();
-
+const port = parseInt(process.env.PORT, 10) || 8000;
 // Log requests to the console.
 app.use(logger('dev'));
 
@@ -32,5 +31,9 @@ app.get('*', (req, res) => res.status(200).send({
   success: true,
   message: 'Welcome to the our CATCH ALL ROUTE',
 }));
+
+app.listen(port, () => {
+  console.log(`Running on port ${port}`);
+});
 
 export default app;

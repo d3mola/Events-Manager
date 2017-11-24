@@ -20,8 +20,7 @@ const authenticate = (req, res, next) => {
       if (error) {
         res.status(401).json({
           message: 'token issues',
-          token,
-          error
+          token
         });
       }
       req.user = decoded;
