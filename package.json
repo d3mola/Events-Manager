@@ -4,10 +4,10 @@
   "description": "manage applications to your event facilities",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel src -d lib",
-    "dev": "nodemon ./bin/www --exec babel-node",
-    "eslint": "./node_modules/.bin/eslint app.js",
-    "nodemon": "nodemon ./bin/www",
+    "build": "./node_modules/.bin/babel ./server -d dist",
+    "dev": "nodemon app --exec babel-node",
+    "eslint": "./node_modules/.bin/eslint .srver/app.js",
+    "nodemon": "nodemon ./server/app",
     "test:db": "cross-env NODE_ENV=test sequelize db:migrate:undo:all &&cross-env NODE_ENV=test sequelize db:migrate",
     "test": "npm run test:db &&cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.spec.js --exit",
     "migrate": "sequelize db:migrate",
@@ -15,7 +15,8 @@
     "seed:create": "sequelize seed:generate --name",
     "seed": "sequelize db:seed:all",
     "seed:undo": "sequelize db:seed:undo:all",
-    "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
+    "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
+    "start": "node dist/app"
   },
   "repository": {
     "type": "git",
