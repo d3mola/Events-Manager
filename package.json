@@ -16,7 +16,8 @@
     "seed": "sequelize db:seed:all",
     "seed:undo": "sequelize db:seed:undo:all",
     "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
-    "start": "node dist/app"
+    "start": "node dist/app",
+    "heroku-postbuild": "sequelize db:migrate:undo:all && sequelize db:migrate"
   },
   "repository": {
     "type": "git",
