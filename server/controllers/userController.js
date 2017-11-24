@@ -76,7 +76,7 @@ export default {
         });
     }).catch(error => res.status(500).json({
       success: false,
-      error
+      error: error.message
     }));
   },
 
@@ -140,7 +140,7 @@ export default {
         }
       }).catch(error => res.status(400).json({
         success: false,
-        error,
+        error: error.message,
         message: 'Authentication failed',
       }));
   }

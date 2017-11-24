@@ -36,7 +36,7 @@ export default {
         .catch(error => res.status(400).json({
           success: false,
           message: 'Something went wrong, unable to create center',
-          error
+          error: error.message
         }));
     }
   }, // end of centerController.create
@@ -64,13 +64,13 @@ export default {
           .catch(error => res.status(500).json({
             success: false,
             message: 'Could not update center',
-            error: error.toString()
+            error: error.message
           }));
       })
       .catch(error => res.status(500).json({
         success: false,
         message: 'Center doesnt exist',
-        error: error.toString()
+        error: error.message
       }));
   },
 
