@@ -4,9 +4,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
 // import routes
-import routes from './server/routes/users';
-import centerRoutes from './server/routes/centers';
-import eventRoutes from './server/routes/events';
+import routes from './routes/users';
+import centerRoutes from './routes/centers';
+import eventRoutes from './routes/events';
 
 // Load .env
 dotenv.config();

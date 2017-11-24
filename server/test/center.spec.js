@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
 import dotenv from 'dotenv';
-import app from '../../app';
+import app from '../app';
 import db from '../models';
 
 dotenv.config();
