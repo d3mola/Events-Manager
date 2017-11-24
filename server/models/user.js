@@ -56,15 +56,13 @@ export default (sequelize, DataTypes) => {
 
   User.associate = ((models) => {
     User.hasMany(models.Event, {
-      foreignKey: 'userId',
-      // as: 'events',
+      foreignKey: 'userId'
     });
   });
 
   User.associate = ((models) => {
     User.hasMany(models.Center, {
-      foreignKey: 'userId',
-      // as: 'centers',
+      foreignKey: 'userId'
     });
   });
 

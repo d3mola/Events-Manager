@@ -53,14 +53,14 @@ export default {
             .catch(error => res.status(403).json({
               success: false,
               message: 'Center doesnt exist',
-              error: error.toString()
+              error: error.message
             }));
         }
       })
       .catch(error => res.status(500).json({
         success: false,
         message: 'Invalid input',
-        error: error.toString()
+        error: error.message
       }));
   },
 
@@ -111,7 +111,7 @@ export default {
         }).catch(error => res.status(400).json({
           success: false,
           message: 'Could not update event',
-          error
+          error: error.message
         }));
     }// end of else
   }, // update end
@@ -147,7 +147,7 @@ export default {
       .catch(error => res.status(400).send({
         success: false,
         message: 'Something went wrong',
-        error
+        error: error.message
       }));
   },
 };

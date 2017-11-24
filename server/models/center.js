@@ -34,15 +34,13 @@ export default (sequelize, DataTypes) => {
   // class methods
   Center.associate = ((models) => {
     Center.hasMany(models.Event, {
-      foreignKey: 'centerId',
-      // as: 'events',
+      foreignKey: 'centerId'
     });
   });
 
   Center.associate = (models) => {
     Center.belongsTo(models.User, {
       foreignKey: 'userId'
-      // onDelete: 'CASCADE',
     });
   };
 

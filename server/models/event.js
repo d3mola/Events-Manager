@@ -11,10 +11,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    /* date: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    }, */
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -36,14 +32,12 @@ export default (sequelize, DataTypes) => {
   Event.associate = (models) => {
     Event.belongsTo(models.User, {
       foreignKey: 'userId'
-      // onDelete: 'CASCADE',
     });
   };
 
   Event.associate = (models) => {
     Event.belongsTo(models.Center, {
       foreignKey: 'centerId'
-      // onDelete: 'CASCADE',
     });
   };
 
