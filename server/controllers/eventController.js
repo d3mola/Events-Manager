@@ -96,18 +96,20 @@ export default {
               message: 'This date is not available'
             });
           } else {
-            Event.findOne({
-              where: {
-                id: req.params.eventId
-              }
-            })
-              .then((updatedEvent) => {
-                res.status(201).json({
-                  success: true,
-                  updatedEvent
-                });
+            Event
+              .findOne({
+                where: {
+                  id: req.params.eventId
+                }
+              }).then((event) => {
+                event.update(req.body)
+                  .then(updatedEvent => res.status(200).json({
+                    success: true,
+                    message: 'Center updated succesfully!',
+                    updatedEvent
+                  }));
               });
-          }
+          }// end of else
         }).catch(error => res.status(400).json({
           success: false,
           message: 'Could not update event',

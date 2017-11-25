@@ -60,11 +60,6 @@ export default {
             success: true,
             message: 'Center updated succesfully!',
             updatedCenter
-          }))
-          .catch(error => res.status(500).json({
-            success: false,
-            message: 'Could not update center',
-            error: error.message
           }));
       })
       .catch(error => res.status(500).json({
