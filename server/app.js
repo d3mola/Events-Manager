@@ -2,6 +2,10 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import path from 'path';
+import webpack from 'webpack';
+
+import config from '../webpack.config.dev';
 
 // import routes
 import routes from './routes/users';
@@ -10,10 +14,17 @@ import eventRoutes from './routes/events';
 
 // Load .env
 dotenv.config();
+const compiler = webpack(config);
 
 // Set up the express app
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+
 // Log requests to the console.
 app.use(logger('dev'));
 
@@ -26,11 +37,12 @@ app.use('/api/v1', routes);
 app.use('/api/v1', centerRoutes);
 app.use('/api/v1', eventRoutes);
 
+app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
+
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('*', (req, res) => res.status(200).send({
-  success: true,
-  message: 'Welcome to the our CATCH ALL ROUTE',
-}));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
