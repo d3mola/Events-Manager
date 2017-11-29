@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = {
   devtool: 'source-map',
   entry: [
+    'babel-polyfill',
     path.resolve(__dirname, 'client/index.js')
   ],
   output: {
