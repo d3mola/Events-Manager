@@ -32,9 +32,8 @@ export function* watchIncrementAsync() {
 
 export function* signinfunc(action) {
   try{
-      console.log('trying to connect...')
-      const response = yield call(axios.post, userUrl, {
-        username: action.payload.username,
+      console.log('trying to connect to login...')
+      const response = yield call(axios.post, '/api/v1/users/login', {
         email: action.payload.email,
         password: action.payload.password
       })

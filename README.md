@@ -1,10 +1,10 @@
 # Events-Manager
+[![Build Status](https://travis-ci.org/d3mola/Events-Manager.svg?branch=develop)](https://travis-ci.org/d3mola/Events-Manager)
+[![Coverage Status](https://coveralls.io/repos/github/d3mola/Events-Manager/badge.svg?branch=develop)](https://coveralls.io/github/d3mola/Events-Manager?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/abd43ed17975a9cf3c11/maintainability)](https://codeclimate.com/github/d3mola/Events-Manager/maintainability)
 Event-Manager helps manage applications to your event center/ facilities and will either decline events when the proposed day is already taken, or suggest an available day.
 
 Templates are hosted on [gh-pages](https://d3mola.github.io/Events-Manager/)
-
-[![Build Status](https://travis-ci.org/d3mola/Events-Manager.svg?branch=develop)](https://travis-ci.org/d3mola/Events-Manager)
-[![Coverage Status](https://coveralls.io/repos/github/d3mola/Events-Manager/badge.svg?branch=develop)](https://coveralls.io/github/d3mola/Events-Manager?branch=develop)
 
 ## Getting Started
 Follow the following instructions to get a copy of the project running on your local machine.

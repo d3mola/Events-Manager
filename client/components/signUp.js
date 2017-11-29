@@ -92,7 +92,7 @@ render() {
                 </div>
                 <input className="btn btn-outline-success" type="submit" value="Register" />
                 <br />
-                <p className="text-center">Already have an account yet? <a href="login.html">Login</a></p>
+                <p className="text-center">Already have an account yet? <Link href to={"/signin"}>Login</Link></p>
               </form>
           </div>
         </div>
