@@ -1,7 +1,7 @@
 function SignUp(state = [], action) {
   switch(action.type) {
     case 'SIGN_UP' :
-      console.log('Incrementing RECIPES');
+      console.log('signing up');
       return state
     default:
       return state;
