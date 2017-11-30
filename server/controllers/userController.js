@@ -89,20 +89,21 @@ export default {
    */
   login: (req, res) => {
     const {
-      username, password
+      email, password
     } = req.body;
 
     // validate user input
-    if (!username || !password) {
+    if (!email || !password) {
       res.status(500).json({
         success: false,
         message: 'Incomplete credentials'
       });
+      return;
     }
     User
       .findOne({
         where: {
-          username
+          email
         }
       })
       .then((user) => {
