@@ -72,7 +72,7 @@ render() {
               <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
                 <h2 className="text-center">Register!</h2>
                 <div className="form-group">
-                    <label htmlFor="username">Username:</label>
+                     <label htmlFor="username">Username:</label>
                     <input className="form-control" type="text" name="username" id="username" placeholder="johndoe" onChange={this.handleChange} />                  
                 </div>
                 
@@ -92,7 +92,7 @@ render() {
                 </div>
                 <input className="btn btn-outline-success" type="submit" value="Register" />
                 <br />
-                <p className="text-center">Already have an account yet? <Link href to={"/signin"}>Login</Link></p>
+                <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
               </form>
           </div>
         </div>

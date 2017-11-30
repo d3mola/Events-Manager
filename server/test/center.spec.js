@@ -28,7 +28,7 @@ describe('Center', () => {
       .then(() => {
         request
           .post('/api/v1/users/login')
-          .send({ username: 'ademola', password: 'password1' })
+          .send({ email: 'ademola@gmail.com', password: 'password1' })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             adminToken = res.body.token;
@@ -46,7 +46,7 @@ describe('Center', () => {
       .then(() => {
         request
           .post('/api/v1/users/login')
-          .send({ username: 'normaluser', password: 'password1' })
+          .send({ email: 'normal@gmail.com', password: 'password1' })
           .end((err, res) => {
             expect(res.status).to.equal(200);
             userToken = res.body.token;
