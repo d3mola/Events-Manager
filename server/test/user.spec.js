@@ -132,7 +132,7 @@ describe('User', () => {
     it('return 200 when admin login is succesful', (done) => {
       request.post('/api/v1/users/login')
         .send({
-          username: 'ademola',
+          email: 'ademola@gmail.com',
           password: 'password1'
         })
         .end((err, res) => {
@@ -145,7 +145,7 @@ describe('User', () => {
     it('return 403 if user doesnt exist', (done) => {
       request.post('/api/v1/users/login')
         .send({
-          username: 'kjbsafld/jm',
+          email: 'idontexist@gmail.com',
           password: 'password1'
         })
         .end((err, res) => {
@@ -159,7 +159,7 @@ describe('User', () => {
     it('return 403 if passwords dont match', (done) => {
       request.post('/api/v1/users/login')
         .send({
-          username: 'ademola',
+          email: 'ademola@gmail.com',
           password: 'password2'
         })
         .end((err, res) => {
@@ -174,7 +174,7 @@ describe('User', () => {
     it('return 500 for incomplete credentials', (done) => {
       request.post('/api/v1/users/login')
         .send({
-          username: 'ademola'
+          email: 'ademola@gmail.com'
         })
         .end((err, res) => {
           expect(res.status).to.equal(500);
@@ -187,7 +187,7 @@ describe('User', () => {
     it('return 200 for successful login', (done) => {
       request.post('/api/v1/users/login')
         .send({
-          username: 'ademola',
+          email: 'ademola@gmail.com',
           password: 'password1'
         })
         .end((err, res) => {
