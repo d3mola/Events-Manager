@@ -4,6 +4,10 @@ import Home from './Home';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 
+/**
+ * @description creates a component that takes in all the routes as children
+ * @
+ */
 class App extends React.Component {
   render() {
     return (
