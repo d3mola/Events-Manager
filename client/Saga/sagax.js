@@ -3,12 +3,13 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
-// Our worker Saga: will perform the async increment task
-// const rootUrl = 'https://jsonplaceholder.typicode.com';
+// Our worker Saga: will perform the async tasks
 
 const userUrl = '/api/v1/users';
 
-export function* incrementAsync(action) {
+// Sign up
+
+export function* signUpAsync(action) {
   try{
       console.log('trying to connect...')
       const response = yield call(axios.post, userUrl, {
@@ -17,20 +18,22 @@ export function* incrementAsync(action) {
         password: action.payload.password
       })
       console.log(response);
-      // setTimeout(() => {
-      //   <Redirect to='/home'/>
-      // }, 2000)
+    //   setTimeout(() => {
+    //     <Redirect to='/home'/>
+    //   }, 5000)// redirect after 5s
   }catch(e){
       console.log('ERROR!!!')
   }
 }
 
-export function* watchIncrementAsync() {
+export function* watchSignUpAsync() {
     console.log('running!')
-    yield takeEvery('SIGN_UP', incrementAsync)
+    yield takeEvery('SIGN_UP', signUpAsync)
 }
 
-export function* signinfunc(action) {
+// Sign in
+
+export function* signInAsync(action) {
   try{
       console.log('trying to connect to login...')
       const response = yield call(axios.post, '/api/v1/users/login', {
@@ -46,14 +49,14 @@ export function* signinfunc(action) {
   }
 }
 
-export function* watchInsiginfunc() {
+export function* watchSignInAsync() {
     console.log('running!')
-    yield takeEvery('SIGN_IN', signinfunc)
+     yield takeEvery('SIGN_IN', signInAsync)
 }
 
 export default function* rootSaga() {
     yield [
-      watchIncrementAsync(),
-      watchInsiginfunc()
+      watchSignUpAsync(),
+      watchSignInAsync()
     ]
 }
