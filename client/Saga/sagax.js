@@ -3,6 +3,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
+import history from '../history';
 // Our worker Saga: will perform the async tasks
 
 const userUrl = '/api/v1/users';
@@ -18,9 +19,7 @@ export function* signUpAsync(action) {
         password: action.payload.password
       })
       console.log(response);
-    //   setTimeout(() => {
-    //     <Redirect to='/home'/>
-    //   }, 5000)// redirect after 5s
+      history.push('/signin');
   }catch(e){
       console.log('ERROR!!!')
   }
@@ -41,9 +40,7 @@ export function* signInAsync(action) {
         password: action.payload.password
       })
       console.log(response);
-      // setTimeout(() => {
-      //   <Redirect to='/home'/>
-      // }, 2000)
+      history.push('/');
   }catch(e){
       console.log('ERROR!!!')
   }
