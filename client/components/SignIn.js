@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import * as actionCreators from '../actions/actionCreators';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actionCreators from '../actions/actionCreators';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../template/stylesheet/style.css';
@@ -13,8 +13,10 @@ import '../../template/stylesheet/style.css';
 * @extends {React.Component}
 */
 class SignIn extends React.Component {
+ 
   /**
    * Creates an instance of SignIn.
+   * @param {any} props 
    * @memberof SignIn
    */
   constructor(props) {
@@ -30,19 +32,13 @@ class SignIn extends React.Component {
     };
   }// constructor
 
-  /**
-  * submit handler
-  * @param {any} event
-  * @memberof SignIn
-  * @returns {}
-  */
 
   /**
-  * sign up handler
-  * @param {any} event
-  * @memberof SignIn
-  * @returns {Undefined} sets form input values
-  */
+   * 
+   * @param {any} e 
+   * @memberof SignIn
+   * @returns {function} null
+   */
   handleChange(e) {
     // set the next state of the form
     this.setState({
@@ -51,7 +47,12 @@ class SignIn extends React.Component {
     console.log(this.state)
   }// handleSubmit
 
-  
+  /**
+   * 
+   * @param {any} e 
+   * @memberof SignIn
+   * @returns {function} null
+   */
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state)
@@ -62,6 +63,7 @@ class SignIn extends React.Component {
  * renders signUpForm component
  * @returns rendered component
  * @memberof SignIn
+ * @returns {object} signin
  */
  render() {
    return (
@@ -91,13 +93,23 @@ class SignIn extends React.Component {
    );
  }
 };
-
+/**
+ * 
+ * 
+ * @param {any} state 
+ * @returns {object} actions
+ */
 function mapStateToProps(state) {
   return {
     signinReducer: state.SignIn,
   };
 }
-
+/**
+ * 
+ * 
+ * @param {any} dispatch 
+ * @returns {object} actions
+ */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }

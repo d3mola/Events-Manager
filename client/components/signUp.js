@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import * as actionCreators from '../actions/actionCreators';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actionCreators from '../actions/actionCreators';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../template/stylesheet/style.css';
@@ -16,6 +16,7 @@ import '../../template/stylesheet/style.css';
 class SignUp extends React.Component {
   /**
    * Creates an instance of SignUp.
+   * @param {any} props 
    * @memberof SignUp
    */
   constructor(props) {
@@ -33,21 +34,23 @@ class SignUp extends React.Component {
     };
   }// constructor
 
+ 
   /**
-  * submit handler
-  * @param {any} event
-  * @memberof SignUp
-  * @returns {}
-  */
+   * 
+   * submit handler
+   * @param {any} e 
+   * @memberof SignUp
+   * @returns {undefined} 
+   */
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state)
     this.props.signUp(this.state);
-  };// handleSubmit
+  }// handleSubmit
 
   /**
   * sign up handler
-  * @param {any} event
+  * @param {any} e
   * @memberof SignUp
   * @returns {Undefined} sets form input values
   */
@@ -61,7 +64,7 @@ class SignUp extends React.Component {
 
 /**
  * renders signUpForm component
- * @returns rendered component
+ * @returns {undefined} rendered component
  * @memberof SignUp
  */
 render() {
@@ -87,7 +90,7 @@ render() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="confirm-passwrod">Password again:</label>
+                    <label htmlFor="confirm-password">Password again:</label>
                     <input className="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password again" onChange={this.handleChange} />                  
                 </div>
                 <input className="btn btn-outline-success" type="submit" value="Register" />
@@ -100,13 +103,21 @@ render() {
     );
   };
 }
-
+/**
+ * 
+ * @param {any} state 
+ * @returns {object} reducer
+ */
 function mapStateToProps(state) {
   return {
     signupReducer: state.signUp,
   };
 }
-
+/**
+ * 
+ * @param {any} dispatch 
+ * @returns {object} actions
+ */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }

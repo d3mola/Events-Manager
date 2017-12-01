@@ -1,11 +1,16 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Header from './Header';
-import * as actionCreators from '../actions/actionCreators';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
+/**
+ * 
+ * @class Home
+ * @extends {React.Component}
+ */
 class Home extends React.Component {
+  /**
+   * @returns {object} component
+   * @memberof Home
+   */
   render() {
     return (
       <div>
@@ -18,6 +23,7 @@ class Home extends React.Component {
                   <h1>Party like there's no tomorrow!</h1>
                   <p>Do you plan to hold your dream event, try us today!</p>
                   <Link to={"/signup"} className="btn btn-outline-success">Book an event</Link>
+                  <Link to={"/centers"} className="btn btn-outline-primary">Get Centers</Link>
                 </div>
               </div>
             </div><hr />
@@ -26,7 +32,7 @@ class Home extends React.Component {
       </div>
     );
   }
-};
+}
 
 
 export default Home;
