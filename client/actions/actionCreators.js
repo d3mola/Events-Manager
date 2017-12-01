@@ -1,6 +1,6 @@
 /**
  * formats the request from the user and returns it
- * @param {any} data from the user(username, password etc)
+ * @param {any} payload from the user(username, password etc)
  * @returns {object} user
  */
 export function signUp(payload) {
@@ -12,7 +12,7 @@ export function signUp(payload) {
 
 /**
  * formats the request from the user and returns it
- * @param {any} data from the user(username, password etc)
+ * @param {any} payload from the user(username, password etc)
  * @returns {object} user
  */
 export function signIn(payload) {
@@ -21,3 +21,18 @@ export function signIn(payload) {
     payload
   };
 }
+
+/**
+ * @returns {object} centers
+ */
+export function centers() {
+  return {
+    type: 'GET_CENTERS',
+  };
+}
+
+// export function centers() {
+//   return {
+//     type: 'GET_CENTERS_SUCCESS'
+//   }
+// }
