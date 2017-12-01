@@ -48,6 +48,8 @@ app.use('/signin', express.static(path.join(__dirname, '../client')));
 
 app.use('/signup', express.static(path.join(__dirname, '../client')));
 
+app.use('/centers', express.static(path.join(__dirname, '../client')));
+
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
