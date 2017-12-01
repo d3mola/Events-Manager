@@ -94,7 +94,7 @@ export default {
     .catch(error => res.status(500).json({
       success: false,
       message: 'Could not get centers',
-      error: error.toString()
+      error: error.message
     })),
 
 

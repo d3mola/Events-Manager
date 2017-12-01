@@ -1,5 +1,6 @@
 const path = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -31,5 +32,10 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'client'),
     historyApiFallback: true
-  }
+  },
+  // plugins: [
+  //   new UglifyJSPlugin({
+  //     sourceMap: true
+  //   }),
+  // ],
 };
