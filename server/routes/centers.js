@@ -14,7 +14,13 @@ router.put('/centers/:centerId', authenticate, adminCheck, centerController.upda
 
 router.get('/centers/:centerId', authenticate, centerController.getACenter);
 
+// get a center
 router.get('/centers', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+// add a center
+router.get('/addcenter', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 export default router;
