@@ -3,7 +3,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import { createBrowserHistory } from 'history';
 import rootReducer from './reducers/index';
-import rootSaga from './Saga/sagax';
+import rootSaga from './Sagas/asyncOperations';
 
 
 const sagaMiddleware = createSagaMiddleware();
