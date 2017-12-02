@@ -18,7 +18,7 @@
     "seed": "sequelize db:seed:all",
     "seed:undo": "sequelize db:seed:undo:all",
     "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
-    "start": "webpack && ./node_modules/.bin/babel-node ./server/app",
+    "start": "webpack -p --config webpack.config.dev.js && babel-node ./server/app.js",
     "client": "webpack-dev-server --config webpack.config.dev.js",
     "heroku-postbuild": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "heroku-api": "./node_modules/.bin/babel ./server -d dist && node dist/app.js",
