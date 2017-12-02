@@ -1,6 +1,6 @@
 import db from '../models';
 
-const { Center } = db;
+const { Center, Event } = db;
 export default {
 
   /**
@@ -99,16 +99,17 @@ export default {
 
 
   /**
-   * @description gets a center
+   * @description gets a center and associated events
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
    * @returns {object} center
    */
   getACenter: (req, res) =>
-    Center.findOne({
-      where: {
-        id: req.params.centerId
-      }
+    Center.findAll({
+      where: { id : req.params.id },
+      include: [
+        { model: Event, as: 'events' },
+      ],
     })
       .then((center) => {
         if (!center) {
@@ -125,6 +126,6 @@ export default {
       .catch(error => res.status(500).json({
         success: false,
         message: 'Could not get the center details',
-        error
+        error: error.message
       })),
 };
