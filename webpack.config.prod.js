@@ -3,26 +3,27 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  context: path.join(__dirname, '../client'),
+  devtool: 'source-map',
   entry: [
-    'babel-polyfill',
-    path.resolve(__dirname, 'client/index.js')
+    './src/index.js',
   ],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'client/build'),
-    publicPath: '/'
+    path: path.join(__dirname, '../client/public'),
+    filename: './bundle.min.js',
+    publicPath: '/',
   },
-  target: "web",
   module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
+    rules: [{
+        test: /\.js$/,
         exclude: /node_modules/,
-        query: {
-          presets: ['react', 'env']
-        }
+        use: {
+          loader: 'babel-loader',
+          query: {
+            presets: ['react', 'env', 'stage-1'],
+            plugins: ['transform-decorators-legacy']
+          },
+        },
       },
       {
         test: /\.css$/,
@@ -30,7 +31,8 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        plugins: ['transform-decorators-legacy']
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -59,11 +61,7 @@ module.exports = {
           }
         ]
       },
-    ]
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'client'),
-    historyApiFallback: true
+    ],
   },
   plugins: [
     new UglifyJSPlugin({
