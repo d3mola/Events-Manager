@@ -5,5 +5,5 @@ npm-debug.log
 .nyc_output
 coverage
 .coveralls.yml
-dist
-client/build
+/dist
+/client/build
