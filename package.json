@@ -1,6 +1,8 @@
 {
   "name": "events-manager",
-  "version": "1.0.0",
+  "engines": {
+    "node": "6.11.2"
+  },
   "description": "manage applications to your event facilities",
   "main": "index.js",
   "scripts": {
