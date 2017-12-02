@@ -3,10 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
-
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../../template/stylesheet/style.css';
-
+import SignupHeader from './SignupHeader';
+import '../static/scss/main.scss';
 
 /**
  * @description Creates SignUpForm component
@@ -69,59 +67,63 @@ class SignUp extends React.Component {
  */
 render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-              <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
-                <h2 className="text-center">Register!</h2>
-                <div className="form-group">
-                     <label htmlFor="username">Username:</label>
-                    <input className="form-control" type="text" name="username" id="username" placeholder="johndoe" onChange={this.handleChange} />                  
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input className="form-control" type="email" name="email" id="email" placeholder="johndoe@email.com" onChange={this.handleChange} />
-                </div>
+      <div>
+        <SignupHeader />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mx-auto">
+                <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
+                  <h2 className="text-center">Register!</h2>
+                  <div className="form-group">
+                      <label htmlFor="username">Username:</label>
+                      <input className="form-control" type="text" name="username" id="username" placeholder="johndoe" onChange={this.handleChange} />                  
+                  </div>
+                  
+                  <div className="form-group">
+                      <label htmlFor="email">Email:</label>
+                      <input className="form-control" type="email" name="email" id="email" placeholder="johndoe@email.com" onChange={this.handleChange} />
+                  </div>
 
-                <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password" onChange={this.handleChange} />                  
-                </div>
+                  <div className="form-group">
+                      <label htmlFor="password">Password:</label>
+                      <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password" onChange={this.handleChange} />                  
+                  </div>
 
-                <div className="form-group">
-                    <label htmlFor="confirm-password">Password again:</label>
-                    <input className="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password again" onChange={this.handleChange} />                  
-                </div>
-                <input className="btn btn-outline-success" type="submit" value="Register" />
-                <br />
-                <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
-              </form>
+                  <div className="form-group">
+                      <label htmlFor="confirm-password">Password again:</label>
+                      <input className="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password again" onChange={this.handleChange} />                  
+                  </div>
+                  <input className="btn btn-outline-success" type="submit" value="Register" />
+                  <br />
+                  <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
+                </form>
+            </div>
           </div>
         </div>
       </div>
     );
-  };
+  }
 }
 /**
- * 
- * @param {any} state 
- * @returns {object} reducer
+ * passes store data to the component as a property
+ * this makes the component smart(i.e becomes a container)
+ * signUp is what we exported from index(combined) reducer
+ * now we can use (this.props.signup) in our component as the data
+ * @param {any} state a piece of the store
+ * @returns {object} data from the reducer
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state => {
   return {
-    signupReducer: state.signUp,
+    signup: state.signUp,
   };
-}
+});
 /**
  * 
  * @param {any} dispatch 
  * @returns {object} actions
  */
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch => {
   return bindActionCreators(actionCreators, dispatch);
-}
+})
 
-const signReducer = connect(mapStateToProps, mapDispatchToProps)(SignUp);
-
-export default signReducer;
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
