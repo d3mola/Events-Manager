@@ -40,7 +40,7 @@ app.use('/api/v1', eventRoutes);
 app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
