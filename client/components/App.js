@@ -7,7 +7,7 @@ import SignIn from './SignIn';
 import Centers from './Centers';
 import AddCenter from './AddCenter'
 
-// import '../../template/stylesheet/center-details.scss';
+import '../static/scss/center-details.scss';
 
 
 /**
