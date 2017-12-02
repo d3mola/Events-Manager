@@ -1,4 +1,10 @@
-function SignUp(state = [], action) {
+/** 
+* 
+* @param {any} [state=[]] initial state
+* @param {any} action 
+* @returns {object} state
+*/
+const SignUp = ((state = [], action) => {
   switch(action.type) {
     case 'SIGN_UP' :
       console.log('signing up');
@@ -6,6 +12,6 @@ function SignUp(state = [], action) {
     default:
       return state;
   }
-}
+});
 
 export default SignUp;

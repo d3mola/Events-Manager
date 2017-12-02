@@ -5,6 +5,10 @@ import Home from './Home';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Centers from './Centers';
+import AddCenter from './AddCenter'
+
+// import '../../template/stylesheet/center-details.scss';
+
 
 /**
  * @description creates a component that takes in all the routes as children
@@ -24,6 +28,7 @@ class App extends React.Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/centers" component={Centers} />
+          <Route exact path="/addcenter" component={AddCenter} />
         </Switch>
       </Router>
     )

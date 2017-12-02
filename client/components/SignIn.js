@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
-
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../../template/stylesheet/style.css';
+import Header from './SignupHeader';
+import '../static/scss/main.scss';
 
 /**
 * @description Creates SignIn component
@@ -57,7 +56,7 @@ class SignIn extends React.Component {
     e.preventDefault();
     console.log(this.state)
     this.props.signIn(this.state);
-  };// handleSubmit
+  }// handleSubmit
 
 /**
  * renders signUpForm component
@@ -68,6 +67,7 @@ class SignIn extends React.Component {
  render() {
    return (
     <div className="container">
+      <Header />
       <div className="row">
         <div className="col-md-6 mx-auto">
             <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
@@ -92,27 +92,25 @@ class SignIn extends React.Component {
 
    );
  }
-};
+}
+
 /**
- * 
- * 
  * @param {any} state 
  * @returns {object} actions
  */
-function mapStateToProps(state) {
+const mapStateToProps = (state => {
   return {
     signinReducer: state.SignIn,
   };
-}
+})
+
 /**
- * 
- * 
  * @param {any} dispatch 
  * @returns {object} actions
  */
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = (dispatch => {
   return bindActionCreators(actionCreators, dispatch);
-}
+});
 
 const signinReducer = connect(mapStateToProps, mapDispatchToProps)(SignIn);
 

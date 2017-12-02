@@ -1,0 +1,51 @@
+$white: #fff;
+$green_yellow: #adff2f;
+$dark_green: #16534e;
+$black: #000;
+$Quicksand: 'Quicksand', sans-serif;
+
+body {
+	background-color: $dark_green;
+	font-family: $Quicksand;
+}
+#header {
+	background-color: $black;
+}
+span.navbar-toggler-icon {
+	background-color: $white;
+	height: 0.1em;
+	margin-bottom: 5px;
+	display: block;
+}
+a.navbar-brand {
+	font-weight: 500;
+}
+a {
+	color: $white;
+	&:hover {
+		color: $green_yellow;
+		font-size: 20px;
+	}
+}
+h2 {
+	font-size: 45px;
+	line-height: 60px;
+	margin-bottom: 30px;
+	color: $dark_green;
+	&:hover {
+		font-size: 50px;
+	}
+}
+#form-box {
+	margin-top: 60px;
+	background-color: $white;
+}
+p {
+	>a {
+		color: $black;
+		&:hover {
+			color: $dark_green;
+			font-size: 18px;
+		}
+	}
+}
