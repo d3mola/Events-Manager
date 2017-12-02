@@ -1,1 +1,1 @@
-web: ./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node ./server/app
+web: node --exec ./node_modules/.bin/babel-node ./server/app
