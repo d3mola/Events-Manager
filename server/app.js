@@ -19,13 +19,13 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
-if (process.env.NODE_ENV === 'development') {
-  const compiler = webpack(config);
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: false,
-    publicPath: config.output.publicPath
-  }));
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const compiler = webpack(config);
+//   app.use(require('webpack-dev-middleware')(compiler, {
+//     noInfo: false,
+//     publicPath: config.output.publicPath
+//   }));
+// }
 // console.log(process.env.NODE_ENV);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
