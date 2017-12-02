@@ -15,10 +15,10 @@ const Footer = () => {
               <div className="col-md">
                 <h5 className="footer-header">Socials</h5>
                 <ul className="list-inline">
-                  <li className="list-inline-item"><Link className="social-link" href="#"><i className="fa fa-facebook fa-2x"></i></Link></li>
-                  <li className="list-inline-item"><Link className="social-link" href="#"><i className="fa fa-instagram fa-2x"></i></Link></li>
-                  <li className="list-inline-item"><Link className="social-link" href="#"><i className="fa fa-twitter fa-2x"></i></Link></li>
-                  <li className="list-inline-item"><Link className="social-link" href="#"><i className="fa fa-snapchat fa-2x"></i></Link></li>
+                  <li className="list-inline-item"><Link className="social-link" to="#"><i className="fa fa-facebook fa-2x"></i></Link></li>
+                  <li className="list-inline-item"><Link className="social-link" to="#"><i className="fa fa-instagram fa-2x"></i></Link></li>
+                  <li className="list-inline-item"><Link className="social-link" to="#"><i className="fa fa-twitter fa-2x"></i></Link></li>
+                  <li className="list-inline-item"><Link className="social-link" to="#"><i className="fa fa-snapchat fa-2x"></i></Link></li>
                 </ul>
               </div>
             </div>

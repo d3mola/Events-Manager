@@ -47,7 +47,6 @@ class Centers extends React.Component {
       )
     } else {
       return allCenters.map(((center, index) => {
-        console.log(center['1'], index)
         return (
           <div key={center[index].id} className="col-12 col-md-6 text-center">
             <div className="card">

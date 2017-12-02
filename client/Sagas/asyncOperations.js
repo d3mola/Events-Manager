@@ -3,7 +3,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
-import history from '../history';
+import { history } from '../store';
 // Our worker Saga: will perform the async tasks
 
 const token = localStorage.getItem('token');

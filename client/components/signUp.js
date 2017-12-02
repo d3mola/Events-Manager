@@ -32,6 +32,10 @@ class SignUp extends React.Component {
     };
   }// constructor
 
+  componentWillMount() {
+   console.log('ggggggggggggggggggggggggggggggggggggg');
+  }
+
  
   /**
    * 

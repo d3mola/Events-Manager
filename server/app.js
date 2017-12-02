@@ -26,6 +26,9 @@ if (process.env.NODE_ENV === 'development') {
     publicPath: config.output.publicPath
   }));
 }
+// console.log(process.env.NODE_ENV);
+
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -35,24 +38,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // use imported routes
-app.use('/api/v1', routes);
-app.use('/api/v1', centerRoutes);
-app.use('/api/v1', eventRoutes);
+app.all('/api/v1', routes);
+app.all('/api/v1', centerRoutes);
+app.all('/api/v1', eventRoutes);
 
-app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
+// app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+app.all('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.use('/signin', express.static(path.join(__dirname, '../client')));
+// app.use('/signin', express.static(path.join(__dirname, '../client')));
 
-app.use('/signup', express.static(path.join(__dirname, '../client')));
+// app.use('/signup', express.static(path.join(__dirname, '../client')));
 
-app.use('/centers', express.static(path.join(__dirname, '../client')));
+// app.use('/centers', express.static(path.join(__dirname, '../client')));
 
-app.use('/addcenter', express.static(path.join(__dirname, '../client')));
+// app.use('/addcenter', express.static(path.join(__dirname, '../client')));
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
