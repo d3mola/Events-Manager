@@ -4,16 +4,17 @@
  * @param {*} action
  * @returns {array} states
  */
-function Centers(state = [], action) {
+const centers = ((state = [], action) => {
   switch (action.type) {
     case 'GET_CENTERS_SUCCESS':
-      console.log('SUCCESS!!!=====>', action.response);
-      // return [...state, action.centers];
-      return Object.assign({}, state, { centers: action.response });
-      // return action.response;
-    default:
-      return state;
+    return [...state, action.response.centers];
+  case 'ADD_CENTER_SUCCESS':
+    console.log('Reducer==> center succesfully added');
+    return Object.assign({}, state, { centers: action.response });
+  default:
+    return state;
   }
-}
+});
 
-export default Centers;
+export default centers;
+

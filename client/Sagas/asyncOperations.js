@@ -17,16 +17,15 @@ axios.defaults.headers.common['x-access-token'] = token;
  */
 export function* signUpAsync(action) {
   try{
-      console.log('trying to connect...')
-      const response = yield call(axios.post, '/api/v1/users?limit=action.limit', {
+      const response = yield call(axios.post, '/api/v1/users', {
         username: action.payload.username,
         email: action.payload.email,
         password: action.payload.password
       })
-      console.log(response);
       history.push('/signin');
-  }catch(e){
-      console.log('ERROR!!!')
+  } catch(error) {
+			console.log('Unable to get access signup api');
+			console.log(error);
   }
 }
 
@@ -36,7 +35,6 @@ export function* signUpAsync(action) {
  * @export
  */
 export function* watchSignUpAsync() {
-    console.log('running!')
     yield takeEvery('SIGN_UP', signUpAsync)
 }
 
@@ -52,12 +50,10 @@ export function* signInAsync(action) {
       const response = yield call(axios.post, '/api/v1/users/login', {
         email: action.payload.email,
         password: action.payload.password
-      })
-      console.log(response.data);0
+      });
       localStorage.setItem('token', response.data.token);
-      console.log(response);
-      history.push('/');
-  }catch(error){
+      history.push('/centers');
+  } catch (error) {
       console.log(error);
   }
 }
@@ -68,9 +64,13 @@ export function* signInAsync(action) {
  * @export
  */
 export function* watchSignInAsync() {
-    console.log('running!')
      yield takeEvery('SIGN_IN', signInAsync)
 }
+
+
+/**
+ * Aysnc operation to get all center
+ */
 
 /**
  * Get centers async operation
@@ -81,14 +81,14 @@ export function* watchSignInAsync() {
 export function* centersAsync(action) {
     // const token = localStorage.getItem('token');
     try{
-			console.log('trying to get centers from the API');
-        const response = yield call(axios.get, '/api/v1/centers'/*, {headers: { "x-access-token": token }}*/);
-				console.log('saga response ========>', response.data);
+        const response = yield call(axios.get, '/api/v1/centers', {
+					headers: { "x-access-token": token }
+				});
 				yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data});
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
-  }
+}
 
 /**
  * listens for get centers action type call then call signUpAsync
@@ -100,6 +100,44 @@ export function* watchCentersAsync() {
 }
 
 /**
+ * Aysnc operation to add a center
+ */
+
+/**
+ * worker saga performs async operation to add a center
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
+export function* addCenterAsync(action) {
+	try {
+		const token = localStorage.getItem('token')
+		console.log('Trying to post a center to the api...');
+		const response = yield call(axios.post, 'api/v1/centers', {
+			name: action.payload.name,
+			location: action.payload.location,
+			capacity: action.payload.capacity,
+			price: action.payload.price
+		});
+		console.log('token====>', token);
+
+		yield put({ type: 'ADD_CENTER_SUCCESS', response: response.data});
+
+	} catch (error) {
+		console.log('Unable to add a center', error);
+	}
+}
+
+/**
+ * watcher saga listens for ADD_CENTER action then calls addCenterAsync
+ * @returns {function} centersAsync
+ * @export
+ */
+export function* watchAddCenterAsync() {
+  yield takeEvery('ADD_CENTER', addCenterAsync)
+}
+
+/**
  * single entry point to start all sagas at once
  * @returns {functions} watchSignUpAsync(),watchSignInAsync(),watchCentersAsync()
  * @export
@@ -108,6 +146,7 @@ export default function* rootSaga() {
     yield [
       watchSignUpAsync(),
       watchSignInAsync(),
-      watchCentersAsync()
+      watchCentersAsync(),
+      watchAddCenterAsync()
     ]
 }
