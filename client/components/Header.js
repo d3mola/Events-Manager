@@ -22,7 +22,7 @@ const Header = () => {
                   <Link className="nav-link" href to="index.html">Home <span className="sr-only">(current)</span></Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" href to="#">Centers</Link>
+                  <Link className="nav-link" href to="/centers">Centers</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" href to="#">Contact</Link>
