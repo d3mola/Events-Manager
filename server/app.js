@@ -14,16 +14,18 @@ import eventRoutes from './routes/events';
 
 // Load .env
 dotenv.config();
-const compiler = webpack(config);
 
 // Set up the express app
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: false,
-  publicPath: config.output.publicPath
-}));
+if (process.env.NODE_ENV === 'development') {
+  const compiler = webpack(config);
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: false,
+    publicPath: config.output.publicPath
+  }));
+}
 
 // Log requests to the console.
 app.use(logger('dev'));

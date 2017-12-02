@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import SignupHeader from './SignupHeader';
-// import '../static/scss/main.scss';
+import '../static/scss/main.scss';
 
 /**
  * @description Creates SignUpForm component

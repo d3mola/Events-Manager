@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { centers } from '../actions/actionCreators';
 import Header from './SignupHeader';
 
-// import '../../template/stylesheet/center-details.css';
+import '../../template/stylesheet/center-details.css';
 
 /**
  * 

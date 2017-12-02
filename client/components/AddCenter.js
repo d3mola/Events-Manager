@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import Header from './Header';
 
-// import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-// import '../../template/stylesheet/style.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../template/stylesheet/style.css';
 
 
 /**
