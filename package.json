@@ -22,8 +22,7 @@
     "client": "webpack-dev-server --config webpack.config.dev.js",
     "heroku-postbuild": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "heroku-api": "./node_modules/.bin/babel ./server -d dist && node dist/app.js",
-    "webpack": "webpack -p --config webpack.config.dev.js",
-    "brunch": "brunch build -p"
+    "webpack": "webpack -p"
   },
   "repository": {
     "type": "git",

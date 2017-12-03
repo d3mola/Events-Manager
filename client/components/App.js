@@ -4,7 +4,7 @@ import { Switch, BrowserRouter, Route } from 'react-router-dom';
 // import { history } from '../store';
 import Home from './Home';
 import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignUp from './signUp';
 import Centers from './Centers';
 import AddCenter from './AddCenter'
 
