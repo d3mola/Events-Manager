@@ -30,9 +30,9 @@ const port = parseInt(process.env.PORT, 10) || 8000;
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 // Log requests to the console.
 app.use(logger('dev'));
@@ -49,9 +49,9 @@ app.all('/api/v1', eventRoutes);
 // app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-app.all('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+// app.all('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
