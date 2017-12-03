@@ -3,9 +3,6 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
-// import webpack from 'webpack';
-
-// import config from '../webpack.config.dev';
 
 // import routes
 import routes from './routes/users';
@@ -19,14 +16,6 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
-// if (process.env.NODE_ENV === 'development') {
-//   const compiler = webpack(config);
-//   app.use(require('webpack-dev-middleware')(compiler, {
-//     noInfo: false,
-//     publicPath: config.output.publicPath
-//   }));
-// }
-// console.log(process.env.NODE_ENV);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -45,13 +34,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.all('/api/v1', routes);
 app.all('/api/v1', centerRoutes);
 app.all('/api/v1', eventRoutes);
-
-// app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
-
-// Setup a default catch-all route that sends back a welcome message in JSON format.
-// app.all('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
