@@ -30,9 +30,9 @@ app.get('/', (req, res) => {
 });
 
 // use imported routes
-app.all('/api/v1', routes);
-app.all('/api/v1', centerRoutes);
-app.all('/api/v1', eventRoutes);
+app.use('/api/v1', routes);
+app.use('/api/v1', centerRoutes);
+app.use('/api/v1', eventRoutes);
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
