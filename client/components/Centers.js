@@ -48,13 +48,14 @@ class Centers extends React.Component {
     } else {
       return allCenters.map(((center, index) => {
         return (
-          <div key={center[index].id} className="col-12 col-md-6 text-center">
+          <div key={index} className="col-12 col-md-6 text-center">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">{center[index].name}</h4>
-                <p className="card-text">{center[index].location}</p>
-                <p className="card-text">{center[index].capacity}</p>
-                <p className="card-text">{'#'+center[index].price}</p><hr />
+                <p>These are the available {center}</p>
+                {/* <h4 className="card-title">{center.name}</h4>
+                <p className="card-text">{center.location}</p>
+                <p className="card-text">{center.capacity}</p>
+                <p className="card-text">{'#'+center.price}</p><hr /> */}
                 <a href="#" className="btn card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
               </div>
             </div>
@@ -79,6 +80,7 @@ class Centers extends React.Component {
         <section id="main">
             <div className="container">
               <div className="row fill-viewport">
+                <p>i'm hereeeeeeeeeeeeeeeeee</p>
                 { this.renderCenters() }
               </div>
             </div>

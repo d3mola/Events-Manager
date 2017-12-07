@@ -17,6 +17,7 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
+// app.use(cors());
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
@@ -26,7 +27,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
+app.use( (req, res, next) =>{
+  // '*' is not good for production. Only if the API consumable is for public use.
+  res.header('Access-Control-Allow-Origin', '*'); //allow another domain use ur api.
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+app.get('/*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
 });
 
