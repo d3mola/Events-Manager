@@ -1,12 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'babel-polyfill',
-    path.resolve(__dirname, 'client/index.js')
+    path.resolve(__dirname, 'client/entry.js')
   ],
   output: {
     filename: 'bundle.js',
@@ -64,9 +64,9 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'client'),
     historyApiFallback: true
   },
-  plugins: [
-    new UglifyJSPlugin({
-      sourceMap: true
-    }),
-  ],
+  // plugins: [
+  //   new UglifyJSPlugin({
+  //     sourceMap: true
+  //   }),
+  // ],
 };
