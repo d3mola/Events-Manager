@@ -3,9 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
-import webpack from 'webpack';
-
-import config from '../webpack.config.dev';
+// import cors from 'cors';
 
 // import routes
 import routes from './routes/users';
@@ -14,43 +12,36 @@ import eventRoutes from './routes/events';
 
 // Load .env
 dotenv.config();
-const compiler = webpack(config);
 
 // Set up the express app
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: false,
-  publicPath: config.output.publicPath
-}));
+// app.use(cors());
 
-// Log requests to the console.
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+
 app.use(logger('dev'));
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
+// Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use( (req, res, next) =>{
+  // '*' is not good for production. Only if the API consumable is for public use.
+  res.header('Access-Control-Allow-Origin', '*'); //allow another domain use ur api.
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+});
 
 // use imported routes
 app.use('/api/v1', routes);
 app.use('/api/v1', centerRoutes);
 app.use('/api/v1', eventRoutes);
-
-app.get('/bundle', (req, res) => res.sendFile(path.join(path.dirname(__dirname), 'client/build/bundle.js')));
-
-// Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
-});
-
-app.use('/signin', express.static(path.join(__dirname, '../client')));
-
-app.use('/signup', express.static(path.join(__dirname, '../client')));
-
-app.use('/centers', express.static(path.join(__dirname, '../client')));
-
-app.use('/addcenter', express.static(path.join(__dirname, '../client')));
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);

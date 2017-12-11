@@ -3,12 +3,14 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { Link, Redirect } from 'react-router-dom';
-import history from '../history';
+import { history } from '../routes';
 // Our worker Saga: will perform the async tasks
 
 const token = localStorage.getItem('token');
 axios.defaults.headers.common['x-access-token'] = token;
 
+const url = 'https://party-palace.herokuapp.com';
+const localUrl = 'http://localhost:8000';
 /**
  * worker saga performs async calls to the api
  * @export
@@ -17,7 +19,7 @@ axios.defaults.headers.common['x-access-token'] = token;
  */
 export function* signUpAsync(action) {
   try{
-      const response = yield call(axios.post, '/api/v1/users', {
+      const response = yield call(axios.post, `${localUrl}/api/v1/users`, {
         username: action.payload.username,
         email: action.payload.email,
         password: action.payload.password
@@ -25,7 +27,7 @@ export function* signUpAsync(action) {
       history.push('/signin');
   } catch(error) {
 			console.log('Unable to get access signup api');
-			console.log(error);
+			console.log(error.message);
   }
 }
 
@@ -36,7 +38,7 @@ export function* signUpAsync(action) {
  */
 export function* watchSignUpAsync() {
     yield takeEvery('SIGN_UP', signUpAsync)
-}
+}2
 
 /**
  * Sign in async operation
@@ -47,7 +49,7 @@ export function* watchSignUpAsync() {
 export function* signInAsync(action) {
   try{
       console.log('trying to connect to login...')
-      const response = yield call(axios.post, '/api/v1/users/login', {
+      const response = yield call(axios.post, `${localUrl}/api/v1/users/login`, {
         email: action.payload.email,
         password: action.payload.password
       });
@@ -81,7 +83,7 @@ export function* watchSignInAsync() {
 export function* centersAsync(action) {
     // const token = localStorage.getItem('token');
     try{
-        const response = yield call(axios.get, '/api/v1/centers', {
+        const response = yield call(axios.get, `${localUrl}/api/v1/centers`, {
 					headers: { "x-access-token": token }
 				});
 				yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data});
@@ -113,7 +115,7 @@ export function* addCenterAsync(action) {
 	try {
 		const token = localStorage.getItem('token')
 		console.log('Trying to post a center to the api...');
-		const response = yield call(axios.post, 'api/v1/centers', {
+		const response = yield call(axios.post, `${url}/api/v1/centers`, {
 			name: action.payload.name,
 			location: action.payload.location,
 			capacity: action.payload.capacity,

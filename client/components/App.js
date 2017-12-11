@@ -1,39 +1,31 @@
-import React from 'react';
-import { Switch, Route, Router } from 'react-router-dom';
-import history from '../history';
-import Home from './Home';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
-import Centers from './Centers';
-import AddCenter from './AddCenter'
+// import React from 'react';
+// import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+// // import { Route } from 'react-router';
+// // import { history } from '../store';
+// import { createBrowserHistory } from 'history';
+// // import history from '../history';
+// import Home from './Home';
+// import SignIn from './SignIn';
+// import SignUp from './signUp';
+// import Centers from './Centers';
+// import AddCenter from './AddCenter'
 
-// import '../../template/stylesheet/center-details.scss';
+// import '../static/scss/center-details.scss';
 
+// export const history = createBrowserHistory();
 
-/**
- * @description creates a component that takes in all the routes as children
- * @returns {class} App
- */
-class App extends React.Component {
-  /**
-   * 
-   * @returns {component} router
-   * @memberof App
-   */
-  render() {
-    return (
-      <Router history={history}>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/centers" component={Centers} />
-          <Route exact path="/addcenter" component={AddCenter} />
-        </Switch>
-      </Router>
-    )
-  }
-
-};
-
-export default App;
+//   export const App = () => {
+//     return (
+//       <Router history={history}>
+//         <div>
+//           <Switch>
+//             <Route exact path="/" component={Home} />
+//             <Route path="/signup" component={SignUp} />
+//             <Route path="/signin" component={SignIn} />
+//             <Route path="/centers" component={Centers} />
+//             <Route path="/addcenter" component={AddCenter} />
+//           </Switch>
+//         </div>
+//       </Router>
+//     )
+//   }

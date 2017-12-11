@@ -34,6 +34,7 @@ export default (sequelize, DataTypes) => {
   // class methods
   Center.associate = ((models) => {
     Center.hasMany(models.Event, {
+      as: 'events',
       foreignKey: 'centerId'
     });
   });
