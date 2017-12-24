@@ -27,16 +27,23 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use( (req, res, next) =>{
+app.use((req, res, next) => {
   // '*' is not good for production. Only if the API consumable is for public use.
   res.header('Access-Control-Allow-Origin', '*'); //allow another domain use ur api.
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Methods',
+    'POST, GET, OPTIONS, PUT, DELETE, HEAD'
+  );
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
   next();
 });
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
-});
+// Always return the main index.html, so react-router render the route in the client
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+// });
 
 // use imported routes
 app.use('/api/v1', routes);
