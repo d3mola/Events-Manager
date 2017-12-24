@@ -43,7 +43,7 @@ export default {
             notes,
             centerId,
             date,
-            userId: req.user.id
+            userId: req.user.userId
           })
             .then(event => res.status(201).json({
               success: true,
