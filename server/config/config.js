@@ -2,7 +2,7 @@ module.exports = {
   development: {
     username: 'postgres',
     password: 'ariya',
-    database: 'events-manager-db',
+    database: 'events_manager_dev',
     host: '127.0.0.1',
     port: 5432,
     dialect: 'postgres'
