@@ -8,7 +8,7 @@ import { Routes, history } from './routes';
 import store from './store';
 // import { history } from '../store';
 
-import '../client/static/scss/center-details.scss';
+// import '../client/static/scss/center-details.scss';
 
 
 render(
