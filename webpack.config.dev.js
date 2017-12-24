@@ -1,18 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+//   template: './client/index.html',
+//   filename: 'index.html',
+//   inject: 'body'
+// });
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   entry: [
     'babel-polyfill',
     path.resolve(__dirname, 'client/entry.js')
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'client/build')
+    path: path.resolve(__dirname, 'client/build'),
+    publicPath: '/',
   },
-  target: "web",
+  // target: "web",
   module: {
     rules: [
       {
@@ -61,12 +68,10 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, 'client'),
-    historyApiFallback: true
+    contentBase: path.resolve(__dirname, 'client/build'),
+    historyApiFallback: true,
   },
-  // plugins: [
-  //   new UglifyJSPlugin({
-  //     sourceMap: true
-  //   }),
-  // ],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
 };
