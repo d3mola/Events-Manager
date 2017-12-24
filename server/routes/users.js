@@ -1,6 +1,7 @@
 import express from 'express';
-import path from 'path';
 import userController from '../controllers/userController';
+import authenticate from '../middleware/authenticate';
+import adminCheck from '../middleware/adminCheck';
 
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.get('/', (req, res) => {
 
 router.post('/users', userController.signup);
 router.post('/users/login', userController.login);
+router.get('/users', authenticate, adminCheck, userController.getAllUsers);
 
 export default router;
