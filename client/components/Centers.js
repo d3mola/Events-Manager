@@ -26,7 +26,7 @@ class Centers extends React.Component {
    * @returns {object} centers
    * @memberof Centers
   */
-  componentWillMount() {
+  componentDidMount() {
     this.props.actions();
       // console.log('fetched centers ==>', fetchedcenters);
   }
