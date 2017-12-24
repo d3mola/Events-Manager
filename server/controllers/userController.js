@@ -144,5 +144,26 @@ export default {
         error: error.message,
         message: 'Authentication failed',
       }));
-  }
+  },
+
+  // Get all users
+  getAllUsers: (req, res) => User.findAll()
+    .then((users) => {
+      if (!users.length) {
+        res.status(400).json({
+          success: false,
+          message: 'There are no users at this time'
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          users
+        });
+      }
+    })
+    .catch(error => res.status(500).json({
+      success: false,
+      message: 'Could not get users',
+      error: error.message
+    })),
 };
