@@ -36,9 +36,8 @@ class SignUp extends React.Component {
   //  console.log('ggggggggggggggggggggggggggggggggggggg');
   // }
 
- 
+
   /**
-   * 
    * submit handler
    * @param {any} e 
    * @memberof SignUp
@@ -64,43 +63,43 @@ class SignUp extends React.Component {
     console.log(this.state)
   }// handleSubmit
 
-/**
- * renders signUpForm component
- * @returns {undefined} rendered component
- * @memberof SignUp
- */
-render() {
+  /**
+   * renders signUpForm component
+   * @returns {undefined} rendered component
+   * @memberof SignUp
+   */
+  render() {
     return (
       <div>
         <SignupHeader />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
-                <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
-                  <h2 className="text-center">Register!</h2>
-                  <div className="form-group">
-                      <label htmlFor="username">Username:</label>
-                      <input className="form-control" type="text" name="username" id="username" placeholder="johndoe" onChange={this.handleChange} />                  
-                  </div>
-                  
-                  <div className="form-group">
-                      <label htmlFor="email">Email:</label>
-                      <input className="form-control" type="email" name="email" id="email" placeholder="johndoe@email.com" onChange={this.handleChange} />
-                  </div>
+              <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
+                <h2 className="text-center">Register!</h2>
+                <div className="form-group">
+                  <label htmlFor="username">Username:</label>
+                  <input className="form-control" type="text" name="username" id="username" placeholder="johndoe" onChange={this.handleChange} />
+                </div>
 
-                  <div className="form-group">
-                      <label htmlFor="password">Password:</label>
-                      <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password" onChange={this.handleChange} />                  
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input className="form-control" type="email" name="email" id="email" placeholder="johndoe@email.com" onChange={this.handleChange} />
+                </div>
 
-                  <div className="form-group">
-                      <label htmlFor="confirm-password">Password again:</label>
-                      <input className="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password again" onChange={this.handleChange} />                  
-                  </div>
-                  <input className="btn btn-outline-success" type="submit" value="Register" />
-                  <br />
-                  <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
-                </form>
+                <div className="form-group">
+                  <label htmlFor="password">Password:</label>
+                  <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password" onChange={this.handleChange} />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="confirm-password">Password again:</label>
+                  <input className="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Enter your password again" onChange={this.handleChange} />
+                </div>
+                <input className="btn btn-outline-success" type="submit" value="Register" />
+                <br />
+                <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
+              </form>
             </div>
           </div>
         </div>
@@ -108,6 +107,7 @@ render() {
     );
   }
 }
+
 /**
  * passes store data to the component as a property
  * this makes the component smart(i.e becomes a container)
@@ -121,6 +121,7 @@ const mapStateToProps = (state => {
     signup: state.signUp,
   };
 });
+
 /**
  * 
  * @param {any} dispatch 

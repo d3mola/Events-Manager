@@ -33,13 +33,10 @@ export default (sequelize, DataTypes) => {
     Event.belongsTo(models.User, {
       foreignKey: 'userId'
     });
-  };
 
-  Event.associate = (models) => {
     Event.belongsTo(models.Center, {
       foreignKey: 'centerId'
     });
   };
-
   return Event;
 };

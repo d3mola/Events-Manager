@@ -12,28 +12,28 @@ const SignupHeader = () => {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div>
-                <a id="brand-logo" className="navbar-brand" href="#">Party<br />Palace</a>
+                <Link id="brand-logo" className="navbar-brand" to="#">Party<br />Palace</Link>
             </div>
             
           
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                  <a className="nav-link" href="index.html">Home <span className="sr-only">(current)</span></a>
+                  <Link className="nav-link" to="/">Home<span className="sr-only">(current)</span></Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Centers</a>
+                  <Link className="nav-link" to="/centers">Centers</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Contact</a>
+                  <Link className="nav-link" to="#">Contact</Link>
                 </li>
               </ul>
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <a className="nav-link" href="login.html">Login</a>
+                  <Link className="nav-link" to="login.html">Login</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">About</a>
+                  <Link className="nav-link" to="#">About</Link>
                 </li>
               </ul>
             </div>

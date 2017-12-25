@@ -26,7 +26,7 @@ export default {
         capacity,
         price,
         isAvailable,
-        userId: req.user.id
+        userId: req.user.userId
       })
         .then(center => res.status(201).json({
           success: true,
@@ -104,28 +104,29 @@ export default {
    * @param {object} res HTTP response object
    * @returns {object} center
    */
-  getACenter: (req, res) =>
-    Center.findAll({
-      where: { id : req.params.id },
+  getACenter: (req, res) => Center
+    .find({
+      where: { id: req.params.centerId },
       include: [
         { model: Event, as: 'events' },
       ],
     })
-      .then((center) => {
-        if (!center) {
-          res.status(404).json({
-            success: false,
-            message: 'Center doesnt exist'
-          });
-        }
+    .then(center => {
+      if (!center) {
+        res.status(404).json({
+          success: false,
+          message: 'Center doesnt exist'
+        });
+      } else {
         res.status(200).json({
           success: true,
           center
         });
-      })
-      .catch(error => res.status(500).json({
-        success: false,
-        message: 'Could not get the center details',
-        error: error.message
-      })),
+      }
+    })
+    .catch(error => res.status(500).json({
+      success: false,
+      message: 'Could not get the center details',
+      error: error.message
+    })),
 };

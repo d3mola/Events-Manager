@@ -19,15 +19,15 @@ class Centers extends React.Component {
    */
   constructor(props) {
     super(props);
-  }//
+  }
 
   /**
    *  get centers as soon as component renders
    * @returns {object} centers
    * @memberof Centers
   */
-  componentWillMount() {
-       this.props.actions();
+  componentDidMount() {
+    this.props.actions();
       // console.log('fetched centers ==>', fetchedcenters);
   }
 
@@ -38,31 +38,31 @@ class Centers extends React.Component {
    * @returns {array} centers
    * @memberof Centers
    */
-  renderCenters() {
+   renderCenters () {
     const allCenters = this.props.centers;
-    console.log(allCenters);
+    console.log('allCenters=====>', allCenters);
     if (!this.props.centers) {
       return (
-        <p>Loading data...</p>
+        <p>Loading centers...</p>
       )
     } else {
-      return allCenters.map(((center, index) => {
+      return allCenters.map((center, index) => {
         return (
           <div key={index} className="col-12 col-md-6 text-center">
             <div className="card">
               <div className="card-body">
-                <p>These are the available {center}</p>
-                {/* <h4 className="card-title">{center.name}</h4>
+                <p>These are the available</p>
+                <h4 className="card-title">{center.name}</h4>
                 <p className="card-text">{center.location}</p>
                 <p className="card-text">{center.capacity}</p>
-                <p className="card-text">{'#'+center.price}</p><hr /> */}
+                <p className="card-text">{'#'+center.price}</p><hr />
                 <a href="#" className="btn card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
               </div>
             </div>
           </div>
             
         )
-      }));
+      });
     }
     
   }
@@ -74,13 +74,18 @@ class Centers extends React.Component {
    * @memberof Centers
    */
   render() {
+    // console.log('single center', this.props.centers)
+    // const renderCentersTwo = this.props.centers.map((center, index) => {
+    //   return (
+    //     <li key={index}>{center.name}</li>
+    //   )
+    // });
     return (
       <div className="container">
         <Header />
         <section id="main">
             <div className="container">
               <div className="row fill-viewport">
-                <p>i'm hereeeeeeeeeeeeeeeeee</p>
                 { this.renderCenters() }
               </div>
             </div>
@@ -96,20 +101,20 @@ class Centers extends React.Component {
  * @param {any} state 
  * @returns {object}. 
  */
-const mapStateToProps = (state => {
+const mapStateToProps = (state) => {
   return {
-    centers: state.centers,
+    centers: state.centers
   };
-});
+};
 
 /**
  * @param {any} dispatch 
  * @returns {object}. 
  */
-const mapDispatchToProps = (dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     actions: () => dispatch(centers())
   };
-});
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Centers);
