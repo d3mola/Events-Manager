@@ -6,9 +6,10 @@ install:
     - npm install 
 services: 
     - postgresql 
-cache: 
-    directories: 
-        - "node_modules"
+#cache: 
+    #directories: 
+        #- "node_modules"
+        #- $HOME/.npm
 script: npm run test
 before_script:
     - psql -c 'drop database if exists events_manager_test;' -U postgres
