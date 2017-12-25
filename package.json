@@ -21,6 +21,16 @@
     "heroku-postbuild": "sequelize db:migrate:undo:all && sequelize db:migrate",
     "heroku-api": "./node_modules/.bin/babel ./server -d dist && node dist/app.js"
   },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "dist"
+    ]
+  },
+  "engines": {
+    "node": 8,
+    "npm": "5.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3mola/Events-Manager.git"
@@ -52,8 +62,6 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-alpha.6",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
     "cors": "^2.8.4",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
@@ -63,17 +71,16 @@
     "file-loader": "^1.1.5",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "jquery": "^3.2.1",
     "jsonwebtoken": "^8.1.0",
-    "mocha": "^4.0.1",
     "morgan": "^1.9.0",
     "node-sass": "^4.7.2",
     "nodemon": "^1.12.1",
     "pg": "^7.4.0",
     "pg-hstore": "^2.3.2",
+    "popper.js": "^1.12.9",
     "react": "^16.1.1",
-    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.1.1",
-    "react-navigation": "^1.0.0-beta.21",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -87,13 +94,10 @@
     "sequelize": "^4.22.7",
     "sequelize-cli": "^3.0.0",
     "style-loader": "^0.19.0",
-    "supertest": "^3.0.0",
     "svg-url-loader": "^2.3.0",
     "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
-    "webpack-dev-middleware": "^1.12.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
