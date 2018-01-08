@@ -12,9 +12,9 @@ const centers = ((state = [], action) => {
       return [...action.response.centers];
 
     case 'ADD_CENTER_SUCCESS':
-      console.log('Reducer==> center succesfully added');
-      return Object.assign({}, state, { centers: action.response });
-      // return {...state, centers: action.response};
+      console.log('Reducer==> center succesfully added', action.response);
+      // return Object.assign({}, state, { center: action.response.center });
+      return [...state, action.response.center];
 
     case 'ADD_CENTER_FAILED':
       return state;
