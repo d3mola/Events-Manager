@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
+// import { addCenter } from '../actions/actionCreators';
 import Header from './Header';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -24,16 +25,17 @@ class AddCenter extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
+    //setting the initial state of the component
+    this.state = {
+      name: '',
+      location: '',
+      capacity: '',
+      price: '',
+    };
 
-    // //setting the initial state of the component
-    // this.state = {
-    //   name: '',
-    //   location: '',
-    //   capacity: '',
-    //   price: '',
-    // };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   /**
@@ -56,6 +58,8 @@ class AddCenter extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.addCenter(this.state);
+    // console.log('submitting.......');
+    // console.log(this.props.addCenter(this.state));
   }// handleSubmit
 
   /**
@@ -64,14 +68,19 @@ class AddCenter extends React.Component {
   * @memberof AddCenter
   * @returns {Undefined} sets form input values
   */
-  // handleChange(e) {
-  //   // set the next state of the form
-  //   this.setState({
-  //     [e.target.name]: e.target.value
-  //   });
-  //   console.log(this.state)
-  // }// handleSubmit
+  handleChange(e) {
+    // set the next state of the form
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    // console.log(this.state)
+  }// handleSubmit
 
+  // // tied to 'click me' button temporarily
+  // handleClick(e) {
+  //   e.preventDefault();
+  //   console.log(this.props.addCenter(this.state));
+  // }
 /**
  * renders signUpForm component
  * @returns {undefined} rendered component
@@ -82,30 +91,31 @@ render() {
       <div className="container">
         <Header />
         <h1>Add a center</h1>
-        <form id="form-box" action="" method="post">
+        <form id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
           <h2 className="text-center">Create A Center!</h2>
           <div className="form-group">
-            <label htmlFor="center-name">Name:</label>
-            <input className="form-control" type="text" name="center-name" id="center-name" placeholder="Ruby hall" />
+            <label htmlFor="name">Name:</label>
+            <input className="form-control" type="text" name="name" id="name" placeholder="Gold hall" onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
-            <label htmlFor="center-location">Location:</label>
-            <input className="form-control" type="text" name="center-location" id="center-location" placeholder="No 46, Victoria Island Lagos" />
+            <label htmlFor="location">Location:</label>
+            <input className="form-control" type="text" name="location" id="location" placeholder="No 46, Victoria Island Lagos" onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
-            <label htmlFor="center-capacity">Capacity:</label>
-            <input className="form-control" type="text" name="center-capacity" id="center-capacity" placeholder="5000" />
+            <label htmlFor="capacity">Capacity:</label>
+            <input className="form-control" type="text" name="capacity" id="capacity" placeholder="5000" onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
-            <label htmlFor="center-price">Price:</label>
-            <input className="form-control" type="text" name="center-price" id="center-price" placeholder="100000" />
+            <label htmlFor="price">Price:</label>
+            <input className="form-control" type="text" name="price" id="price" placeholder="100000" onChange={this.handleChange} />
           </div>
           
           <input className="btn btn-outline-success" type="submit" value="Create" />
         </form>
+        {/* <button className="btn btn-outline-success" onClick={this.handleClick}>Click me</button> */}
       </div>
     );
   }
@@ -117,7 +127,8 @@ render() {
  */
 const mapStateToProps = (state) => {
   return {
-    addCenter: state.addCenter,
+    // addCenter: state.addCenter,
+    centers: state.center
   };
 }
 
@@ -125,7 +136,14 @@ const mapStateToProps = (state) => {
  * @param {any} dispatch 
  * @returns {object} actions
  */
-const mapDispatchToProps = (dispatch) => {
+// const mapDispatchToProps = (dispatch) => {
+//   // return bindActionCreators(actionCreators, dispatch);
+//   return {
+//     addCenter: () => dispatch(addCenter())
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
   return bindActionCreators(actionCreators, dispatch);
 }
 
