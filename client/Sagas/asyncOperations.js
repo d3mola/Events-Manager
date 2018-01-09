@@ -65,7 +65,8 @@ export function* signInAsync(action) {
     localStorage.setItem('token', response.data.token);
     history.push('/centers');
   } catch (error) {
-    console.log(error.message);
+    console.log('saga error in sign in', error.message);
+    yield put({ type: 'SIGN_IN_FAILED', error: error.massage });
   }
 }
 
