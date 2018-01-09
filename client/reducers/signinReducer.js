@@ -1,18 +1,31 @@
+// import SIGN_IN_FAILED from '../actions/actionCreators';
+
+const defaultState = {
+  email: '',
+  password: '',
+};
+
 /**
- * 
- * 
- * @param {any} [state=[]] initial state
- * @param {any} action 
- * @returns {object} state
+ * @param {object} state defaultState of signin component
+ * @param {object} action dispatched action object
+ * @returns {object} new state 
  */
-const SignIn = ((state = [], action) => {
+const SignIn = (state = defaultState, action) => {
+
   switch (action.type) {
+
     case 'SIGN_IN':
-      console.log('signing in', action);
+      console.log('signing in state', state);
       return state;
+    
+    case 'SIGN_IN_FAILED':
+      console.log('signing in state failed:', action.error);
+      return action.error;
+
     default:
       return state;
   }
-});
+
+};
 
 export default SignIn;
