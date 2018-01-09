@@ -2,6 +2,7 @@ import { delay } from 'redux-saga'
 import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { history } from '../routes';
+import { SIGN_IN_FAILED } from '../actions/actionCreators'
 // Our worker Saga: will perform the async tasks
 
 const token = localStorage.getItem('token');
@@ -26,7 +27,8 @@ export function* signUpAsync(action) {
       username: action.payload.username,
       email: action.payload.email,
       password: action.payload.password
-    })
+    });
+    console.log(response);
     history.push('/centers');
   } catch (error) {
     console.log('Unable to get access signup api');
@@ -40,6 +42,7 @@ export function* signUpAsync(action) {
  * @export
  */
 export function* watchSignUpAsync() {
+  console.log('listening for SIGN_UP');
   yield takeEvery('SIGN_UP', signUpAsync)
 }
 
@@ -55,7 +58,7 @@ export function* watchSignUpAsync() {
  */
 export function* signInAsync(action) {
   try {
-    console.log('trying to connect to login...')
+    console.log('trying to connect to login...', action)
     const response = yield call(axios.post, `${localUrl}/api/v1/users/login`, {
       email: action.payload.email,
       password: action.payload.password
@@ -63,7 +66,8 @@ export function* signInAsync(action) {
     localStorage.setItem('token', response.data.token);
     history.push('/centers');
   } catch (error) {
-    console.log(error.message);
+    console.log('saga error in sign in', error.response.data.message);
+    yield put({ type: SIGN_IN_FAILED, error: error.response.data.message });
   }
 }
 
@@ -73,6 +77,7 @@ export function* signInAsync(action) {
  * @export
  */
 export function* watchSignInAsync() {
+  console.log('listening for SIGN_IN');
   yield takeEvery('SIGN_IN', signInAsync)
 }
 
@@ -88,9 +93,8 @@ export function* watchSignInAsync() {
  * @returns {object} response
  */
 export function* centersAsync(action) {
-  const token = localStorage.getItem('token');
   try {
-    console.log('trying to access get all centers api..');
+    console.log('trying to access get all centers api..', action);
     const response = yield call(axios.get, `${localUrl}/api/v1/centers`, {
       headers: { "x-access-token": token }
     });
@@ -123,21 +127,24 @@ export function* watchCentersAsync() {
  */
 export function* addCenterAsync(action) {
   try {
-    const token = localStorage.getItem('token')
-    console.log('Trying to post a center to the api...');
+    console.log('Trying to post a center to the api..  ', action);
+    // console.log(`${localUrl}/api/v1/centers`)
     const response = yield call(axios.post, `${localUrl}/api/v1/centers`, {
+    //   headers: { "x-access-token": token }
+    // }, {
+      token,
       name: action.payload.name,
       location: action.payload.location,
       capacity: action.payload.capacity,
       price: action.payload.price
     });
-    console.log('token====>', token);
 
     yield put({ type: 'ADD_CENTER_SUCCESS', response: response.data });
+    history.push('/centers');
 
   } catch (error) {
-    console.log('Unable to add a center', error);
-    yield put({ type: 'ADD_CENTER_FAILED', response: 'ADD_CENTER_FAILED' });
+    console.log('Unable to add a center', error.message);
+    // yield put({ type: 'ADD_CENTER_FAILED', response: 'ADD_CENTER_FAILED' });
   }
 }
 
@@ -147,6 +154,7 @@ export function* addCenterAsync(action) {
  * @export
  */
 export function* watchAddCenterAsync() {
+    console.log('listening for ADD_CENTER');
   yield takeEvery('ADD_CENTER', addCenterAsync)
 }
 

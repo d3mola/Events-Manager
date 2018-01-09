@@ -24,12 +24,12 @@ class SignUp extends React.Component {
     this.handleChange = this.handleChange.bind(this);
 
     //setting the initial state of the component
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    };
+    // this.state = {
+    //   username: '',
+    //   email: '',
+    //   password: '',
+    //   confirmPassword: '',
+    // };
   }// constructor
 
   // componentWillMount() {
