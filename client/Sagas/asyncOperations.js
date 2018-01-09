@@ -2,6 +2,7 @@ import { delay } from 'redux-saga'
 import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { history } from '../routes';
+import { SIGN_IN_FAILED } from '../actions/actionCreators'
 // Our worker Saga: will perform the async tasks
 
 const token = localStorage.getItem('token');
@@ -65,8 +66,8 @@ export function* signInAsync(action) {
     localStorage.setItem('token', response.data.token);
     history.push('/centers');
   } catch (error) {
-    console.log('saga error in sign in', error.message);
-    yield put({ type: 'SIGN_IN_FAILED', error: error.massage });
+    console.log('saga error in sign in', error.response.data.message);
+    yield put({ type: SIGN_IN_FAILED, error: error.response.data.message });
   }
 }
 
