@@ -25,10 +25,10 @@ class SignIn extends React.Component {
     this.handleChange = this.handleChange.bind(this);
 
     //setting the initial state of the component
-    this.state = {
-      email: '',
-      password: '',
-    };
+    // this.state = {
+    //   email: '',
+    //   password: '',
+    // };
   }// constructor
 
 
