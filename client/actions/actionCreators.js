@@ -1,3 +1,5 @@
+export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
+
 /**
  * formats the request from the user and returns it
  * @param {any} payload from the user(username, password etc)
