@@ -7,6 +7,7 @@ import SignIn from '../client/components/SignIn';
 import SignUp from '../client/components/signUp';
 import Centers from '../client/components/Centers';
 import AddCenter from '../client/components/AddCenter';
+import AddEvent from '../client/components/AddEvent'
 
 export const history = createBrowserHistory();
 
@@ -18,6 +19,7 @@ export const Routes = () => {
         <Route exact path='/signup' component={SignUp}/>
         <Route exact path='/centers' component={Centers}/>
         <Route exact path='/addcenter' component={AddCenter}/>
+        <Route exact path='/addevent' component={AddEvent}/>
       </Switch>
   )
 }
