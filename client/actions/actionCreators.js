@@ -1,4 +1,5 @@
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
+export const ADD_EVENT = 'ADD_EVENT';
 
 /**
  * formats the request from the user and returns it
@@ -41,5 +42,12 @@ export const addCenter = payload => {
   return {
     type: 'ADD_CENTER',
     payload
+  };
+};
+
+export const addEvent = event => {
+  return {
+    type: ADD_EVENT,
+    event
   };
 };
