@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions/actionCreators';
-// import { addCenter } from '../actions/actionCreators';
+// import * as actionCreators from '../actions/actionCreators';
+import { addCenter } from '../actions/actionCreators';
 import Header from './Header';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -74,13 +74,8 @@ class AddCenter extends React.Component {
       [e.target.name]: e.target.value
     });
     // console.log(this.state)
-  }// handleSubmit
+  }
 
-  // // tied to 'click me' button temporarily
-  // handleClick(e) {
-  //   e.preventDefault();
-  //   console.log(this.props.addCenter(this.state));
-  // }
 /**
  * renders signUpForm component
  * @returns {undefined} rendered component
@@ -127,8 +122,7 @@ render() {
  */
 const mapStateToProps = (state) => {
   return {
-    // addCenter: state.addCenter,
-    centers: state.center
+    //centers: state.center
   };
 }
 
@@ -136,15 +130,14 @@ const mapStateToProps = (state) => {
  * @param {any} dispatch 
  * @returns {object} actions
  */
-// const mapDispatchToProps = (dispatch) => {
-//   // return bindActionCreators(actionCreators, dispatch);
-//   return {
-//     addCenter: () => dispatch(addCenter())
-//   }
-// }
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(actionCreators, dispatch);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCenter: (payload) => dispatch(addCenter(payload))
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCenter);
+// const mapDispatchToProps = dispatch => {
+//   return bindActionCreators(actionCreators, dispatch);
+// }
+
+export default connect(null, mapDispatchToProps)(AddCenter);
