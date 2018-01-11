@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+// import * as actionCreators from '../actions/actionCreators';
+import { addEvent } from '../actions/actionCreators';
 import Header from './Header';
 import "../../template/stylesheet/events.css";
 
@@ -14,8 +16,8 @@ class AddEvent extends Component {
     // console.log(props);
 
     this.state = {
-      name: '',
-      description: '',
+      title: '',
+      notes: '',
       center: '',
       date: ''
     }
@@ -24,17 +26,27 @@ class AddEvent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    console.log('mounted====> ', this.state);
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    alert('event handler');
+    this.props.addEvent(this.state);
     // something should happen here - dispatch an action on submit
+    this.setState({
+      title: '',
+      notes: '',
+      center: '',
+      date: ''
+    });
   }
 
   render() {
@@ -47,21 +59,22 @@ class AddEvent extends Component {
                   <h2 className="text-center">Create An Event!</h2>
                   <div className="form-group">
                       <label htmlFor="event-name">Event Name:</label>
-                      <input className="form-control" type="text" name="name" id="event-name" placeholder="E.g. John's convocation" value={this.state.name} onChange={this.handleChange} />                  
+                      <input className="form-control" type="text" name="title" id="event-name" placeholder="E.g. John's convocation" value={this.state.title} onChange={this.handleChange} />                  
                   </div>
                   <div>
-                    <label htmlFor="">Optional Note:</label>
-                    <textarea className="form-control" name="description" id="description" cols="50" rows="4" placeholder="Enter an optional note"  value={this.state.description} onChange={this.handleChange}></textarea>
+                    <label htmlFor="notes">Optional Note:</label>
+                    <textarea className="form-control" name="notes" id="notes" cols="50" rows="4" placeholder="Enter an optional note"  value={this.state.notes} onChange={this.handleChange}></textarea>
                   </div>
                   <br />
                   <div className="form-group">
-                    <label htmlFor="">Event Center: </label>
+                    <label htmlFor="center">Event Center: </label>
                     <select className="form-control" name="center" id="center" value={this.state.center} onChange={this.handleChange}>
-                      <option value="rubyhall" title="Victoria Island Lagos">Ruby Hall</option>
-                      <option value="emeraldhall" title="Banana Island">Emerald hall</option>
-                      <option value="sapphore" title="Ketu">Sapphire</option>
-                      <option value="gold" title="Ikoyi">Gold</option>
-                      <option value="silver" title="Oluyole, Ibadan">Silver hall</option>
+                      <option value="1" title="Oluyole, Ibadan">First hall</option>
+                      <option value="2" title="Banana Island">Emerald hall</option>
+                      <option value="3" title="Ketu">Sapphire</option>
+                      <option value="4" title="Ikoyi">Gold</option>
+                      <option value="5" title="Oluyole, Ibadan">Silver hall</option>
+                      <option value="6" title="Victoria Island Lagos">Ruby Hall</option>
                     </select>
                   </div>
                   <div className="form-group">
@@ -96,4 +109,12 @@ class AddEvent extends Component {
   }
 }
 
-export default AddEvent;
+// const mapStateToProps = (state) => 
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addEvent: (event) => dispatch(addEvent(event))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AddEvent);;
