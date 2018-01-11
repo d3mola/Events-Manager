@@ -3,6 +3,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { history } from '../routes';
 import { SIGN_IN_FAILED } from '../actions/actionCreators'
+import * as actionTypes from '../actions/actionTypes';
 // Our worker Saga: will perform the async tasks
 
 const token = localStorage.getItem('token');
@@ -101,7 +102,7 @@ export function* centersAsync(action) {
     console.log('api response', response.data);
     yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data });
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 }
 
@@ -143,7 +144,9 @@ export function* addCenterAsync(action) {
     history.push('/centers');
 
   } catch (error) {
-    console.log('Unable to add a center', error.message);
+    console.log('Unable to add a center,', error.response.data.message);
+    error.response.data.message === 'token issues'? 
+    history.push('/signin'): history.push('/error')// redirect to an error page
     // yield put({ type: 'ADD_CENTER_FAILED', response: 'ADD_CENTER_FAILED' });
   }
 }
@@ -154,8 +157,46 @@ export function* addCenterAsync(action) {
  * @export
  */
 export function* watchAddCenterAsync() {
-    console.log('listening for ADD_CENTER');
+  console.log('listening for ADD_CENTER');
   yield takeEvery('ADD_CENTER', addCenterAsync)
+}
+
+/**
+ * Async operation to add an event
+ */
+
+export function* addEventAsync(action) {
+  try {
+    console.log('attempting to add a center to the api', action);
+    const response = yield call(axios.post, `${localUrl}/api/v1/events`, {
+      token,
+      title: action.event.title,
+      notes: action.event.notes,
+      centerId: action.event.center,
+      date: action.event.date
+    });
+
+    yield put({ type: actionTypes.ADD_EVENT_SUCCESS, response: response.data });
+    console.log('event succefully added ===> ', response.data)
+  } catch (error) {
+    console.log(error.response.data.message);
+    yield put({
+      type: actionTypes.ADD_EVENT_ERROR,
+      error
+    });
+    history.push('/error');
+    yield delay(2000);
+    history.push('/addevent');
+  }
+}
+
+/**
+ * listens for 'ADD_EVENT' action always, then calls 'addEventAsync'
+ * @returns {function} addEventAsync
+ */
+export function* watchAddEventAsync() {
+  console.log('listening for ADD_EVENT');
+  yield takeEvery(actionTypes.ADD_EVENT, addEventAsync);
 }
 
 /**
@@ -168,6 +209,7 @@ export default function* rootSaga() {
     watchSignUpAsync(),
     watchSignInAsync(),
     watchCentersAsync(),
-    watchAddCenterAsync()
+    watchAddCenterAsync(),
+    watchAddEventAsync(),
   ]
 }
