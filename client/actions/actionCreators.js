@@ -1,5 +1,6 @@
+import * as actionTypes from './actionTypes';
+
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
-export const ADD_EVENT = 'ADD_EVENT';
 
 /**
  * formats the request from the user and returns it
@@ -47,7 +48,12 @@ export const addCenter = payload => {
 
 export const addEvent = event => {
   return {
-    type: ADD_EVENT,
+    type: actionTypes.ADD_EVENT,
     event
   };
 };
+
+// export const editEvent = event => ({
+//   type: actionTypes.EDIT_EVENT,
+//   event
+// });
