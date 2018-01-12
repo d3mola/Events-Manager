@@ -1,0 +1,5 @@
+export const ADD_EVENT_LOADING = 'ADD_EVENT_LOADING';
+export const ADD_EVENT = 'ADD_EVENT';
+export const ADD_EVENT_SUCCESS = 'ADD_EVENT_SUCCESS';
+export const ADD_EVENT_ERROR = 'ADD_EVENT_ERROR';
+

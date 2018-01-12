@@ -1,3 +1,5 @@
+import * as actionTypes from './actionTypes';
+
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
 
 /**
@@ -43,3 +45,15 @@ export const addCenter = payload => {
     payload
   };
 };
+
+export const addEvent = event => {
+  return {
+    type: actionTypes.ADD_EVENT,
+    event
+  };
+};
+
+// export const editEvent = event => ({
+//   type: actionTypes.EDIT_EVENT,
+//   event
+// });
