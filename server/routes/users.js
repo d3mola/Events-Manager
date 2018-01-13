@@ -10,8 +10,12 @@ router.get('/', (req, res) => {
   res.send('Welcome to Party Palace API');
 });
 
+// endpoints with '/auth' sre specific to a particular user
+
 router.post('/users', userController.signup);
 router.post('/users/login', userController.login);
 router.get('/users', authenticate, adminCheck, userController.getAllUsers);
+router.get('/users/auth/events', authenticate, userController.getUserEvents);
+router.get('/users/auth/events/:eventId', authenticate, userController.getOneUserEvent);
 
 export default router;
