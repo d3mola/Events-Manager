@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import db from '../models';
 
 dotenv.config();
-const { User } = db;
+const { User, Event } = db;
 
 export default {
 
@@ -122,7 +122,7 @@ export default {
             }
 
             const payload = {
-              id: user.id,
+              userId: user.id,
               isAdmin: user.isAdmin,
               username: user.username,
               email: user.email
@@ -166,4 +166,77 @@ export default {
       message: 'Could not get users',
       error: error.message
     })),
+
+    getUserEvents: (req, res) => {
+      // console.log('req--------->', req.params, req.user);
+      // find user by id whic is gotten from the decoded token(req.user)
+      User.find({
+        where: { id: req.user.userId },
+        include: [
+          { model: Event, as: 'events' }
+        ],
+      })
+        .then(user => {
+          // if user doesnt exist, send error
+          if (!user) {
+            res.status(404).json({
+              success: false,
+              message: "No such user exists",
+            });
+            //if user exists send user
+          } else if (user.events.length < 1) {
+              res.status(404).json({
+              success: false,
+              message: "No events",
+            });
+          } else {
+            res.status(200).json({
+              success: true,
+              user
+            });
+          }
+        })
+        .catch(error => res.status(500).json({
+          success: false,
+          error: error.message
+        }));
+
+    },
+
+    getOneUserEvent: (req, res) => {
+      const eventId = Number(req.params.eventId);
+      // find user by id which is gotten from the decoded token
+      User.find({
+        where: { id: req.user.userId },
+        include: [
+          { model: Event, as: 'events' }
+        ],
+      })
+        .then(user => {
+          // if user doesnt exist, send error
+          if (!user) {
+            res.status(404).json({
+              success: false,
+              message: "User doesnt exist"
+            });
+            //if user exists send user
+          } else if (!(user.events[eventId - 1]) || !(user.events[eventId - 1].id) || user.events.length < 1) {
+            res.status(404).json({
+              success: false,
+              message: "No such event!"
+            });
+            // console.log(eventId);
+          } else {
+            res.status(200).json({
+              success: true,
+              event: user.events[eventId - 1]
+            });
+            // console.log(eventId);
+          }
+        })
+        .catch(error => res.status(500).json({
+          success: false,
+          error: error.message
+        }));
+    },
 };
