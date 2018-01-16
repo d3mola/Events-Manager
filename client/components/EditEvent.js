@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { editEvent, getEvents } from '../actions/actionCreators';
+import {
+  editEvent, 
+  getEvents,
+  deleteEvent
+} from '../actions/actionCreators';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -58,30 +62,38 @@ class EditEvent extends Component {
 
   renderEvents() {
     const allEvents = this.props.events;
-    console.log('all events', allEvents);
+    // console.log('all events', allEvents);
     if (!this.props.events) {
       return (
         <p>Loading events...</p>
       )
     } else {
-      return allEvents.map((event,index) => {
+      return allEvents.map((event) => {
         return (
-          <li 
-          key={index}  
-          onClick={(e) => {
-            // console.log(event);
-            this.setState({
-              title: event.title,
-              notes: event.notes,
-              center: event.centerId,
-              date: event.date,
-              eventId: event.id
-            });
-            // console.log(this.state)
-          }}
-          >
-          {event.title} - {event.id}
-          </li>
+          <div key={event.id}>
+            <li 
+              // key={index}  
+              onClick={(e) => {
+                // console.log(event);
+                this.setState({
+                  title: event.title,
+                  notes: event.notes,
+                  center: event.centerId,
+                  date: event.date,
+                  eventId: event.id
+                });
+                // console.log(this.state)
+              }}>
+                {event.title} - {event.id} - 
+                <button onClick={() => {
+                  console.log(event.id + 'deleted');
+                  console.log(this.state);
+                  this.props.deleteEvent(this.state.eventId);
+                }}>
+                Delete
+              </button>
+            </li><hr/>
+          </div>
         )
       });
     }
@@ -145,7 +157,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     editEvent: (event) => dispatch(editEvent(event)),
-    getEvents: () => dispatch(getEvents())
+    getEvents: () => dispatch(getEvents()),
+    deleteEvent: (event) => dispatch(deleteEvent(event)),
   }
 }
 
