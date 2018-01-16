@@ -12,7 +12,7 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: [
     'babel-polyfill',
-    path.resolve(__dirname, 'client/entry.js')
+    path.resolve(__dirname, 'client/index.js')
   ],
   output: {
     filename: 'bundle.js',
