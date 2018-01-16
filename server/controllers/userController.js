@@ -192,7 +192,7 @@ export default {
           } else {
             res.status(200).json({
               success: true,
-              user
+              events: user.events
             });
           }
         })
