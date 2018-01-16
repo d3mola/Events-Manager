@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   signIn,
   centers,
   events,
-  routing: routerReducer
+  router: routerReducer
 });
 
 export default rootReducer;
