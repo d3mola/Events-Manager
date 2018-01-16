@@ -1,31 +1,55 @@
-// import React from 'react';
-// import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-// // import { Route } from 'react-router';
-// // import { history } from '../store';
-// import { createBrowserHistory } from 'history';
-// // import history from '../history';
-// import Home from './Home';
-// import SignIn from './SignIn';
-// import SignUp from './signUp';
-// import Centers from './Centers';
-// import AddCenter from './AddCenter'
+import React, { Component } from 'react';
+import {
+  Switch,
+  Route,
+  Router,
+  BrowserRouter,
+} from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 
-// import '../static/scss/center-details.scss';
+import history from '../history';
 
-// export const history = createBrowserHistory();
+import Home from './Home';
+import SignIn from './SignIn';
+import SignUp from './signUp';
+import Centers from './Centers';
+import AddCenter from './AddCenter';
+import AddEvent from './AddEvent';
+import EditEvent from './EditEvent';
+import Error from './Error';
 
-//   export const App = () => {
-//     return (
-//       <Router history={history}>
-//         <div>
-//           <Switch>
-//             <Route exact path="/" component={Home} />
-//             <Route path="/signup" component={SignUp} />
-//             <Route path="/signin" component={SignIn} />
-//             <Route path="/centers" component={Centers} />
-//             <Route path="/addcenter" component={AddCenter} />
-//           </Switch>
-//         </div>
-//       </Router>
-//     )
-//   }
+/**
+ * @public
+ * @class App
+ * @description React Component encapsulating application user interface
+ * @extends {Component}
+ */
+class App extends Component {
+  /**
+   * renders app to DOM
+   *
+   * @returns {JSX} JSX representation of component
+   * @memberof App
+   */
+  render() {
+    return (
+      <ConnectedRouter history={history}>
+        <div className='App'>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/login' component={SignIn}/>
+            <Route path='/register' component={SignUp}/>
+            <Route path='/centers' component={Centers}/>
+            <Route path='/add-center' component={AddCenter}/>
+            <Route path='/add-event' component={AddEvent}/>
+            <Route path='/edit-event' component={EditEvent}/>
+            <Route path='/edit-event/:eventId' component={EditEvent}/>
+            <Route path='/error' component={Error}/>
+          </Switch>
+        </div>
+      </ConnectedRouter>
+    );
+  }
+}
+
+export default App;
