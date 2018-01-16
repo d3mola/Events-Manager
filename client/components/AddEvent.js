@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // import * as actionCreators from '../actions/actionCreators';
 import { addEvent } from '../actions/actionCreators';
 import Header from './Header';
+import Footer from './Footer';
 import "../../template/stylesheet/events.css";
 
 /**
@@ -52,6 +53,7 @@ class AddEvent extends Component {
   render() {
     return (
       <div id="form">
+        <Header />
         <div className="container">
           <div className="row fill-viewport">
             <div className="col col-md-8">
@@ -104,6 +106,7 @@ class AddEvent extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
   );
   }
@@ -117,4 +120,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddEvent);;
+export default connect(null, mapDispatchToProps)(AddEvent);
