@@ -13,7 +13,18 @@ const eventsReducer = (state=initialState.events, action) => {
 
     case actionTypes.ADD_EVENT_ERROR:
       return {...state, error: action.error, addingEvent: false};
-      
+
+    case actionTypes.EDIT_EVENT_SUCCESS:
+      console.log('redcucer success===> ', {...state})
+      return {...state};
+
+    case actionTypes.EDIT_EVENT_ERROR:
+      return {...state, error: action.error};
+
+    case actionTypes.GET_EVENTS_SUCCESS:
+      console.log('Reducer==> get events successfull', action.response.events);
+      return [...action.response.events];
+        
     default:
       return state;
   }
