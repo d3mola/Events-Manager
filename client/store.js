@@ -1,21 +1,21 @@
-import { createStore, applyMiddleware } from 'redux';
-// import { syncHistoryWithStore } from 'react-router-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-// import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'react-router-redux';
+
 import rootReducer from './reducers/index';
 import rootSaga from './Sagas/asyncOperations';
-
+import history from './history';
 
 const sagaMiddleware = createSagaMiddleware();
+const routingMiddleware = routerMiddleware(history);
 
-// create the store
+const middleware = applyMiddleware(sagaMiddleware, routingMiddleware);
+
+// create store
 const store = createStore(
   rootReducer,
-  applyMiddleware(sagaMiddleware)
-// , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  compose(middleware, window.devToolsExtension ? window.devToolsExtension() : f => f)
 );
-
-// export const history = syncHistoryWithStore(createBrowserHistory(), store);
 
 sagaMiddleware.run(rootSaga);
 
