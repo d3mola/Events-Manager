@@ -1,7 +1,10 @@
 import { delay } from 'redux-saga'
 import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { history } from '../routes';
+import { push } from 'react-router-redux';
+
+// import { history } from '../routes';
+// import history from '../history';
 import { SIGN_IN_FAILED } from '../actions/actionCreators'
 import * as actionTypes from '../actions/actionTypes';
 // Our worker Saga: will perform the async tasks
@@ -30,7 +33,7 @@ export function* signUpAsync(action) {
       password: action.payload.password
     });
     console.log(response);
-    history.push('/centers');
+    yield put(push('/centers'));
   } catch (error) {
     console.log('Unable to get access signup api');
     console.log(error.message);
@@ -65,7 +68,9 @@ export function* signInAsync(action) {
       password: action.payload.password
     });
     localStorage.setItem('token', response.data.token);
-    history.push('/centers');
+    // history.push('/centers');
+    // yield call(history.push, '/centers')
+    yield put(push('/centers'));
   } catch (error) {
     console.log('saga error in sign in', error.response.data.message);
     yield put({ type: SIGN_IN_FAILED, error: error.response.data.message });
@@ -96,9 +101,9 @@ export function* watchSignInAsync() {
 export function* centersAsync(action) {
   try {
     console.log('trying to access get all centers api..', action);
-    const response = yield call(axios.get, `${localUrl}/api/v1/centers`, {
+    const response = yield call(axios.get, `${localUrl}/api/v1/centers`/*, {
       headers: { "x-access-token": token }
-    });
+    }*/);
     console.log('api response', response.data);
     yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data });
   } catch (error) {
@@ -141,12 +146,12 @@ export function* addCenterAsync(action) {
     });
 
     yield put({ type: 'ADD_CENTER_SUCCESS', response: response.data });
-    history.push('/centers');
+    yield put(push('/centers'));
 
   } catch (error) {
     console.log('Unable to add a center,', error.response.data.message);
     error.response.data.message === 'token issues'? 
-    history.push('/signin'): history.push('/error')// redirect to an error page
+    yield put(push('/login')): yield put(push('/error'));// redirect to an error page
     // yield put({ type: 'ADD_CENTER_FAILED', response: 'ADD_CENTER_FAILED' });
   }
 }
@@ -184,9 +189,9 @@ export function* addEventAsync(action) {
       type: actionTypes.ADD_EVENT_ERROR,
       error
     });
-    history.push('/error');
+    yield put(push('/error'));
     yield delay(2000);
-    history.push('/addevent');
+    yield put(push('/add-event'));
   }
 }
 
@@ -200,6 +205,81 @@ export function* watchAddEventAsync() {
 }
 
 /**
+ * Async operation to add an event
+ */
+
+export function* editEventAsync(action) {
+  try {
+    console.log('attempting to edit an event to the api', action);
+    console.log('----------', `${localUrl}/api/v1/events/${action.eventId}`);
+    // ${action.index};
+    // const eventId = event.id
+    const response = yield call(axios.put, `${localUrl}/api/v1/events/${action.event.eventId}`, {
+      token,
+      title: action.event.title,
+      notes: action.event.notes,
+      centerId: action.event.center,
+      date: action.event.date
+    });
+    console.log('response---->',response);
+    // yield put({ type: actionTypes.EDIT_EVENT_SUCCESS, response: response.data });
+    console.log('event succefully edited ===> ', response.data);
+
+  } catch (error) {
+    console.log(error.response.data.message);
+    // yield put({
+    //   type: actionTypes.EDIT_EVENT_ERROR,
+    //   error
+    // });
+    yield put(push('/error'));
+    yield delay(2000);
+    yield put(push('edit-event'));
+  }
+}
+
+/**
+ * listens for 'ADD_EVENT' action always, then calls 'addEventAsync'
+ * @returns {function} addEventAsync
+ */
+export function* watchEditEventAsync() {
+  console.log('listening for EDIT_EVENT');
+  yield takeEvery(actionTypes.EDIT_EVENT, editEventAsync);
+}
+
+
+/**
+ * Aysnc operation to get a users events
+ */
+
+/**
+ * Get events async operation
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
+export function* getEventsAsync(action) {
+  try {
+    console.log('trying to access get events api..', action);
+    const response = yield call(axios.get, `${localUrl}/api/v1/users/auth/events`, {
+      headers: { "x-access-token": token }
+    });
+    console.log('api response', response.data);
+    yield put({ type: actionTypes.GET_EVENTS_SUCCESS, response: response.data });
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
+}
+
+/**
+ * listens for get centers action type call then call signUpAsync
+ * @returns {function} centersAsync
+ * @export
+ */
+export function* watchGetEventsAsync() {
+  console.log('listening for GET_EVENTS');
+  yield takeEvery(actionTypes.GET_EVENTS, getEventsAsync)
+}
+/**
  * single entry point to start all sagas at once
  * @returns {functions} watchSignUpAsync(),watchSignInAsync(),watchCentersAsync()
  * @export
@@ -211,5 +291,7 @@ export default function* rootSaga() {
     watchCentersAsync(),
     watchAddCenterAsync(),
     watchAddEventAsync(),
+    watchEditEventAsync(),
+    watchGetEventsAsync(),
   ]
 }
