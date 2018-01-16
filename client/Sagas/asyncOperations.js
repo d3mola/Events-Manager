@@ -280,6 +280,34 @@ export function* watchGetEventsAsync() {
   console.log('listening for GET_EVENTS');
   yield takeEvery(actionTypes.GET_EVENTS, getEventsAsync)
 }
+
+/**
+ * Delete Event Async
+ */
+
+export function* deleteEventAsync(action) {
+  try {
+    console.log('trying to access delete event api', action);
+    const response = yield call(axios.delete,`${localUrl}/api/v1/events/${action.event}`, {
+      eventId: action.event.id,
+    });
+    yield put(push('/add-event'));
+    yield delay(2000);
+    yield put(push('/edit-event'));
+    console.log(response.data)
+    yield put({type: actionTypes.DELETE_EVENT_SUCCESS, response: response.data});
+
+  } catch (error) {
+    console.log(error.response.data.message)
+  }
+}
+
+export function* watchDeleteEventAsync() {
+  console.log('listening for GET_EVENTS');
+  yield takeEvery(actionTypes.DELETE_EVENT, deleteEventAsync)
+}
+
+
 /**
  * single entry point to start all sagas at once
  * @returns {functions} watchSignUpAsync(),watchSignInAsync(),watchCentersAsync()
@@ -294,5 +322,6 @@ export default function* rootSaga() {
     watchAddEventAsync(),
     watchEditEventAsync(),
     watchGetEventsAsync(),
+    watchDeleteEventAsync(),
   ]
 }
