@@ -182,6 +182,7 @@ export function* addEventAsync(action) {
     });
 
     yield put({ type: actionTypes.ADD_EVENT_SUCCESS, response: response.data });
+    // yield put(push('/events'));
     console.log('event succefully added ===> ', response.data)
   } catch (error) {
     console.log(error.response.data.message);

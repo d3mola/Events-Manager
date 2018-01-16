@@ -4,16 +4,14 @@ import { connect } from 'react-redux';
 import { editEvent, getEvents } from '../actions/actionCreators';
 
 import Header from './Header';
-// import EventForm from './AddEvent';
 import Footer from './Footer';
-import "../../template/stylesheet/events.css";
+// import "../../template/stylesheet/events.css";
 
 
 class EditEvent extends Component {
 
   constructor(props) {
     super(props);
-    // console.log(props);
 
     this.state = {
       title: '',
@@ -41,25 +39,15 @@ class EditEvent extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    // console.log(this.state);
   }
 
   handleGetEvents() {
     this.props.getEvents();
-    console.log('button clicked');
-    console.log(this.state);
-    // this.setState({
-    //   title: 'helloooo',
-    //   notes: event.notes
-    // });
-    console.log(this.state);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('props before submit', this.props);
   this.props.editEvent(this.state);
-    console.log('props after submit', this.props);
   }
 
   // getSingleEvent(event) {
@@ -81,16 +69,15 @@ class EditEvent extends Component {
           <li 
           key={index}  
           onClick={(e) => {
-            console.log(event);
+            // console.log(event);
             this.setState({
               title: event.title,
               notes: event.notes,
-              center: event.center,
+              center: event.centerId,
               date: event.date,
               eventId: event.id
             });
-            console.log(e.target.value);
-            console.log(this.state)
+            // console.log(this.state)
           }}
           >
           {event.title} - {event.id}
@@ -150,7 +137,7 @@ class EditEvent extends Component {
 }
 
 const mapStateToProps = state => {
-  return{
+  return {
     events: state.events
   }
 };
