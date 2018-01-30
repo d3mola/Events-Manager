@@ -122,15 +122,6 @@ render() {
   }
 }
 
-/**
- * @param {any} state 
- * @returns {object} reducer
- */
-// const mapStateToProps = (state) => {
-//   return {
-//     //centers: state.center
-//   };
-// }
 
 /**
  * @param {any} dispatch 
@@ -141,9 +132,5 @@ const mapDispatchToProps = (dispatch) => {
     addCenter: (payload) => dispatch(addCenter(payload))
   }
 }
-
-// const mapDispatchToProps = dispatch => {
-//   return bindActionCreators(actionCreators, dispatch);
-// }
 
 export default connect(null, mapDispatchToProps)(AddCenter);
