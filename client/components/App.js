@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {
   Switch,
   Route,
-  Router,
-  BrowserRouter,
 } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
+
+import { ConnectedRouter as Router } from 'react-router-redux';
 
 import history from '../history';
 
@@ -15,7 +14,9 @@ import SignUp from './signUp';
 import Centers from './Centers';
 import AddCenter from './AddCenter';
 import AddEvent from './AddEvent';
+import EventsPage from './EventsPage.jsx';
 import EditEvent from './EditEvent';
+import EditEventForm from './EditEventForm.jsx';
 import Error from './Error';
 
 /**
@@ -33,21 +34,23 @@ class App extends Component {
    */
   render() {
     return (
-      <ConnectedRouter history={history}>
-        <div className='App'>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/login' component={SignIn}/>
-            <Route path='/register' component={SignUp}/>
-            <Route path='/centers' component={Centers}/>
-            <Route path='/add-center' component={AddCenter}/>
-            <Route path='/add-event' component={AddEvent}/>
-            <Route path='/edit-event' component={EditEvent}/>
-            <Route path='/edit-event/:eventId' component={EditEvent}/>
-            <Route path='/error' component={Error}/>
-          </Switch>
-        </div>
-      </ConnectedRouter>
+      <Router history={history}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/login' component={SignIn}/>
+          <Route path='/register' component={SignUp}/>
+          <Route path='/centers' component={Centers}/>
+          <Route path='/add-center' component={AddCenter}/>
+          <Route path='/add-event' component={AddEvent}/>
+          {/* <Route path='/events/edit/:id' component={EditEvent}/>new temp */}
+          <Route exact path='/events' component={EventsPage}/>{/* new temp */}
+          {/* <Route path='/events' component={Events}/> */}{/*original*/}
+          <Route path='/edit-event' component={EditEvent}/>{/*original*/}
+          {/* <Route path='/events/:id' component={EditEvent}/> */}
+          <Route path='/test' component={EditEventForm}/>
+          <Route component={Error}/>
+        </Switch>
+      </Router>
     );
   }
 }
