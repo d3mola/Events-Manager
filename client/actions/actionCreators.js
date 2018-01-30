@@ -62,7 +62,12 @@ export const getEvents = () => ({
   type: actionTypes.GET_EVENTS,
 });
 
-export const deleteEvent = event => ({
+export const getSingleEvent = (eventId) => ({
+  type: actionTypes.GET_SINGLE_EVENT,
+  eventId
+});
+
+export const deleteEvent = eventId => ({
   type: actionTypes.DELETE_EVENT,
-  event
+  eventId
 });
