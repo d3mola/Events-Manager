@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 // import * as actionCreators from '../actions/actionCreators';
 import { addCenter } from '../actions/actionCreators';
 import Header from './Header';
+import Footer from './Footer';
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../../template/stylesheet/style.css';
+// import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import '../../template/stylesheet/style.css';
 
 
 /**
@@ -83,34 +84,39 @@ class AddCenter extends React.Component {
  */
 render() {
     return (
-      <div className="container">
+      <div className="add-center-page">
         <Header />
-        <h1>Add a center</h1>
-        <form id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
-          <h2 className="text-center">Create A Center!</h2>
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input className="form-control" type="text" name="name" id="name" placeholder="Gold hall" onChange={this.handleChange} />
-          </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mx-auto">
+            <form className="jumbotron center-form-box" id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
+              <h2 className="text-center">Create A Center!</h2>
+              <div className="form-group">
+                <label htmlFor="name">Name:</label>
+                <input className="form-control" type="text" name="name" id="name" placeholder="Gold hall" onChange={this.handleChange} />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="location">Location:</label>
-            <input className="form-control" type="text" name="location" id="location" placeholder="No 46, Victoria Island Lagos" onChange={this.handleChange} />
-          </div>
+              <div className="form-group">
+                <label htmlFor="location">Location:</label>
+                <input className="form-control" type="text" name="location" id="location" placeholder="No 46, Victoria Island Lagos" onChange={this.handleChange} />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="capacity">Capacity:</label>
-            <input className="form-control" type="text" name="capacity" id="capacity" placeholder="5000" onChange={this.handleChange} />
-          </div>
+              <div className="form-group">
+                <label htmlFor="capacity">Capacity:</label>
+                <input className="form-control" type="text" name="capacity" id="capacity" placeholder="5000" onChange={this.handleChange} />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="price">Price:</label>
-            <input className="form-control" type="text" name="price" id="price" placeholder="100000" onChange={this.handleChange} />
+              <div className="form-group">
+                <label htmlFor="price">Price:</label>
+                <input className="form-control" type="text" name="price" id="price" placeholder="100000" onChange={this.handleChange} />
+              </div>
+              
+              <input className="btn btn-outline-success" type="submit" value="Create" />
+            </form>
+            </div>
           </div>
-          
-          <input className="btn btn-outline-success" type="submit" value="Create" />
-        </form>
-        {/* <button className="btn btn-outline-success" onClick={this.handleClick}>Click me</button> */}
+        </div><hr/>
+        <Footer />
       </div>
     );
   }
@@ -120,11 +126,11 @@ render() {
  * @param {any} state 
  * @returns {object} reducer
  */
-const mapStateToProps = (state) => {
-  return {
-    //centers: state.center
-  };
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     //centers: state.center
+//   };
+// }
 
 /**
  * @param {any} dispatch 
