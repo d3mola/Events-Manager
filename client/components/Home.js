@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
-// import '../static/scss/home.scss';
-// import '../../template/stylesheet/index.css'
-
 /**
  * 
  * @class Home
