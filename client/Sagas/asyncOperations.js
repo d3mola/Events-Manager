@@ -46,7 +46,7 @@ export function* signUpAsync(action) {
  * @export
  */
 export function* watchSignUpAsync() {
-  console.log('listening for SIGN_UP');
+  // console.log('listening for SIGN_UP');
   yield takeEvery('SIGN_UP', signUpAsync)
 }
 
@@ -68,8 +68,6 @@ export function* signInAsync(action) {
       password: action.payload.password
     });
     localStorage.setItem('token', response.data.token);
-    // history.push('/centers');
-    // yield call(history.push, '/centers')
     yield put(push('/centers'));
   } catch (error) {
     console.log('saga error in sign in', error.response.data.message);
@@ -83,7 +81,7 @@ export function* signInAsync(action) {
  * @export
  */
 export function* watchSignInAsync() {
-  console.log('listening for SIGN_IN');
+  // console.log('listening for SIGN_IN');
   yield takeEvery('SIGN_IN', signInAsync)
 }
 
@@ -117,7 +115,7 @@ export function* centersAsync(action) {
  * @export
  */
 export function* watchCentersAsync() {
-  console.log('listening for GET_CENTERS');
+  // console.log('listening for GET_CENTERS');
   yield takeEvery('GET_CENTERS', centersAsync)
 }
 
@@ -162,7 +160,7 @@ export function* addCenterAsync(action) {
  * @export
  */
 export function* watchAddCenterAsync() {
-  console.log('listening for ADD_CENTER');
+  // console.log('listening for ADD_CENTER');
   yield takeEvery('ADD_CENTER', addCenterAsync)
 }
 
@@ -182,8 +180,9 @@ export function* addEventAsync(action) {
     });
 
     yield put({ type: actionTypes.ADD_EVENT_SUCCESS, response: response.data });
-    // yield put(push('/events'));
-    console.log('event succefully added ===> ', response.data)
+    yield put(push('/events'));
+    console.log('event succefully added ===> ', response.data);
+
   } catch (error) {
     console.log(error.response.data.message);
     yield put({
@@ -201,7 +200,7 @@ export function* addEventAsync(action) {
  * @returns {function} addEventAsync
  */
 export function* watchAddEventAsync() {
-  console.log('listening for ADD_EVENT');
+  // console.log('listening for ADD_EVENT');
   yield takeEvery(actionTypes.ADD_EVENT, addEventAsync);
 }
 
@@ -211,10 +210,6 @@ export function* watchAddEventAsync() {
 
 export function* editEventAsync(action) {
   try {
-    console.log('attempting to edit an event to the api', action);
-    console.log('----------', `${localUrl}/api/v1/events/${action.eventId}`);
-    // ${action.index};
-    // const eventId = event.id
     const response = yield call(axios.put, `${localUrl}/api/v1/events/${action.event.eventId}`, {
       token,
       title: action.event.title,
@@ -228,13 +223,10 @@ export function* editEventAsync(action) {
 
   } catch (error) {
     console.log(error.response.data.message);
-    // yield put({
-    //   type: actionTypes.EDIT_EVENT_ERROR,
-    //   error
-    // });
-    yield put(push('/error'));
-    yield delay(2000);
-    yield put(push('edit-event'));
+    yield put({
+      type: actionTypes.EDIT_EVENT_FAILURE,
+      error
+    });
   }
 }
 
@@ -243,7 +235,7 @@ export function* editEventAsync(action) {
  * @returns {function} addEventAsync
  */
 export function* watchEditEventAsync() {
-  console.log('listening for EDIT_EVENT');
+  // console.log('listening for EDIT_EVENT');
   yield takeEvery(actionTypes.EDIT_EVENT, editEventAsync);
 }
 
@@ -267,7 +259,10 @@ export function* getEventsAsync(action) {
     console.log('api response', response.data);
     yield put({ type: actionTypes.GET_EVENTS_SUCCESS, response: response.data });
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log('issa error', error.response.data.message);
+    (error.response.data.message === 'token issues') ?
+    yield put(push('/login')):
+    console.log('error - remember to dispatch get events failure action here');
   }
 }
 
@@ -277,8 +272,44 @@ export function* getEventsAsync(action) {
  * @export
  */
 export function* watchGetEventsAsync() {
-  console.log('listening for GET_EVENTS');
+  // console.log('listening for GET_EVENTS');
   yield takeEvery(actionTypes.GET_EVENTS, getEventsAsync)
+}
+
+
+
+/**
+ * Aysnc operation to fetch the details of a single event
+ */
+
+/**
+ * Get single event async operation
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
+export function* getSingleEventAsync(action) {
+  try {
+    console.log('trying to fetch details of a single event api..', action);
+    const response = yield call(axios.get, `${localUrl}/api/v1/users/auth/events/${action.eventId}`, {
+      headers: { "x-access-token": token }
+    });
+    console.log('api response', response.data);
+    yield put({ type: actionTypes.GET_SINGLE_EVENT_SUCCESS, response: response.data });
+  } catch (error) {
+    console.log('issa error', error.response.data.message);
+    // yield put(push('/login'));
+  }
+}
+
+/**
+ * listens for get centers action type call then call signUpAsync
+ * @returns {function} centersAsync
+ * @export
+ */
+export function* watchGetSingleEventAsync() {
+  // console.log('listening for GET_SINGLE_EVENT');
+  yield takeEvery(actionTypes.GET_SINGLE_EVENT, getSingleEventAsync)
 }
 
 /**
@@ -288,25 +319,25 @@ export function* watchGetEventsAsync() {
 export function* deleteEventAsync(action) {
   try {
     console.log('trying to access delete event api', action);
-    const response = yield call(axios.delete,`${localUrl}/api/v1/events/${action.event}`, {
+    const response = yield call(axios.delete,`${localUrl}/api/v1/events/${action.eventId}`/*, {
       eventId: action.event.id,
-    });
-    yield put(push('/add-event'));
-    yield delay(2000);
-    yield put(push('/edit-event'));
+    }*/);
+    // yield put(push('/add-event'));
+    // yield delay(2000);
+    // yield put(push('/edit-event'));
     console.log(response.data)
     yield put({type: actionTypes.DELETE_EVENT_SUCCESS, response: response.data});
 
   } catch (error) {
-    console.log(error.response.data.message)
+    console.log(error.response.data.message);
+    yield put({type: actionTypes.DELETE_EVENT_FAILURE});
   }
 }
 
 export function* watchDeleteEventAsync() {
-  console.log('listening for GET_EVENTS');
+  // console.log('listening for DELETE_EVENTS');
   yield takeEvery(actionTypes.DELETE_EVENT, deleteEventAsync)
 }
-
 
 /**
  * single entry point to start all sagas at once
@@ -323,5 +354,6 @@ export default function* rootSaga() {
     watchEditEventAsync(),
     watchGetEventsAsync(),
     watchDeleteEventAsync(),
+    watchGetSingleEventAsync(),
   ]
 }
