@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import {
   editEvent, 
   getEvents,
   deleteEvent
 } from '../actions/actionCreators';
-
 import Header from './Header';
 import Footer from './Footer';
 // import "../../template/stylesheet/events.css";
@@ -35,8 +35,8 @@ class EditEvent extends Component {
   // }
 
   // componentDidMount() {
-  //   console.log('mounted====> ', this.state);
-  //   this.props.getEvents();
+  //   console.log('mounted====> ', this.props);
+  //   // this.props.getEvents();
   // }
 
   handleChange(e) {
@@ -73,7 +73,7 @@ class EditEvent extends Component {
           <div key={event.id}>
             <li 
               // key={index}  
-              onClick={(e) => {
+              onClick={() => {
                 // console.log(event);
                 this.setState({
                   title: event.title,
@@ -150,7 +150,7 @@ class EditEvent extends Component {
 
 const mapStateToProps = state => {
   return {
-    events: state.events
+    events: state.eventsReducer.events
   }
 };
 
