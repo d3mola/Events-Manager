@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import * as actionCreators from '../actions/actionCreators';
 import { addEvent } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-import "../../template/stylesheet/events.css";
 
 /**
  * Creates AddEvent Component
@@ -52,12 +50,12 @@ class AddEvent extends Component {
 
   render() {
     return (
-      <div id="form">
+      <div className="add-event-page">
         <Header />
         <div className="container">
-          <div className="row fill-viewport">
-            <div className="col col-md-8">
-                <form id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
+          <div className="row">
+            <div className="col col-md-6">
+                <form className="jumbotron event-form-box" id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
                   <h2 className="text-center">Create An Event!</h2>
                   <div className="form-group">
                       <label htmlFor="event-name">Event Name:</label>
@@ -87,7 +85,7 @@ class AddEvent extends Component {
                   <input className="btn btn-outline-success" type="submit" value="Schedule"/>
                 </form>
             </div>
-            <div className="col-md-4 text-center">
+            <div className="col-md-6 text-center event-history">
               <h2>Event History</h2>
               <div className="card">
                 <div className="card-body">
@@ -95,7 +93,7 @@ class AddEvent extends Component {
                   <p className="card-text">Some example text. Some example text.</p>
                   <a to="#" className="btn card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
                 </div>
-              </div>
+              </div><hr/>
               <div className="card">
                 <div className="card-body">
                   <h4 className="card-title">Ade's Wedding</h4>
@@ -105,7 +103,7 @@ class AddEvent extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div><hr/>
         <Footer />
       </div>
   );
