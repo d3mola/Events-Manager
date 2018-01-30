@@ -19,6 +19,6 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-console.log(store.getState());// get current state of the store
+// console.log(store.getState());// get current state of the store
 
 export default store;
