@@ -9,7 +9,6 @@ import {
 } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-// import "../../template/stylesheet/events.css";
 
 
 class EditEvent extends Component {
