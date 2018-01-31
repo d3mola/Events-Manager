@@ -1,31 +1,58 @@
-// import React from 'react';
-// import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
-// // import { Route } from 'react-router';
-// // import { history } from '../store';
-// import { createBrowserHistory } from 'history';
-// // import history from '../history';
-// import Home from './Home';
-// import SignIn from './SignIn';
-// import SignUp from './signUp';
-// import Centers from './Centers';
-// import AddCenter from './AddCenter'
+import React, { Component } from 'react';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 
-// import '../static/scss/center-details.scss';
+import { ConnectedRouter as Router } from 'react-router-redux';
 
-// export const history = createBrowserHistory();
+import history from '../history';
 
-//   export const App = () => {
-//     return (
-//       <Router history={history}>
-//         <div>
-//           <Switch>
-//             <Route exact path="/" component={Home} />
-//             <Route path="/signup" component={SignUp} />
-//             <Route path="/signin" component={SignIn} />
-//             <Route path="/centers" component={Centers} />
-//             <Route path="/addcenter" component={AddCenter} />
-//           </Switch>
-//         </div>
-//       </Router>
-//     )
-//   }
+import Home from './Home';
+import SignIn from './SignIn';
+import SignUp from './signUp';
+import Centers from './Centers';
+import AddCenter from './AddCenter';
+import AddEvent from './AddEvent';
+import EventsPage from './EventsPage.jsx';
+import EditEvent from './EditEvent';
+import EditEventForm from './EditEventForm.jsx';
+import Error from './Error';
+
+/**
+ * @public
+ * @class App
+ * @description React Component encapsulating application user interface
+ * @extends {Component}
+ */
+class App extends Component {
+  /**
+   * renders app to DOM
+   *
+   * @returns {JSX} JSX representation of component
+   * @memberof App
+   */
+  render() {
+    return (
+      <Router history={history}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/login' component={SignIn}/>
+          <Route path='/register' component={SignUp}/>
+          <Route path='/centers' component={Centers}/>
+          <Route path='/add-center' component={AddCenter}/>
+          <Route path='/add-event' component={AddEvent}/>
+          {/* <Route path='/events/edit/:id' component={EditEvent}/>new temp */}
+          <Route exact path='/events' component={EventsPage}/>{/* new temp */}
+          {/* <Route path='/events' component={Events}/> */}{/*original*/}
+          <Route path='/edit-event' component={EditEvent}/>{/*original*/}
+          {/* <Route path='/events/:id' component={EditEvent}/> */}
+          <Route path='/test' component={EditEventForm}/>
+          <Route component={Error}/>
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App;

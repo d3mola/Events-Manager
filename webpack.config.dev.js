@@ -1,25 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-//   template: './client/index.html',
-//   filename: 'index.html',
-//   inject: 'body'
-// });
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './client/index.html',
+  filename: 'index.html',
+  inject: 'body'
+});
 
 module.exports = {
   devtool: 'inline-source-map',
   entry: [
     'babel-polyfill',
-    path.resolve(__dirname, 'client/entry.js')
+    path.resolve(__dirname, 'client/index.js')
   ],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'client/build'),
     publicPath: '/',
   },
-  // target: "web",
+  target: "web",
   module: {
     rules: [
       {
@@ -72,6 +72,7 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    HtmlWebpackPluginConfig
   ],
 };

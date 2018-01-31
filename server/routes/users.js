@@ -17,5 +17,5 @@ router.post('/users/login', userController.login);
 router.get('/users', authenticate, adminCheck, userController.getAllUsers);
 router.get('/users/auth/events', authenticate, userController.getUserEvents);
 router.get('/users/auth/events/:eventId', authenticate, userController.getOneUserEvent);
-
+// router.post('/users/logout', authenticate, userController.logout);
 export default router;

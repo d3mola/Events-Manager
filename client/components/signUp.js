@@ -3,8 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
-import SignupHeader from './SignupHeader';
-import '../static/scss/main.scss';
+import Header from './Header';
+import Footer from './Footer';
 
 /**
  * @description Creates SignUpForm component
@@ -24,17 +24,13 @@ class SignUp extends React.Component {
     this.handleChange = this.handleChange.bind(this);
 
     //setting the initial state of the component
-    // this.state = {
-    //   username: '',
-    //   email: '',
-    //   password: '',
-    //   confirmPassword: '',
-    // };
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    };
   }// constructor
-
-  // componentWillMount() {
-  //  console.log('ggggggggggggggggggggggggggggggggggggg');
-  // }
 
 
   /**
@@ -70,8 +66,8 @@ class SignUp extends React.Component {
    */
   render() {
     return (
-      <div>
-        <SignupHeader />
+      <div className="register-page">
+        <Header />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
@@ -98,29 +94,17 @@ class SignUp extends React.Component {
                 </div>
                 <input className="btn btn-outline-success" type="submit" value="Register" />
                 <br />
-                <p className="text-center">Already have an account yet? <Link to={"/signin"}>Login</Link></p>
+                <p className="text-center">Already have an account? <Link to="/login">Login</Link></p>
               </form>
             </div>
           </div>
-        </div>
+        </div><hr/>
+        <Footer />
       </div>
     );
   }
 }
 
-/**
- * passes store data to the component as a property
- * this makes the component smart(i.e becomes a container)
- * signUp is what we exported from index(combined) reducer
- * now we can use (this.props.signup) in our component as the data
- * @param {any} state a piece of the store
- * @returns {object} data from the reducer
- */
-const mapStateToProps = (state => {
-  return {
-    signup: state.signUp,
-  };
-});
 
 /**
  * 
@@ -131,4 +115,4 @@ const mapDispatchToProps = (dispatch => {
   return bindActionCreators(actionCreators, dispatch);
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(null, mapDispatchToProps)(SignUp);

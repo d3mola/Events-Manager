@@ -192,7 +192,7 @@ export default {
           } else {
             res.status(200).json({
               success: true,
-              user
+              events: user.events
             });
           }
         })
@@ -204,34 +204,21 @@ export default {
     },
 
     getOneUserEvent: (req, res) => {
-      const eventId = Number(req.params.eventId);
-      // find user by id which is gotten from the decoded token
-      User.find({
-        where: { id: req.user.userId },
-        include: [
-          { model: Event, as: 'events' }
-        ],
+      Event.find({
+        where: { id: req.params.eventId }
       })
-        .then(user => {
-          // if user doesnt exist, send error
-          if (!user) {
-            res.status(404).json({
-              success: false,
-              message: "User doesnt exist"
-            });
-            //if user exists send user
-          } else if (!(user.events[eventId - 1]) || !(user.events[eventId - 1].id) || user.events.length < 1) {
-            res.status(404).json({
-              success: false,
-              message: "No such event!"
-            });
-            // console.log(eventId);
-          } else {
+        .then(event => {
+          // compare userId in req.user which is from decoded token
+          // to userId of the event,
+          if (!event || event.userId !== req.user.userId) {
             res.status(200).json({
-              success: true,
-              event: user.events[eventId - 1]
+              success: false,
+              message: "Event does not exist"
             });
-            // console.log(eventId);
+          } else {
+            res.status(200).send({
+              event
+            });
           }
         })
         .catch(error => res.status(500).json({
@@ -239,4 +226,9 @@ export default {
           error: error.message
         }));
     },
+
+    // logout: (req, res) => {
+    //   console.log('logout??? user info ------', req.user);
+    //   res.send(req.user);
+    // },
 };

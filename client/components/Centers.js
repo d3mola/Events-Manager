@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { centers } from '../actions/actionCreators';
-import Header from './SignupHeader';
-
-import '../../template/stylesheet/center-details.css';
+import Header from './Header';
+import Footer from './Footer';
 
 /**
  * 
@@ -48,15 +47,19 @@ class Centers extends React.Component {
     } else {
       return allCenters.map((center, index) => {
         return (
-          <div key={index} className="col-12 col-md-6 text-center">
+          <div key={index} className="col-12 col-md-6 text-center cards">
             <div className="card">
+              <div className="card-header"><h4>{center.name}</h4></div>
               <div className="card-body">
-                <p>These are the available</p>
-                <h4 className="card-title">{center.name}</h4>
-                <p className="card-text">{center.location}</p>
-                <p className="card-text">{center.capacity}</p>
-                <p className="card-text">{'#'+center.price}</p><hr />
-                <a href="#" className="btn card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
+                {/* <h4 className="card-title">{center.image}</h4> */}
+                <img src="../static/images/Capture.png" alt="Image goes here" width="200px" height="200px" />
+                <p className="card-text">Location: {center.location.toUpperCase()}</p>
+                <p className="card-text">Capacity: {center.capacity}</p>
+                <p className="card-text">Price: {'#'+center.price}</p><hr />
+              </div>
+              <div className="card-footer">
+                <a href="#" className="btn btn-outline-success card-link"><i className="fa fa-edit fa-sm fw"></i> Update</a>
+                <a href="#" className="btn btn-outline-success card-link"><i className="fa fa-info fa-sm fw"></i> Details</a>
               </div>
             </div>
           </div>
@@ -81,16 +84,17 @@ class Centers extends React.Component {
     //   )
     // });
     return (
-      <div className="container">
+      <div className="">
         <Header />
-        <section id="main">
-            <div className="container">
-              <div className="row fill-viewport">
-                { this.renderCenters() }
-              </div>
+        <div id="main">
+          <h3 className="text-center">These are the available centers</h3>
+          <div className="container">
+            <div className="row fill-viewport cards">
+              { this.renderCenters() }
             </div>
-        </section>
-          
+          </div>
+        </div>
+        <Footer />
       </div>
 
     );

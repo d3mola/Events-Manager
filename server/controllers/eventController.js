@@ -141,8 +141,9 @@ export default {
         } else {
           event.destroy()
             .then(res.status(200).send({
-              success: false,
-              message: 'Event deleted succesfully'
+              success: true,
+              message: 'Event deleted succesfully',
+              event
             }));
         }
       })

@@ -53,7 +53,21 @@ export const addEvent = event => {
   };
 };
 
-// export const editEvent = event => ({
-//   type: actionTypes.EDIT_EVENT,
-//   event
-// });
+export const editEvent = (event) => ({
+  type: actionTypes.EDIT_EVENT,
+  event,
+});
+
+export const getEvents = () => ({
+  type: actionTypes.GET_EVENTS,
+});
+
+export const getSingleEvent = (eventId) => ({
+  type: actionTypes.GET_SINGLE_EVENT,
+  eventId
+});
+
+export const deleteEvent = eventId => ({
+  type: actionTypes.DELETE_EVENT,
+  eventId
+});

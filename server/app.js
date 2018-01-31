@@ -17,10 +17,6 @@ dotenv.config();
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 8000;
 
-// app.use(cors());
-
-app.use(express.static(path.resolve(__dirname, '../client/build')));
-
 app.use(logger('dev'));
 
 // Parse incoming requests data
@@ -40,15 +36,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Always return the main index.html, so react-router render the route in the client
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
-// });
+app.use('/', express.static(path.join(__dirname, 'client/static')));
+
 
 // use imported routes
 app.use('/api/v1', routes);
 app.use('/api/v1', centerRoutes);
 app.use('/api/v1', eventRoutes);
+
+// Always return the main index.html, so react-router render the route in the client
+app.get('/*', (req, res) => {
+  // res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+  res.sendFile(path.join(path.dirname(__dirname), 'client/index.html'));
+});
+
+app.get('/bundle.js', (req, res) => res.sendFile(
+  path.join(path.dirname(__dirname), 'client/build/bundle.js')
+));
 
 app.listen(port, () => {
   console.log(`Running on port ${port}`);

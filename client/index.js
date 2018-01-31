@@ -1,16 +1,16 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux';
-// import App from './components/App';
-// import store from './store';
+import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-// /**
-//  * allows/provides for communication between the components and the store
-//  */
-// const router = (
-//   <Provider store={store}>
-//     <App />
-//   </Provider>
-// )
+import App from './components/App';
+import store from './store';
+import './static/scss/home.scss';
+/**
+ * allows/provides for communication between the components and the store
+ */
 
-// ReactDOM.render(router, document.getElementById('app'));
+render(
+<Provider store={store}>
+  <App />
+</Provider>,
+document.getElementById('app'));
