@@ -90,33 +90,33 @@ export default {
         }
       })
         .then((existingEvent) => {
-          if (existingEvent) {
+          if (existingEvent && existingEvent.id == req.params.eventId) {
+            Event.findOne({
+              where: {
+                id: req.params.eventId
+              }
+            }).then((event) => {
+              event.update(req.body)
+                .then(updatedEvent => res.status(200).json({
+                  success: true,
+                  message: 'Center updated succesfully!',
+                  updatedEvent
+                }));
+            });
+          } else {
             res.status(404).json({
               success: false,
               message: 'This date is not available'
             });
-          } else {
-            Event
-              .findOne({
-                where: {
-                  id: req.params.eventId
-                }
-              }).then((event) => {
-                event.update(req.body)
-                  .then(updatedEvent => res.status(200).json({
-                    success: true,
-                    message: 'Center updated succesfully!',
-                    updatedEvent
-                  }));
-              });
-          }// end of else
+            
+          }
         }).catch(error => res.status(400).json({
           success: false,
           message: 'Could not update event',
           error: error.message
         }));
-    }// end of else
-  }, // update end
+    }
+  },
 
   /**
    * @description deletes an event

@@ -1,28 +1,30 @@
+import initialState from './initialState';
+import * as actionTypes from '../actions/actionTypes';
+
 /**
- *
  * @param {*} state
  * @param {*} action
  * @returns {array} state
  */
-const centers = ((state = [], action) => {
+const centers = (state = initialState.centersReducer, action) => {
   switch (action.type) {
 
     case 'GET_CENTERS_SUCCESS':
-      console.log('Reducer==> get centers successfull', action.response.centers);
-      return [...action.response.centers];
+      return {...state, centers: action.response.centers};
 
     case 'ADD_CENTER_SUCCESS':
-      console.log('Reducer==> center succesfully added', action.response);
-      // return Object.assign({}, state, { center: action.response.center });
-      return [...state, action.response.center];
+      return {...state, center: action.response.center};
 
     case 'ADD_CENTER_FAILED':
       return state;
       
+    case actionTypes.GET_SINGLE_CENTER_SUCCESS:
+      return {...state, selectedCenter: action.response.center }
+
     default:
       return state;
   }
-});
+};
 
 export default centers;
 

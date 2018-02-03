@@ -3,8 +3,6 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-// import { history } from '../routes';
-// import history from '../history';
 import { SIGN_IN_FAILED } from '../actions/actionCreators'
 import * as actionTypes from '../actions/actionTypes';
 // Our worker Saga: will perform the async tasks
@@ -96,16 +94,16 @@ export function* watchSignInAsync() {
  * @param {any} action
  * @returns {object} response
  */
-export function* centersAsync(action) {
+export function* fetchcentersAsync() {
   try {
-    console.log('trying to access get all centers api..', action);
+    // console.log('trying to access get all centers api..', action);
     const response = yield call(axios.get, `${localUrl}/api/v1/centers`/*, {
       headers: { "x-access-token": token }
     }*/);
     console.log('api response', response.data);
     yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data });
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error.message);
   }
 }
 
@@ -114,9 +112,9 @@ export function* centersAsync(action) {
  * @returns {function} centersAsync
  * @export
  */
-export function* watchCentersAsync() {
+export function* watchFetchCentersAsync() {
   // console.log('listening for GET_CENTERS');
-  yield takeEvery('GET_CENTERS', centersAsync)
+  yield takeEvery('GET_CENTERS', fetchcentersAsync)
 }
 
 /**
@@ -218,7 +216,7 @@ export function* editEventAsync(action) {
       date: action.event.date
     });
     console.log('response---->',response);
-    // yield put({ type: actionTypes.EDIT_EVENT_SUCCESS, response: response.data });
+    yield put({ type: actionTypes.EDIT_EVENT_SUCCESS, response: response.data });
     console.log('event succefully edited ===> ', response.data);
 
   } catch (error) {
@@ -340,6 +338,40 @@ export function* watchDeleteEventAsync() {
 }
 
 /**
+ * get a single center
+ */
+
+export function* fetchSingleCenterAsync(action) {
+  try {
+    const response = yield call(axios.get, `${localUrl}/api/v1/centers/${action.centerId}`);
+    // console.log('api response', response.data);
+    yield put({type: actionTypes.GET_SINGLE_CENTER_SUCCESS, response: response.data});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* watchGetSingleCenterAsync() {
+  yield takeEvery(actionTypes.GET_SINGLE_CENTER, fetchSingleCenterAsync);
+}
+
+
+export function* showEditFormAsync(action) {
+  console.log('watchingggggggggggggggggggggggggg', action);
+  try {
+    yield put({type: actionTypes.SHOW_EDIT_FORM_SUCCESS});
+  } catch (error) {
+    console.log('errrrrrrrrr', error.message);
+  }
+}
+
+export function* watchshowEditFormAsync() {
+  yield takeEvery(actionTypes.SHOW_EDIT_FORM, showEditFormAsync);
+}
+
+
+
+/**
  * single entry point to start all sagas at once
  * @returns {functions} watchSignUpAsync(),watchSignInAsync(),watchCentersAsync()
  * @export
@@ -348,12 +380,14 @@ export default function* rootSaga() {
   yield [
     watchSignUpAsync(),
     watchSignInAsync(),
-    watchCentersAsync(),
+    watchFetchCentersAsync(),
     watchAddCenterAsync(),
     watchAddEventAsync(),
     watchEditEventAsync(),
     watchGetEventsAsync(),
     watchDeleteEventAsync(),
     watchGetSingleEventAsync(),
+    watchGetSingleCenterAsync(),
+    watchshowEditFormAsync(),
   ]
 }

@@ -17,7 +17,7 @@ const eventsReducer = (state=initialState.eventsReducer, action) => {
 
     case actionTypes.EDIT_EVENT_SUCCESS:
       // console.log('redcucer success===> ', {...state})
-      return {...state};
+      return {...state, currentEvent:action.response.updatedEvent, shouldHide: true};
 
     case actionTypes.EDIT_EVENT_FAILURE:
       return {...state, error: action.error};
@@ -40,6 +40,9 @@ const eventsReducer = (state=initialState.eventsReducer, action) => {
     case actionTypes.DELETE_EVENT_FAILURE:
       // console.log('Reducer==> delete events unsuccessfull', action.response);
       return {...state};
+
+    case actionTypes.SHOW_EDIT_FORM_SUCCESS:
+      return {...state, shouldHide: false};
         
     default:
       return {...state};

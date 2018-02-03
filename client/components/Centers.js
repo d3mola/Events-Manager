@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { centers } from '../actions/actionCreators';
+import { getCenters } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
 
 /**
- * 
  * @class Centers
  * @extends {React.Component}
  */
@@ -26,8 +25,7 @@ class Centers extends React.Component {
    * @memberof Centers
   */
   componentDidMount() {
-    this.props.actions();
-      // console.log('fetched centers ==>', fetchedcenters);
+    this.props.getCenters();
   }
 
   /**
@@ -37,17 +35,16 @@ class Centers extends React.Component {
    * @returns {array} centers
    * @memberof Centers
    */
-   renderCenters () {
+  renderCenters() {
     const allCenters = this.props.centers;
-    console.log('allCenters=====>', allCenters);
     if (!this.props.centers) {
       return (
         <p>Loading centers...</p>
       )
     } else {
-      return allCenters.map((center, index) => {
-        return (
-          <div key={index} className="col-12 col-md-6 text-center cards">
+      return (
+        <div className="row fill-viewport">{allCenters.map((center, index) => (
+          <div className="col-md-4 text-center" key={index}>
             <div className="card">
               <div className="card-header"><h4>{center.name}</h4></div>
               <div className="card-body">
@@ -55,19 +52,21 @@ class Centers extends React.Component {
                 <img src="../static/images/Capture.png" alt="Image goes here" width="200px" height="200px" />
                 <p className="card-text">Location: {center.location.toUpperCase()}</p>
                 <p className="card-text">Capacity: {center.capacity}</p>
-                <p className="card-text">Price: {'#'+center.price}</p><hr />
+                <p className="card-text">Price: {'#' + center.price}</p><hr />
               </div>
-              <div className="card-footer">
-                <a href="#" className="btn btn-outline-success card-link"><i className="fa fa-edit fa-sm fw"></i> Update</a>
-                <a href="#" className="btn btn-outline-success card-link"><i className="fa fa-info fa-sm fw"></i> Details</a>
+              <div className="card-footerr">
+                <Link
+                  to={`${this.props.match.url}/${center.id}`}
+                  className="btn btn-success mb-2"
+                ><i className="fa fa-info fa-sm fw"></i> Details
+                  </Link>
               </div>
             </div>
           </div>
-            
-        )
-      });
+        ))}
+        </div>
+      );
     }
-    
   }
 
   /**
@@ -77,48 +76,28 @@ class Centers extends React.Component {
    * @memberof Centers
    */
   render() {
-    // console.log('single center', this.props.centers)
-    // const renderCentersTwo = this.props.centers.map((center, index) => {
-    //   return (
-    //     <li key={index}>{center.name}</li>
-    //   )
-    // });
     return (
       <div className="">
         <Header />
         <div id="main">
           <h3 className="text-center">These are the available centers</h3>
           <div className="container">
-            <div className="row fill-viewport cards">
-              { this.renderCenters() }
+            <div className="fill-viewport cards">
+              {this.renderCenters()}
             </div>
           </div>
         </div>
         <Footer />
       </div>
-
     );
   }
 }
-  
-/**
- * @param {any} state 
- * @returns {object}. 
- */
-const mapStateToProps = (state) => {
-  return {
-    centers: state.centers
-  };
-};
 
-/**
- * @param {any} dispatch 
- * @returns {object}. 
- */
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: () => dispatch(centers())
-  };
-};
+const mapStateToProps = (state) => ({
+    centers: state.centersReducer.centers,
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Centers);
+export default connect(
+  mapStateToProps,
+  { getCenters }
+)(Centers);

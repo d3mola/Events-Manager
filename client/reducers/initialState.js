@@ -5,7 +5,10 @@ export default {
   eventsReducer: {
     fetchingEvents: false,
     events: [],
+    shouldHide: true
   },
-  centers: [],
-  // events: []
+  centersReducer: {
+    fetchingCenters: false,
+    centers: [],
+  },
 }

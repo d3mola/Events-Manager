@@ -7,7 +7,8 @@ import {
   getEvents,
   getSingleEvent,
   deleteEvent,
-  editEvent
+  editEvent,
+  showEditForm
 } from '../actions/actionCreators';
 
 import EventList from './EventList.jsx';
@@ -24,10 +25,13 @@ class EventsContainer extends Component {
       title: '',
       notes: '',
       center: '',
-      date: ''
+      date: '',
+      shouldHide: true
+      // isEditing: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleToggleEditForm = this.handleToggleEditForm.bind(this);
     // this.handleClickEdit = this.handleClickEdit.bind(this)
   }
 
@@ -35,6 +39,10 @@ class EventsContainer extends Component {
   // handleClickEdit () {
   //   console.log('local state', this.state);
   // }
+
+  handleToggleEditForm() {
+    this.props.showEditForm();
+  }
 
   handleChange(e) {
     this.setState({
@@ -49,11 +57,12 @@ class EventsContainer extends Component {
 
   componentDidMount() {
     this.props.getEvents();
+    // this.setState({shouldHide: true})
   }
 
   render() {
     const { events, selectEvent, currentEvent, handleDeleteEvent/*, handleEdit */} = this.props
-    const disabled = !currentEvent ? true : false;
+    const disabled = !currentEvent ? true : false;// if no details is showing, disable edit-form button
     return (
       <div className="container-fluid" style={{paddingTop:20, marginBottom:30}}>
         <div className="row fill-viewport">
@@ -77,22 +86,32 @@ class EventsContainer extends Component {
               style={{marginTop:20}}
               onClick={
                 () => {
+                  // this.handleToggleEditForm;
                   this.setState({
                     title: currentEvent.title,
                     notes: currentEvent.notes,
                     center: currentEvent.centerId,
                     date: currentEvent.date,
-                    eventId: currentEvent.id
+                    eventId: currentEvent.id,
+                    shouldHide: !this.props.shouldHide
                   });
+                  this.props.showEditForm();
+                  // this.props.shouldHide = false;
+                  console.log('11111111111111111');
+                  // visibility = 'none';
                 }
               }
             >Edit
             </button>
+
+            {/* <button onClick={() => this.handleToggleEditForm()}>Show Form</button> */}
           </div>
           
           <div className="col col-md-4">
             <EditEventForm
+              shouldHide={this.props.shouldHide}
               data={this.state}
+              visibility={this.state.visibility}
               handleClickEdit={this.handleClickEdit}
               handleChange={this.handleChange}
               handleSubmit={this.handleSubmit}
@@ -100,7 +119,7 @@ class EventsContainer extends Component {
           </div>
         </div>
       </div>
-    );
+    ); // return
   }
 }
 
@@ -115,6 +134,7 @@ const mapStateToProps = ({ eventsReducer }) => {
   return {
     events: eventsReducer.events,
     currentEvent: eventsReducer.currentEvent,
+    shouldHide: eventsReducer.shouldHide
   }
 };
 
@@ -122,7 +142,8 @@ const mapDispatchToProps = (dispatch) => ({
   getEvents: () => dispatch(getEvents()),
   selectEvent: (eventId) => dispatch(getSingleEvent(eventId)),
   handleDeleteEvent: (eventId) => dispatch(deleteEvent(eventId)),
-  editEvent: (eventId) => dispatch(editEvent(eventId)),  
+  editEvent: (eventId) => dispatch(editEvent(eventId)),
+  showEditForm: () => dispatch(showEditForm())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsContainer);
