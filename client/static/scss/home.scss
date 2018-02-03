@@ -5,6 +5,7 @@ $darkgreen: #16534e;
 // 16534e
 $black: #000;
 $Quicksand: 'Quicksand', sans-serif;
+$btn-success: #5cb85c;
 
 body {
 	font-family: $Quicksand;
@@ -114,6 +115,21 @@ img {
 	}
 }
 
+.edit-event-form {
+	background-color: $btn-success;
+	color: white;
+	font-weight: bold;
+}
+
+.center-details-page {
+	ul {
+		li {
+			list-style: none;
+		}
+	}
+	list-style: none;		
+}
+
 // Center page
 #main {
 	background-color: $white;
@@ -139,4 +155,8 @@ img {
 			}
 		};
 	};
+}
+
+.hidden{
+	display: none;
 }
