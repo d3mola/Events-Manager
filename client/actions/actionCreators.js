@@ -29,7 +29,7 @@ export const signIn = payload => {
 /**
  * @returns {object} centers
  */
-export const centers = () => {
+export const getCenters = () => {
   return {
     type: 'GET_CENTERS',
   };
@@ -70,4 +70,13 @@ export const getSingleEvent = (eventId) => ({
 export const deleteEvent = eventId => ({
   type: actionTypes.DELETE_EVENT,
   eventId
+});
+
+export const fetchSingleCenter = (centerId) => ({
+  type: actionTypes.GET_SINGLE_CENTER,
+  centerId
+});
+
+export const showEditForm = () => ({
+  type: actionTypes.SHOW_EDIT_FORM
 });
