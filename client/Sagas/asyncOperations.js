@@ -3,9 +3,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-// import { history } from '../routes';
-// import history from '../history';
-import { SIGN_IN_FAILED, fetchSingleCenter } from '../actions/actionCreators'
+import { SIGN_IN_FAILED } from '../actions/actionCreators'
 import * as actionTypes from '../actions/actionTypes';
 // Our worker Saga: will perform the async tasks
 

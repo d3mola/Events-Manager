@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import centerController from '../controllers/centerController';
 import authenticate from '../middleware/authenticate';
 import adminCheck from '../middleware/adminCheck';
