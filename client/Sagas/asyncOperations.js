@@ -361,12 +361,54 @@ export function* showEditFormAsync(action) {
   try {
     yield put({type: actionTypes.SHOW_EDIT_FORM_SUCCESS});
   } catch (error) {
-    console.log('errrrrrrrrr', error.message);
+    // console.log('errrrrrrrrr', error.message);
   }
 }
 
 export function* watchshowEditFormAsync() {
   yield takeEvery(actionTypes.SHOW_EDIT_FORM, showEditFormAsync);
+}
+
+
+export function* deleteCenterAsync(action) {
+  console.log('worker saga on delete cenetr job', action);
+  try {
+    console.log('trying to delete center');
+    const response = yield call(axios.delete, `${localUrl}/api/v1/centers/${action.centerId}`);
+    console.log('response from api', response.data)
+    yield put({ type: actionTypes.DELETE_CENTER_SUCCESS, response: response.data });
+  } catch (error) {
+    console.log('error', error.message);
+    yield put({type: actionTypes.DELETE_CENTER_FAILURE, error: error});
+  }
+}
+
+export function* watchDeleteCenterAsync() {
+  yield takeEvery(actionTypes.DELETE_CENTER, deleteCenterAsync);
+}
+
+export function* editCenterAsync(action) {
+  console.log('worker saga on edit cenetr job', action);
+  try {
+    console.log('trying to edit center', action);
+    const response = yield call(axios.put, `${localUrl}/api/v1/centers/${action.center.id}`, {
+      token,
+      name: action.center.name,
+      capacity: action.center.capacity,
+      location: action.center.location,
+      price: action.center.price
+    });
+    console.log('response from api', response.data)
+    yield put({ type: actionTypes.EDIT_CENTER_SUCCESS, response: response.data });
+    yield put(push('/centers'))
+  } catch (error) {
+    console.log('error', error.message);
+    yield put({type: actionTypes.EDIT_CENTER_FAILURE, error: error});
+  }
+}
+
+export function* watchEditCenterAsync() {
+  yield takeEvery(actionTypes.EDIT_CENTER, editCenterAsync);
 }
 
 
@@ -389,5 +431,7 @@ export default function* rootSaga() {
     watchGetSingleEventAsync(),
     watchGetSingleCenterAsync(),
     watchshowEditFormAsync(),
+    watchDeleteCenterAsync(),
+    watchEditCenterAsync(),
   ]
 }
