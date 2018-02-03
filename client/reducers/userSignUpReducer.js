@@ -4,7 +4,6 @@ const defaultState = {
   password: '',
   confirmPassword: '',
 };
-console.log('initial state: ', defaultState)
 
 /** 
 * 
