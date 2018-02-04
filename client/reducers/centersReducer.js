@@ -22,7 +22,7 @@ const centers = (state = initialState.centersReducer, action) => {
       return {...state, selectedCenter: action.response.center }
 
     case actionTypes.DELETE_CENTER_SUCCESS:
-      return {...state, deletedCenter: action.response.center }
+      return {...state, deletedCenter: action.response.selectedCenter, message: action.response.message }
 
     case actionTypes.DELETE_CENTER_FAILURE:
       return {...state }
