@@ -361,8 +361,9 @@ export function* deleteCenterAsync(action) {
   try {
     const response = yield call(axios.delete, `${localUrl}/api/v1/centers/${action.centerId}`);
     yield put({ type: actionTypes.DELETE_CENTER_SUCCESS, response: response.data });
+    yield put(push('/centers'));
   } catch (error) {
-    yield put({type: actionTypes.DELETE_CENTER_FAILURE, error: error});
+    yield put({type: actionTypes.DELETE_CENTER_FAILURE, error: error.response.data.message});
   }
 }
 
