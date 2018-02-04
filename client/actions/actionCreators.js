@@ -80,3 +80,13 @@ export const fetchSingleCenter = (centerId) => ({
 export const showEditForm = () => ({
   type: actionTypes.SHOW_EDIT_FORM
 });
+
+export const deleteCenter = (centerId) => ({
+  type: actionTypes.DELETE_CENTER,
+  centerId
+});
+
+export const updateCenter = (center) => ({
+  type: actionTypes.EDIT_CENTER,
+  center
+});

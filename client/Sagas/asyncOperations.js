@@ -292,11 +292,9 @@ export function* getSingleEventAsync(action) {
     const response = yield call(axios.get, `${localUrl}/api/v1/users/auth/events/${action.eventId}`, {
       headers: { "x-access-token": token }
     });
-    console.log('api response', response.data);
     yield put({ type: actionTypes.GET_SINGLE_EVENT_SUCCESS, response: response.data });
   } catch (error) {
     console.log('issa error', error.response.data.message);
-    // yield put(push('/login'));
   }
 }
 
@@ -306,7 +304,6 @@ export function* getSingleEventAsync(action) {
  * @export
  */
 export function* watchGetSingleEventAsync() {
-  // console.log('listening for GET_SINGLE_EVENT');
   yield takeEvery(actionTypes.GET_SINGLE_EVENT, getSingleEventAsync)
 }
 
@@ -316,24 +313,15 @@ export function* watchGetSingleEventAsync() {
 
 export function* deleteEventAsync(action) {
   try {
-    console.log('trying to access delete event api', action);
-    const response = yield call(axios.delete,`${localUrl}/api/v1/events/${action.eventId}`/*, {
-      eventId: action.event.id,
-    }*/);
-    // yield put(push('/add-event'));
-    // yield delay(2000);
-    // yield put(push('/edit-event'));
-    console.log(response.data)
+    const response = yield call(axios.delete,`${localUrl}/api/v1/events/${action.eventId}`);
     yield put({type: actionTypes.DELETE_EVENT_SUCCESS, response: response.data});
 
   } catch (error) {
-    console.log(error.response.data.message);
-    yield put({type: actionTypes.DELETE_EVENT_FAILURE});
+    yield put({ type: actionTypes.DELETE_EVENT_FAILURE, error: error.response.data.message });
   }
 }
 
 export function* watchDeleteEventAsync() {
-  // console.log('listening for DELETE_EVENTS');
   yield takeEvery(actionTypes.DELETE_EVENT, deleteEventAsync)
 }
 
@@ -344,10 +332,10 @@ export function* watchDeleteEventAsync() {
 export function* fetchSingleCenterAsync(action) {
   try {
     const response = yield call(axios.get, `${localUrl}/api/v1/centers/${action.centerId}`);
-    // console.log('api response', response.data);
     yield put({type: actionTypes.GET_SINGLE_CENTER_SUCCESS, response: response.data});
   } catch (error) {
     console.log(error);
+    yield put({type: actionTypes.GET_SINGLE_CENTER_FAILURE, error: error.reponse.data.message});
   }
 }
 
@@ -357,11 +345,10 @@ export function* watchGetSingleCenterAsync() {
 
 
 export function* showEditFormAsync(action) {
-  console.log('watchingggggggggggggggggggggggggg', action);
   try {
     yield put({type: actionTypes.SHOW_EDIT_FORM_SUCCESS});
   } catch (error) {
-    console.log('errrrrrrrrr', error.message);
+    console.log(error);
   }
 }
 
@@ -370,10 +357,44 @@ export function* watchshowEditFormAsync() {
 }
 
 
+export function* deleteCenterAsync(action) {
+  try {
+    const response = yield call(axios.delete, `${localUrl}/api/v1/centers/${action.centerId}`);
+    yield put({ type: actionTypes.DELETE_CENTER_SUCCESS, response: response.data });
+  } catch (error) {
+    yield put({type: actionTypes.DELETE_CENTER_FAILURE, error: error});
+  }
+}
+
+export function* watchDeleteCenterAsync() {
+  yield takeEvery(actionTypes.DELETE_CENTER, deleteCenterAsync);
+}
+
+export function* editCenterAsync(action) {
+  try {
+    const response = yield call(axios.put, `${localUrl}/api/v1/centers/${action.center.id}`, {
+      token,
+      name: action.center.name,
+      capacity: action.center.capacity,
+      location: action.center.location,
+      price: action.center.price
+    });
+    yield put({ type: actionTypes.EDIT_CENTER_SUCCESS, response: response.data });
+    yield put(push('/centers'))
+  } catch (error) {
+    yield put({type: actionTypes.EDIT_CENTER_FAILURE, error: error});
+  }
+}
+
+export function* watchEditCenterAsync() {
+  yield takeEvery(actionTypes.EDIT_CENTER, editCenterAsync);
+}
+
+
 
 /**
  * single entry point to start all sagas at once
- * @returns {functions} watchSignUpAsync(),watchSignInAsync(),watchCentersAsync()
+ * @returns {functions} forked sagas
  * @export
  */
 export default function* rootSaga() {
@@ -389,5 +410,7 @@ export default function* rootSaga() {
     watchGetSingleEventAsync(),
     watchGetSingleCenterAsync(),
     watchshowEditFormAsync(),
+    watchDeleteCenterAsync(),
+    watchEditCenterAsync(),
   ]
 }

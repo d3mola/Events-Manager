@@ -21,6 +21,18 @@ const centers = (state = initialState.centersReducer, action) => {
     case actionTypes.GET_SINGLE_CENTER_SUCCESS:
       return {...state, selectedCenter: action.response.center }
 
+    case actionTypes.DELETE_CENTER_SUCCESS:
+      return {...state, deletedCenter: action.response.center }
+
+    case actionTypes.DELETE_CENTER_FAILURE:
+      return {...state }
+
+    case actionTypes.EDIT_CENTER_SUCCESS:
+      return { ...state, updatedCenter: action.response.updatedCenter }
+
+    case actionTypes.EDIT_CENTER_FAILURE:
+      return {...state }
+
     default:
       return state;
   }
