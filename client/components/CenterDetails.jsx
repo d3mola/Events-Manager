@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -39,7 +40,7 @@ class CenterDetails extends Component {
     } else {
       return (
         <div>
-          <Header />
+          <Header links={["centers", "events", "logout"]} />
 
           <div className="container center-details-page text-center fill-viewport mt-4">
             <div className="row">
@@ -92,6 +93,13 @@ class CenterDetails extends Component {
 const mapStateToProps = (state) => ({
   selectedCenter: state.centersReducer.selectedCenter
 });
+
+CenterDetails.propTypes = {
+  selectedCenter: PropTypes.object.isRequired,
+  fetchSingleCenter: PropTypes.func.isRequired,
+  deleteCenter: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
+};
 
 export default connect(
   mapStateToProps,
