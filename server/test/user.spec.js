@@ -6,36 +6,71 @@ import db from '../models';
 // import mock from '../mock/mock';
 
 dotenv.config();
-const { User } = db;
+const { User, Event, Center } = db;
 const request = supertest(app);
-// let userToken1;
-
+let userToken1;
+let adminToken;
 
 describe('User', () => {
-  beforeEach((done) => {
-    User.sequelize.sync({ force: true }).then(() => {
-      done(null);
-    }).catch((error) => {
-      done(error);
-    });
-  });
-  beforeEach((done) => {
+
+  before((done) => {
     User.create({
-      username: 'ademola',
-      email: 'ademola@gmail.com',
-      password: 'password1',
+      username: 'admin',
+      email: 'admin@gmail.com',
+      password: '123456',
       isAdmin: true
-    });
-    done();
+    })
+      .then(() => {
+        request
+          .post('/api/v1/users/login')
+          .send({ email: 'admin@gmail.com', password: '123456' })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            adminToken = res.body.token;
+            done();
+          });
+      });
   });
-  beforeEach((done) => {
+
+  before(() => {
+    Center.create({
+      name: 'third Hall',
+        location: 'ibadan',
+        capacity: 333330,
+        price: 5000000,
+        // token: adminToken,
+        userId: 1
+    })
+  })
+
+  before((done) => {
     User.create({
       username: 'babajide',
       email: 'babajide@gmail.com',
       password: 'babajide',
       isAdmin: false
-    });
-    done();
+    })
+    .then(() => {
+      request
+        .post('/api/v1/users/login')
+        .send({ email: 'babajide@gmail.com', password: 'babajide' })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          userToken1 = res.body.token;
+          done();
+          // console.log('-----------------', userToken1)
+        });
+    })
+      .then(() => {
+        Event.create({
+          title: 'test event',
+          notes: 'test note',
+          centerId: 2,
+          date: 2018-12-24,
+          userId: 2
+        });
+        // console.log('-----------------', userToken1)
+      });
   });
 
   describe('POST /users', () => {
@@ -54,7 +89,7 @@ describe('User', () => {
         });
     });
 
-    it('should return 400 if the user enters a pssword less than 6 characters', (done) => {
+    it('should return 400 if the user enters a password less than 6 characters', (done) => {
       request.post('/api/v1/users')
         .send({
           username: 'ademola4',
@@ -85,7 +120,7 @@ describe('User', () => {
         });
     });
 
-    it('should return 403 if the username is alredy taken', (done) => {
+    it('should return 403 if the username is already taken', (done) => {
       request.post('/api/v1/users')
         .send({
           username: 'ademola',
@@ -94,6 +129,8 @@ describe('User', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(403);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Username taken!');
           done();
         });
     });
@@ -126,8 +163,9 @@ describe('User', () => {
           done();
         });
     });
-  }); // end of POST rreq
+  }); // end of signup
 
+  // login test
   describe('POST /api/users/login', () => {
     it('return 200 when admin login is succesful', (done) => {
       request.post('/api/v1/users/login')
@@ -138,6 +176,7 @@ describe('User', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body.success).to.equal(true);
+          expect(res.body.message).to.equal(`Welcome ademola`);
           done();
         });
     });
@@ -194,7 +233,7 @@ describe('User', () => {
           // userToken1 = res.body.token;
           expect(res.status).to.equal(200);
           expect(res.body.success).to.equal(true);
-          expect(res.body.message).to.equal('Enjoy your token! ademola');
+          expect(res.body.message).to.equal('Welcome ademola');
           done();
         });
     });
