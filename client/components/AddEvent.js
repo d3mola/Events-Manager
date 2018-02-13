@@ -1,39 +1,31 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { addEvent } from '../actions/actionCreators';
-import Header from './Header';
-import Footer from './Footer';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import Header from "./Header";
+import Footer from "./Footer";
+import { addEvent, getCenters } from "../actions/actionCreators";
 
 /**
  * Creates AddEvent Component
  */
 class AddEvent extends Component {
-
   constructor(props) {
     super(props);
-    // console.log(props);
-
     this.state = {
-      title: '',
-      notes: '',
-      center: '',
-      date: ''
-    }
+      title: "",
+      notes: "",
+      centerId: "0",
+      date: ""
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    console.log('mounted====> ', this.state);
   }
 
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
-    // console.log(this.state);
   }
 
   handleSubmit(e) {
@@ -41,81 +33,115 @@ class AddEvent extends Component {
     this.props.addEvent(this.state);
     // something should happen here - dispatch an action on submit
     this.setState({
-      title: '',
-      notes: '',
-      center: '',
-      date: ''
+      title: "",
+      notes: "",
+      centerId: "0",
+      date: ""
     });
+  }
+
+  componentDidMount() {
+    this.props.getCenters();
   }
 
   render() {
     return (
       <div className="add-event-page">
-        <Header />
+        <Header links={["centers", "events", "logout"]} />
         <div className="container">
           <div className="row">
             <div className="col col-md-6">
-                <form className="jumbotron event-form-box" id="form-box" action="" method="post" onSubmit={this.handleSubmit}>
-                  <h2 className="text-center">Create An Event!</h2>
-                  <div className="form-group">
-                      <label htmlFor="event-name">Event Name:</label>
-                      <input className="form-control" type="text" name="title" id="event-name" placeholder="E.g. John's convocation" value={this.state.title} onChange={this.handleChange} />                  
-                  </div>
-                  <div>
-                    <label htmlFor="notes">Optional Note:</label>
-                    <textarea className="form-control" name="notes" id="notes" cols="50" rows="4" placeholder="Enter an optional note"  value={this.state.notes} onChange={this.handleChange}></textarea>
-                  </div>
-                  <br />
-                  <div className="form-group">
-                    <label htmlFor="center">Event Center: </label>
-                    <select className="form-control" name="center" id="center" value={this.state.center} onChange={this.handleChange}>
-                      <option value="1" title="Oluyole, Ibadan">First hall</option>
-                      <option value="2" title="Banana Island">Emerald hall</option>
-                      <option value="3" title="Ketu">Sapphire</option>
-                      <option value="4" title="Ikoyi">Gold</option>
-                      <option value="5" title="Oluyole, Ibadan">Silver hall</option>
-                      <option value="6" title="Victoria Island Lagos">Ruby Hall</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="date">Choose a date and time:<br />MM/DD/YYYY</label>
-                    <input className="form-control" type="date" name="date" id="date" value={this.state.date} onChange={this.handleChange}/>
-                  </div>
-                  
-                  <input className="btn btn-outline-success" type="submit" value="Schedule"/>
-                </form>
-            </div>
-            <div className="col-md-6 text-center event-history">
-              <h2>Event History</h2>
-              <div className="card">
-                <div className="card-body">
-                  <h4 className="card-title">Jane's Aniversaary</h4>
-                  <p className="card-text">Some example text. Some example text.</p>
-                  <a to="#" className="btn card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
+              <form
+                className="jumbotron event-form-box"
+                id="form-box"
+                onSubmit={this.handleSubmit}
+              >
+                <h2 className="text-center">Create An Event!</h2>
+                <div className="form-group">
+                  <label htmlFor="event-name">Event Name:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="title"
+                    id="event-name"
+                    placeholder="E.g. John's convocation"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                  />
                 </div>
-              </div><hr/>
-              <div className="card">
-                <div className="card-body">
-                  <h4 className="card-title">Ade's Wedding</h4>
-                  <p className="card-text">Some example text. Some example text.</p>
-                  <a to="#" className="btn btn-dark card-link"><i className="fa fa-edit fa-lg fw"></i> Update</a>
+                <div>
+                  <label htmlFor="notes">Optional Note:</label>
+                  <textarea
+                    className="form-control"
+                    name="notes"
+                    id="notes"
+                    cols="50"
+                    rows="4"
+                    placeholder="Enter an optional note"
+                    value={this.state.notes}
+                    onChange={this.handleChange}
+                  />
                 </div>
-              </div>
+                <br />
+
+                <div className="form-group">
+                  <label htmlFor="center">Event Center: </label>
+                  <select
+                    className="form-control"
+                    name="centerId"
+                    id="center"
+                    value={this.state.centerId}
+                    onChange={this.handleChange}
+                  >
+                    <option value="0" disabled>
+                      Select
+                    </option>
+                    {this.props.centers.map(opt => {
+                      return (
+                        <option
+                          key={opt.id}
+                          value={opt.id}
+                          title={opt.location}
+                        >
+                          {opt.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="date">
+                    Choose a date and time:<br />MM/DD/YYYY
+                  </label>
+                  <input
+                    className="form-control"
+                    type="date"
+                    name="date"
+                    id="date"
+                    value={this.state.date}
+                    onChange={this.handleChange}
+                  />
+                </div>
+
+                <input
+                  className="btn btn-outline-success"
+                  type="submit"
+                  value="Schedule"
+                />
+              </form>
             </div>
           </div>
-        </div><hr/>
+        </div>
+        <hr />
         <Footer />
       </div>
-  );
+    );
   }
 }
 
-// const mapStateToProps = (state) => 
+const mapStateToProps = state => ({
+  centers: state.centersReducer.centers
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addEvent: (event) => dispatch(addEvent(event))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(AddEvent);
+export default connect(mapStateToProps, { getCenters, addEvent })(AddEvent);
