@@ -24,15 +24,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  // '*' is not good for production. Only if the API consumable is for public use.
-  res.header('Access-Control-Allow-Origin', '*'); //allow another domain use ur api.
+  // '*' is not good for production.
+  // Only if the API consumable is for public use.
+  //allow another domain use ur api.
+  res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Methods',
     'POST, GET, OPTIONS, PUT, DELETE, HEAD'
   );
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+    'Origin, X-Requested-With, Content-Type, Accept, x-access-token'
+  );
   next();
 });
 
@@ -44,7 +47,8 @@ app.use('/api/v1', routes);
 app.use('/api/v1', centerRoutes);
 app.use('/api/v1', eventRoutes);
 
-// Always return the main index.html, so react-router render the route in the client
+// Always return the main index.html, so react-router renders
+// the route in the client
 app.get('/*', (req, res) => {
   // res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
   res.sendFile(path.join(path.dirname(__dirname), 'client/index.html'));
