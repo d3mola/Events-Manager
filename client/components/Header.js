@@ -1,7 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Link, NavLink } from "react-router-dom";
 
-const Header = () => {
+/**
+ * header
+ * @param {array} links - array of nav links
+ * @returns {JSX} - representaion of header
+ */
+const Header = ({ links }) => {
+  // const links = ["centers", "events", "register", "login", "logout"];
     return (
       <div id="header">
         <nav className="navbar navbar-toggleable-md">
@@ -17,20 +24,24 @@ const Header = () => {
         
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/centers">CENTERS</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">LOGIN</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">REGISTER</Link>
-              </li>
+              {links.map(link => {
+                return (
+                  <li key={link} className="nav-item">
+                    <NavLink className="nav-link" to={`/${link}`}>
+                      {link.toUpperCase()}
+                    </NavLink>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </nav>
       </div>
     );
 };
+
+Header.propTypes = {
+  links: PropTypes.array.isRequired,
+}
 
 export default Header;
