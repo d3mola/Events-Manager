@@ -30,11 +30,13 @@ export function* signUpAsync(action) {
       email: action.payload.email,
       password: action.payload.password
     });
-    console.log(response);
+    yield put({ type: actionTypes.SUCCESS_FLASH_MESSAGE, response: response.data });
+    yield delay(500);
     yield put(push('/centers'));
   } catch (error) {
-    console.log('Unable to get access signup api');
-    console.log(error.message);
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -66,10 +68,15 @@ export function* signInAsync(action) {
       password: action.payload.password
     });
     localStorage.setItem('token', response.data.token);
+    // yield put({ type: actionTypes.FLASH_MESSAGE, payload:{message: response.data.message, className:'alert-success'} });
+    // yield delay(2000);
     yield put(push('/centers'));
   } catch (error) {
     console.log('saga error in sign in', error.response.data.message);
     yield put({ type: SIGN_IN_FAILED, error: error.response.data.message });
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -97,13 +104,13 @@ export function* watchSignInAsync() {
 export function* fetchcentersAsync() {
   try {
     // console.log('trying to access get all centers api..', action);
-    const response = yield call(axios.get, `${localUrl}/api/v1/centers`/*, {
+    const response = yield call(axios.get, `${localUrl}/api/v1/centers`, {
       headers: { "x-access-token": token }
-    }*/);
-    console.log('api response', response.data);
+    });
+    // console.log('api response', response.data);
     yield put({ type: 'GET_CENTERS_SUCCESS', response: response.data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error.response.data.message );
   }
 }
 
@@ -145,7 +152,9 @@ export function* addCenterAsync(action) {
     yield put(push('/centers'));
 
   } catch (error) {
-    console.log('Unable to add a center,', error.response.data.message);
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
     error.response.data.message === 'token issues'? 
     yield put(push('/login')): yield put(push('/error'));// redirect to an error page
     // yield put({ type: 'ADD_CENTER_FAILED', response: 'ADD_CENTER_FAILED' });
@@ -170,16 +179,15 @@ export function* addEventAsync(action) {
   try {
     console.log('attempting to add a center to the api', action);
     const response = yield call(axios.post, `${localUrl}/api/v1/events`, {
-      token,
+      // token,
       title: action.event.title,
       notes: action.event.notes,
-      centerId: action.event.center,
+      centerId: action.event.centerId,
       date: action.event.date
     });
 
     yield put({ type: actionTypes.ADD_EVENT_SUCCESS, response: response.data });
     yield put(push('/events'));
-    console.log('event succefully added ===> ', response.data);
 
   } catch (error) {
     console.log(error.response.data.message);
@@ -187,9 +195,9 @@ export function* addEventAsync(action) {
       type: actionTypes.ADD_EVENT_ERROR,
       error
     });
-    yield put(push('/error'));
-    yield delay(2000);
-    yield put(push('/add-event'));
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -208,16 +216,15 @@ export function* watchAddEventAsync() {
 
 export function* editEventAsync(action) {
   try {
-    const response = yield call(axios.put, `${localUrl}/api/v1/events/${action.event.eventId}`, {
+    const response = yield call(axios.put, `${localUrl}/api/v1/events/${action.event.id}`, {
       token,
       title: action.event.title,
       notes: action.event.notes,
-      centerId: action.event.center,
+      centerId: action.event.centerId,
       date: action.event.date
     });
-    console.log('response---->',response);
     yield put({ type: actionTypes.EDIT_EVENT_SUCCESS, response: response.data });
-    console.log('event succefully edited ===> ', response.data);
+    yield put(push('/events'));
 
   } catch (error) {
     console.log(error.response.data.message);
@@ -225,6 +232,9 @@ export function* editEventAsync(action) {
       type: actionTypes.EDIT_EVENT_FAILURE,
       error
     });
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -233,7 +243,6 @@ export function* editEventAsync(action) {
  * @returns {function} addEventAsync
  */
 export function* watchEditEventAsync() {
-  // console.log('listening for EDIT_EVENT');
   yield takeEvery(actionTypes.EDIT_EVENT, editEventAsync);
 }
 
@@ -250,14 +259,12 @@ export function* watchEditEventAsync() {
  */
 export function* getEventsAsync(action) {
   try {
-    console.log('trying to access get events api..', action);
     const response = yield call(axios.get, `${localUrl}/api/v1/users/auth/events`, {
       headers: { "x-access-token": token }
     });
-    console.log('api response', response.data);
     yield put({ type: actionTypes.GET_EVENTS_SUCCESS, response: response.data });
   } catch (error) {
-    console.log('issa error', error.response.data.message);
+    console.log('error', error.response.data.message);
     (error.response.data.message === 'token issues') ?
     yield put(push('/login')):
     console.log('error - remember to dispatch get events failure action here');
@@ -318,6 +325,9 @@ export function* deleteEventAsync(action) {
 
   } catch (error) {
     yield put({ type: actionTypes.DELETE_EVENT_FAILURE, error: error.response.data.message });
+    yield put({ type: actionTypes.FAILURE_FLASH_MESSAGE, error: error.response.data.message });
+    yield delay(5000);
+    yield put({ type: actionTypes.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -334,7 +344,7 @@ export function* fetchSingleCenterAsync(action) {
     const response = yield call(axios.get, `${localUrl}/api/v1/centers/${action.centerId}`);
     yield put({type: actionTypes.GET_SINGLE_CENTER_SUCCESS, response: response.data});
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
     yield put({type: actionTypes.GET_SINGLE_CENTER_FAILURE, error: error.reponse.data.message});
   }
 }
