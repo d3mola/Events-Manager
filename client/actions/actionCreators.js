@@ -90,3 +90,11 @@ export const updateCenter = (center) => ({
   type: actionTypes.EDIT_CENTER,
   center
 });
+
+export const sendFlashMessage = (message, className) => ({
+  type: actionTypes.FLASH_MESSAGE,
+  payload : {
+    message,
+    className
+  }
+});
