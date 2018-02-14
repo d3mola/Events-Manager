@@ -11,4 +11,8 @@ export default {
     fetchingCenters: false,
     centers: [],
   },
+  flashMessages: {
+    message: null,
+    className: null
+  }
 }

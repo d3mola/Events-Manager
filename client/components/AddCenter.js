@@ -85,7 +85,9 @@ class AddCenter extends React.Component {
 render() {
     return (
       <div className="add-center-page">
-        <Header />
+        <Header
+          links={["centers", "events", "logout"]}
+        />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">

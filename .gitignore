@@ -7,4 +7,6 @@ coverage
 .coveralls.yml
 /dist
 todo.md
-client/components/CenterContainer.jsx
+client/components/Centers
+client/components/Headerrr
+client/components/UserAction.jsx

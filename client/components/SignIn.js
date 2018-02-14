@@ -1,21 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as actionCreators from '../actions/actionCreators';
-import Header from './Header';
-import Footer from './Footer';
+import React from "react";
+import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { signIn, sendFlashMessage } from "../actions/actionCreators";
+import Header from "./Header";
+import Footer from "./Footer";
+import FlashMessage from "./flashMessage";
+import UserAction from "./UserAction";
 
 /**
-* @description Creates SignIn component
-* @class SignIn
-* @extends {React.Component}
-*/
+ * @description Creates SignIn component
+ * @class SignIn
+ * @extends {React.Component}
+ */
 class SignIn extends React.Component {
- 
   /**
    * Creates an instance of SignIn.
-   * @param {any} props 
+   * @param {any} props
    * @memberof SignIn
    */
   constructor(props) {
@@ -26,15 +27,14 @@ class SignIn extends React.Component {
 
     //setting the initial state of the component
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: ""
     };
-  }// constructor
-
+  } // constructor
 
   /**
-   * 
-   * @param {any} e 
+   *
+   * @param {any} e
    * @memberof SignIn
    * @returns {function} null
    */
@@ -43,69 +43,90 @@ class SignIn extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state)
-  }// handleSubmit
+  } // handleSubmit
 
   /**
-   * 
-   * @param {any} e 
+   *
+   * @param {any} e
    * @memberof SignIn
    * @returns {function} null
    */
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
     this.props.signIn(this.state);
-  }// handleSubmit
+  } // handleSubmit
 
-/**
- * renders signUpForm component
- * @returns rendered component
- * @memberof SignIn
- * @returns {object} signin
- */
- render() {
-   return (
-    <div className="login-page">
-      <Header />
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-              <form id="form-box" className="jumbotron" action="" method="post" onSubmit={this.handleSubmit}>
+  /**
+   * renders signUpForm component
+   * @returns rendered component
+   * @memberof SignIn
+   * @returns {object} signin
+   */
+  render() {
+    return (
+      <div className="login-page">
+        <Header links={["centers", "events", "register"]}/>
+        <FlashMessage />
+        <br/>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mx-auto">
+              <form
+                id="form-box"
+                className="jumbotron"
+                action=""
+                method="post"
+                onSubmit={this.handleSubmit}
+              >
                 <h2 className="text-center">Sign In!</h2>
 
                 <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input className="form-control" type="email" name="email" id="email" placeholder="johndoe@email.com" onChange={this.handleChange} />
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    className="form-control"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="johndoe@email.com"
+                    onChange={this.handleChange}
+                  />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input className="form-control" type="password" name="password" id="password" placeholder="Enter your password" onChange={this.handleChange} />                  
+                  <label htmlFor="password">Password:</label>
+                  <input
+                    className="form-control"
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    onChange={this.handleChange}
+                  />
                 </div>
-                <input className="btn btn-outline-success" type="submit" value="Sign in" />
+                <input
+                  className="btn btn-outline-success"
+                  type="submit"
+                  value="Sign in"
+                />
                 <br />
-                <p className="text-center">Don't have an account yet? <Link to="/register">Register</Link></p>
+                <p className="text-center">
+                  Dont have an account yet? <Link to="/register">Register</Link>
+                </p>
               </form>
+            </div>
+            {/* <hr/> */}
+            {/* <UserAction /> */}
           </div>
         </div>
-      </div><hr/>
-      <Footer />
-    </div>
-
-   );
- }
+        <hr />
+        <Footer />
+      </div>
+    );
+  }
 }
 
+SignIn.propTypes = {
+  signIn: PropTypes.func.isRequired,
+}
 
-/**
- * @param {any} dispatch 
- * @returns {object} actions
- */
-const mapDispatchToProps = (dispatch => {
-  return bindActionCreators(actionCreators, dispatch);
-});
-
-const signinReducer = connect(null, mapDispatchToProps)(SignIn);
-
-export default signinReducer;
+export default connect(null, { signIn, sendFlashMessage })(SignIn);

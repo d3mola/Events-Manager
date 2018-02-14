@@ -13,4 +13,6 @@ router.put('/centers/:centerId', authenticate, adminCheck, centerController.upda
 
 router.get('/centers/:centerId', authenticate, centerController.getACenter);
 
+router.delete('/centers/:centerId', authenticate, adminCheck, centerController.deleteCenter);
+
 export default router;

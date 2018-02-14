@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 import { getCenters } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
@@ -78,7 +79,9 @@ class Centers extends React.Component {
   render() {
     return (
       <div className="">
-        <Header />
+        <Header
+          links={["centers", "events", "logout"]}
+        />
         <div id="main">
           <h3 className="text-center">These are the available centers</h3>
           <div className="container">

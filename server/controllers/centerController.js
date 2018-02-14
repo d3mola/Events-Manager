@@ -54,13 +54,19 @@ export default {
         where: {
           id: req.params.centerId
         }
-      }).then((center) => {
-        center.update(req.body)
-          .then(updatedCenter => res.status(200).json({
-            success: true,
-            message: 'Center updated succesfully!',
-            updatedCenter
-          }));
+      })
+      .then((center) => {
+        return !center ?
+          res.status(404).json({
+            success: false,
+            message: 'Center doesnt exist',
+          }) :
+          center.update(req.body)
+            .then(updatedCenter => res.status(200).json({
+              success: true,
+              message: 'Center updated succesfully!',
+              updatedCenter
+            }));
       })
       .catch(error => res.status(500).json({
         success: false,
@@ -80,7 +86,7 @@ export default {
     .findAll()
     .then((centers) => {
       if (!centers.length) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: 'There are no centers at this time'
         });
@@ -129,4 +135,33 @@ export default {
       message: 'Could not get the center details',
       error: error.message
     })),
+
+    /**
+     * deletes a center from the database
+     * @param {object} req request object
+     * @param {object} res response object
+     *  @return {object} deletedCenter 
+     */
+    deleteCenter: (req, res) => {
+      const id = req.params.centerId
+      Center.findById(id)
+        .then(center => {
+          if (!center) {
+            return res.status(404).send({
+              success: false,
+              message: 'Center doesnt exist'
+            });
+          }
+          return center.destroy()
+            .then(res.status(200).send({
+              success: true,
+              message: 'Center deleted succesfully!'
+            }));
+        })
+        .catch(error => res.status(500).send({
+          success: false,
+          message: 'Couldn\'t delete center try again!',
+          error: error.message
+        }));
+    },
 };

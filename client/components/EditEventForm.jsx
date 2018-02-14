@@ -1,61 +1,193 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Header from "./Header";
+import Footer from "./Footer";
+import {
+  getSingleEvent,
+  editEvent,
+  getCenters
+} from "../actions/actionCreators";
 
 class EditEventForm extends Component {
-
   constructor(props) {
     super(props);
-    // this.state = {
-    //   title: '',
-    //   notes: '',
-    //   center: '',
-    //   date: ''
-    // }
+    this.state = {
+      title: "",
+      notes: "",
+      centerId: "0",
+      date: ""
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  /**
+   * renders once the component mounts the DOM
+   * @returns {Promise} fetches single center based on the route params
+   * @memberof Centers
+   */
+  componentDidMount() {
+    this.props.getCenters();
+    this.props.getSingleEvent(this.props.match.params.id);
+  }
+
+  /**
+   * function called when component receives new props
+   * @param {object} newProps
+   * @returns {undefined} changes the state based on the newProps received
+   */
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps.currentEvent);
+  }
+
+  /**
+   * form submission handler
+   * @param {object} event
+   * @memberof SignUp
+   * @returns {undefined} submits form
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.editEvent(this.state);
+  }
+
+  /**
+   * changes state when form fields are changed
+   * @param {any} event
+   * @memberof EditCenterForm
+   * @returns {undefined} calls setState
+   */
+  handleChange(event) {
+    // set the next state of the form
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   render() {
-    const data = this.props.data;
-    const { title, notes, center, date } = data;
-    let { handleChange, handleSubmit } = this.props;
-    return (<div className={this.props.shouldHide ? 'hidden' : ''}>
-      <div className="jumbotron edit-event-form">
-        <form id="form-box" action="" method="post" onSubmit={handleSubmit}>
-          <h3 className="text-center" style={{ bottom: 20 }}>Edit Event!</h3>
-          <em style={{ fontWeight: 700, marginBottom: 20, color: 'black' }}>editing {title}...</em>
+    const { title, notes, centerId, date } = this.state;
+    const { centers } = this.props;
+    return !this.props.currentEvent ? (
+      <h1>loading...</h1>
+    ) : (
+      <div className="">
+        <Header links={["centers", "events", "logout"]}/>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6 mx-auto">
+              <form
+                className="jumbotron mt-5 edit-center-form"
+                id="form-box"
+                onSubmit={this.handleSubmit}
+              >
+                <h3 className="text-center" style={{ bottom: 20 }}>
+                  Edit Event!
+                </h3>
+                <em
+                  style={{ fontWeight: 700, marginBottom: 20, color: "black" }}
+                >
+                  editing {title}...
+                </em>
 
-          <div className="form-group">
-            <label htmlFor="event-name">Event Name:</label>
-            <input className="form-control" type="text" name="title" id="event-name" placeholder="E.g. John's convocation" value={title} onChange={handleChange} required />
+                <div className="form-group">
+                  <label htmlFor="event-name">Event Name:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="title"
+                    id="event-name"
+                    placeholder="E.g. John's convocation"
+                    value={title}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="notes">Optional Note:</label>
+                  <textarea
+                    className="form-control"
+                    name="notes"
+                    id="notes"
+                    cols="50"
+                    rows="4"
+                    placeholder="Enter an optional note"
+                    value={notes}
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <br />
+
+                <div className="form-group">
+                  <label htmlFor="center">Event Center: </label>
+                  <select
+                    required
+                    className="form-control"
+                    name="centerId"
+                    id="center"
+                    value={centerId}
+                    onChange={this.handleChange}
+                  >
+                    <option value="0" disabled>
+                      Select
+                    </option>
+                    {centers.map(opt => {
+                      return (
+                        <option
+                          key={opt.id}
+                          value={opt.id}
+                          title={opt.location}
+                        >
+                          {opt.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="date">
+                    Choose a date and time:<br />MM/DD/YYYY
+                  </label>
+                  <input
+                    required
+                    className="form-control"
+                    type="date"
+                    name="date"
+                    id="date"
+                    value={date}
+                    onChange={this.handleChange}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-success">
+                  <i className="fa fa-send" />
+                </button>
+              </form>
+            </div>
           </div>
-
-          <div>
-            <label htmlFor="notes">Optional Note:</label>
-            <textarea className="form-control" name="notes" id="notes" cols="50" rows="4" placeholder="Enter an optional note" value={notes} onChange={handleChange}></textarea>
-          </div>
-          <br />
-
-          <div className="form-group">
-            <label htmlFor="center">Event Center: </label>
-            <select required className="form-control" name="center" id="center" value={center} onChange={handleChange}>
-              <option value="1" title="Oluyole, Ibadan">First hall</option>
-              <option value="2" title="Banana Island">Emerald hall</option>
-              <option value="3" title="Ketu">Sapphire</option>
-              <option value="4" title="Ikoyi">Gold</option>
-              <option value="5" title="Oluyole, Ibadan">Silver hall</option>
-              <option value="6" title="Victoria Island Lagos">Ruby Hall</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="date">Choose a date and time:<br />MM/DD/YYYY</label>
-            <input required className="form-control" type="date" name="date" id="date" value={date} onChange={handleChange} />
-          </div>
-
-          <button type="submit" className="btn btn-success"><i className="fa fa-send"></i></button>
-        </form>
-      </div></div>
+        </div>
+        <hr />
+        <Footer />
+      </div>
     );
   }
-
 }
 
-export default EditEventForm;
+/** maps reux state to props
+ * @param {any} state
+ * @returns {object} props
+ */
+const mapStateToProps = state => {
+  return {
+    currentEvent: state.eventsReducer.currentEvent,
+    centers: state.centersReducer.centers
+  };
+};
+
+export default connect(mapStateToProps, {
+  getSingleEvent,
+  editEvent,
+  getCenters
+})(EditEventForm);

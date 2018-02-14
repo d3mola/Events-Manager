@@ -19,6 +19,9 @@ module.exports = {
     path: path.resolve(__dirname, 'client/build'),
     publicPath: '/',
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   target: "web",
   module: {
     rules: [

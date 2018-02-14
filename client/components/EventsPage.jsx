@@ -14,7 +14,7 @@ class EventsPage extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header links={["centers", "events", "logout"]}/>
         <EventsContainer />
         <Footer />
       </div>

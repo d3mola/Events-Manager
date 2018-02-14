@@ -16,7 +16,9 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header
+          links={["centers", "events", "register", "login", "logout"]}
+        />
 
         <div>
           <section id="introduction">

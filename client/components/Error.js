@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
 
-const Footer = () => {
-    return (
-      <div>
-        <h1>ERROR!!!</h1>
-      </div>
-    );
+const NotFound = () => {
+  return (
+    <div>
+      <h1>404</h1>
+      <h3>Not Found!</h3>
+    </div>
+  );
 };
 
-export default Footer;
+export default NotFound;

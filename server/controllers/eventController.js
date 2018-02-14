@@ -17,7 +17,7 @@ export default {
 
     // check if the user fills the required fields
     if (!centerId || !title || !date) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: 'Incomplete credentials'
       });
@@ -50,9 +50,9 @@ export default {
               message: 'Event created succesfully!',
               event
             }))
-            .catch(error => res.status(403).json({
+            .catch(error => res.status(404).json({
               success: false,
-              message: 'Center doesnt exist',
+              message: 'Center does not exist',
               error: error.message
             }));
         }
@@ -73,49 +73,58 @@ export default {
    */
   updateEvent: (req, res) => {
     const {
-      title, centerId, date
+     centerId, date
     } = req.body;
 
-    // check if the user fills the required fields
-    if (!centerId || !title || !date) {
-      res.status(401).json({
-        success: false,
-        message: 'Incomplete credentials'
-      });
-    } else {
-      Event.find({
-        where: {
-          centerId,
-          date
-        }
-      })
-        .then((existingEvent) => {
-          if (existingEvent && existingEvent.id == req.params.eventId) {
-            Event.findOne({
-              where: {
-                id: req.params.eventId
-              }
-            }).then((event) => {
-              event.update(req.body)
-                .then(updatedEvent => res.status(200).json({
-                  success: true,
-                  message: 'Center updated succesfully!',
-                  updatedEvent
-                }));
+      Event.findById(req.params.eventId)
+        .then(event => {
+          if (!event) {
+            return res.status(404).send({
+              success: false,
+              message: 'Event does not exist!'
+            })
+          }
+          // check if the person that created the event is tryign to update
+          if (event.userId !== req.user.userId ) {
+            return res.status(401).send({
+              success: false,
+              message: 'You\'re not authorized to access this route'
             });
           } else {
-            res.status(404).json({
-              success: false,
-              message: 'This date is not available'
-            });
-            
+            Event.findOne({
+              where: {
+                centerId,
+                date
+              }
+            }).then(found => {
+              // console.log('bbbbbbbb,', found.id, event.id)
+              if (found && (found.id != event.id)) {
+                return res.status(400).json({
+                  success: false,
+                  message: 'Center already booked!',
+                })
+              } else {
+                return event.update({
+                  title: req.body.title || event.title,
+                  notes: req.body.notes || event.notes,
+                  centerId: req.body.centerId || event.centerId,
+                  date: req.body.date || event.date
+                })
+              }
+            })
+            .then(updatedEvent => {
+               res.status(200).send({
+                success: true,
+                message: 'Event succesfully updated!',
+                updatedEvent
+              })
+            })
           }
         }).catch(error => res.status(400).json({
           success: false,
           message: 'Could not update event',
           error: error.message
         }));
-    }
   },
 
   /**
@@ -134,12 +143,18 @@ export default {
     Event.findById(id)
       .then((event) => {
         if (!event) {
-          res.status(400).json({
+          return res.status(400).json({
             success: false,
             message: 'Event does not exist'
           });
         } else {
-          event.destroy()
+          if (event.userId != req.user.userId) {
+            return res.status(403).json({
+              success: false,
+              message: 'You cannot delete this event'
+            })
+          }
+          return event.destroy()
             .then(res.status(200).send({
               success: true,
               message: 'Event deleted succesfully',

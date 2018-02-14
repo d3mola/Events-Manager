@@ -18,7 +18,7 @@ const authenticate = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
       if (error) {
-        res.status(401).json({
+        return res.status(401).json({
           message: 'token issues',
           token
         });
@@ -27,7 +27,7 @@ const authenticate = (req, res, next) => {
       next();
     });
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       success: false,
       message: 'You need to login to access this route'
     });
