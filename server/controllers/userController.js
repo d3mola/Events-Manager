@@ -63,7 +63,8 @@ export default {
           const payload = {
             isAdmin: user.isAdmin,
             username: user.username,
-            userId: user.id
+            userId: user.id,
+            email: user.email
           };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '24h' // expires in 24hrs
@@ -115,7 +116,7 @@ export default {
         } else if (user) {
           bcrypt.compare(password, user.password).then((result) => {
             if (!result) {
-              res.status(403).json({
+              return res.status(403).json({
                 success: false,
                 message: 'Incorrect password'
               });
@@ -132,9 +133,10 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            res.status(200).json({
+            return res.status(200).json({
               success: true,
-              message: `Enjoy your token! ${user.username}`,
+              message: `Welcome ${user.username}`,
+              // message: `Enjoy your token! ${user.username}`,
               token
             });
           });
@@ -178,6 +180,8 @@ export default {
       })
         .then(user => {
           // if user doesnt exist, send error
+          // user always exists though because we're getting user from the token
+          // except the user is not logged in
           if (!user) {
             res.status(404).json({
               success: false,
@@ -211,12 +215,13 @@ export default {
           // compare userId in req.user which is from decoded token
           // to userId of the event,
           if (!event || event.userId !== req.user.userId) {
-            res.status(200).json({
+            res.status(404).json({
               success: false,
               message: "Event does not exist"
             });
           } else {
-            res.status(200).send({
+            res.status(200).json({
+              success: true,
               event
             });
           }
