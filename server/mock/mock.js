@@ -1,10 +1,11 @@
 import faker from 'faker';
+// const faker = require('faker')
 
 const data = {
   admin: {
-    username: 'Demola',
+    username: 'admin1',
     password: 'password',
-    email: 'demola@gmail.com',
+    email: 'admin1@gmail.com',
     isAdmin: true,
   },
   wrongEmail: {
@@ -27,7 +28,13 @@ const data = {
   newUser2: {
     username: faker.internet.userName(),
     email: faker.internet.email(),
-    password: 'password',
+    password: faker.internet.password()
+    // password: 'password',
+  },
+  cunnyUser: {
+    username: 'cunnyUser',
+    email: faker.internet.email(),
+    password: faker.internet.password()
   },
   existingEmail: {
     username: 'baba',
@@ -45,6 +52,57 @@ const data = {
     username: 'Notdemola',
     password: 'password'
   },
+  center3: {
+    userId: 1,
+    name: 'third hall',
+    location: 'ghana',
+    capacity: 1000,
+    price: 20000,
+  },
+  center2: {
+    userId: 2,
+    name: 'second hall',
+    location: 'liberia',
+    capacity: 2000,
+    price: 30000,
+  },
+  birthday: {
+    title: 'birthday',
+    notes: 'dummy bithday note',
+    centerId: 2,
+    date: '2018-12-03',
+    userId: 3
+  },
+  wedding: {
+    title: 'wedding',
+    notes: 'dummy wedding note',
+    centerId: 2,
+    date: '2018-12-04',
+    userId: 3
+  },
+  convocation: {
+    title: 'convocation',
+    notes: 'dummy convocation note',
+    centerId: 2,
+    date: '2018-12-05',
+    userId: 3
+  },
+  newEvent: {
+    title: 'newEvent',
+    notes: 'dummy newEvent note',
+    centerId: 2,
+    date: '2018-12-10',
+    userId: 3
+  },
+  clashWithBirthday: {
+    title: 'clashWithBirthday',
+    notes: 'dummy clashWithBirthday note',
+    centerId: 2,
+    date: '2018-12-03',
+    userId: 3
+  }
 };
+
+// console.log('fake data', data.newUser2)
 
 export default data;
