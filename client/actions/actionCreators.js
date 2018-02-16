@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as types from './actionTypes';
 
 export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
 
@@ -7,93 +7,102 @@ export const SIGN_IN_FAILED = 'SIGN_IN_FAILED';
  * @param {any} payload from the user(username, password etc)
  * @returns {object} user
  */
-export const signUp = payload => {
-  return {
-    type: 'SIGN_UP',
-    payload
-  };
-};
+export const signUp = payload => ({
+  type: types.SIGN_UP,
+  payload
+});
 
 /**
  * formats the request from the user and returns it
  * @param {any} payload from the user(username, password etc)
  * @returns {object} user
  */
-export const signIn = payload => {
-  return {
-    type: 'SIGN_IN',
-    payload
-  };
-};
+export const signIn = payload => ({
+  type: types.SIGN_IN,
+  payload
+});
 
 /**
  * @returns {object} centers
  */
-export const getCenters = () => {
-  return {
-    type: 'GET_CENTERS',
-  };
-};
+export const getCenters = () => ({
+  type: types.GET_CENTERS
+});
 
 /**
- * @param {any} payload from the user(name, location etc)
+ * formats request from user and returns it
+ * @param {Number} centerId
+ * @returns {Object} center
+ */
+export const fetchSingleCenter = centerId => ({
+  type: types.GET_SINGLE_CENTER,
+  centerId
+});
+
+/**
+ * @param {object} payload from the user(name, location etc)
  * @returns {object} centers
  */
-export const addCenter = payload => {
-  return {
-    type: 'ADD_CENTER',
-    payload
-  };
-};
+export const addCenter = payload => ({
+  type: types.ADD_CENTER,
+  payload
+});
+
+/**
+ * @param {object} center center to be updated
+ * @return {object} updatedCenter
+ */
+export const updateCenter = center => ({
+  type: types.EDIT_CENTER,
+  center
+});
+
+/**
+ * @param {number} centerId center id from user
+ * @returns {Object} center
+ */
+export const deleteCenter = centerId => ({
+  type: types.DELETE_CENTER,
+  centerId
+});
+
+/**
+ * Event
+ */
+
+export const getEvents = () => ({
+  type: types.GET_EVENTS
+});
+
+export const getSingleEvent = eventId => ({
+  type: types.GET_SINGLE_EVENT,
+  eventId
+});
 
 export const addEvent = event => {
   return {
-    type: actionTypes.ADD_EVENT,
+    type: types.ADD_EVENT,
     event
   };
 };
 
-export const editEvent = (event) => ({
-  type: actionTypes.EDIT_EVENT,
-  event,
-});
-
-export const getEvents = () => ({
-  type: actionTypes.GET_EVENTS,
-});
-
-export const getSingleEvent = (eventId) => ({
-  type: actionTypes.GET_SINGLE_EVENT,
-  eventId
+export const editEvent = event => ({
+  type: types.EDIT_EVENT,
+  event
 });
 
 export const deleteEvent = eventId => ({
-  type: actionTypes.DELETE_EVENT,
+  type: types.DELETE_EVENT,
   eventId
 });
 
-export const fetchSingleCenter = (centerId) => ({
-  type: actionTypes.GET_SINGLE_CENTER,
-  centerId
-});
-
 export const showEditForm = () => ({
-  type: actionTypes.SHOW_EDIT_FORM
-});
-
-export const deleteCenter = (centerId) => ({
-  type: actionTypes.DELETE_CENTER,
-  centerId
-});
-
-export const updateCenter = (center) => ({
-  type: actionTypes.EDIT_CENTER,
-  center
+  type: types.SHOW_EDIT_FORM
 });
 
 export const sendFlashMessage = (message, className) => ({
-  type: actionTypes.FLASH_MESSAGE,
-  payload : {
+  type: types.FLASH_MESSAGE,
+  payload: {
     message,
     className
   }
