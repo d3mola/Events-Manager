@@ -1,3 +1,7 @@
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_IN = 'SIGN_IN';
+export const GET_CENTERS = 'GET_CENTERS';
+export const ADD_CENTER = 'ADD_CENTER';
 export const ADD_EVENT_LOADING = 'ADD_EVENT_LOADING';
 export const ADD_EVENT = 'ADD_EVENT';
 export const ADD_EVENT_SUCCESS = 'ADD_EVENT_SUCCESS';
