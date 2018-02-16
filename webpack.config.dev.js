@@ -30,7 +30,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'env']
+          presets: ['react', 'env', 'stage-2'],
+          plugins: ['transform-class-properties']
         }
       },
       {
