@@ -79,12 +79,10 @@ export const getSingleEvent = eventId => ({
   eventId
 });
 
-export const addEvent = event => {
-  return {
-    type: types.ADD_EVENT,
-    event
-  };
-};
+export const addEvent = event => ({
+  type: types.ADD_EVENT,
+  event
+});
 
 export const editEvent = event => ({
   type: types.EDIT_EVENT,
@@ -102,8 +100,19 @@ export const showEditForm = () => ({
 
 export const sendFlashMessage = (message, className) => ({
   type: types.FLASH_MESSAGE,
-  payload: {
-    message,
-    className
-  }
+  payload: { message, className }
+});
+
+export const logout = () => ({
+  type: types.LOG_OUT
+});
+
+// export const loginSuccess = (response, isAuthenticated) => ({
+//   type: types.SIGN_IN_SUCCESS,
+//   payload: { response, isAuthenticated }
+// });
+
+export const loginFailure = error => ({
+  type: types.SIGN_IN_FAILURE,
+  error
 });
