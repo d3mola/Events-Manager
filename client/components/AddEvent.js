@@ -1,9 +1,12 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import Header from "./Header";
-import Footer from "./Footer";
-import { addEvent, getCenters } from "../actions/actionCreators";
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Header from './Header';
+import Footer from './Footer';
+import Loading from './Loading';
+import { addEvent, getCenters } from '../actions/actionCreators';
+import FlashMessage from './flashMessage';
 
 /**
  * Creates AddEvent Component
@@ -12,10 +15,13 @@ class AddEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      notes: "",
-      centerId: "0",
-      date: ""
+      data: {
+        title: '',
+        notes: '',
+        centerId: '0',
+        date: ''
+      },
+      error: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,21 +29,32 @@ class AddEvent extends Component {
   }
 
   handleChange(e) {
+    // console.log(e.target.name, e.target.value);
     this.setState({
-      [e.target.name]: e.target.value
+      data: { ...this.state.data, [e.target.name]: e.target.value }
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.addEvent(this.state);
-    // something should happen here - dispatch an action on submit
-    this.setState({
-      title: "",
-      notes: "",
-      centerId: "0",
-      date: ""
-    });
+    this.props.addEvent(this.state.data);
+    // this.props.addEvent(this.state);
+    // reset the state of the form
+    this.setState(
+      prevState => (
+        {
+          ...prevState,
+          error: this.props.error,
+          data: {
+            title: '',
+            notes: '',
+            centerId: '0',
+            date: 0
+          }
+        },
+        console.log('state', this.state)
+      )
+    );
   }
 
   componentDidMount() {
@@ -45,9 +62,17 @@ class AddEvent extends Component {
   }
 
   render() {
+    const { title, notes, centerId, date } = this.state.data;
+    const { message, className, error, addingEvent } = this.props;
     return (
       <div className="add-event-page">
-        <Header links={["centers", "events", "logout"]} />
+        <Header links={['centers', 'events', 'logout']} />
+        <FlashMessage message={message} className={className} error={error} />
+        {addingEvent && <Loading />}
+        <Link to="/centers" style={{ color: 'white', marginLeft: 20 }}>
+          <i className="fa fa-angle-double-right" />
+          Go to events
+        </Link>
         <div className="container">
           <div className="row">
             <div className="col col-md-6">
@@ -65,7 +90,7 @@ class AddEvent extends Component {
                     name="title"
                     id="event-name"
                     placeholder="E.g. John's convocation"
-                    value={this.state.title}
+                    value={title}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -78,7 +103,7 @@ class AddEvent extends Component {
                     cols="50"
                     rows="4"
                     placeholder="Enter an optional note"
-                    value={this.state.notes}
+                    value={notes}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -90,7 +115,7 @@ class AddEvent extends Component {
                     className="form-control"
                     name="centerId"
                     id="center"
-                    value={this.state.centerId}
+                    value={centerId}
                     onChange={this.handleChange}
                   >
                     <option value="0" disabled>
@@ -119,7 +144,7 @@ class AddEvent extends Component {
                     type="date"
                     name="date"
                     id="date"
-                    value={this.state.date}
+                    value={date}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -140,8 +165,22 @@ class AddEvent extends Component {
   }
 }
 
+AddEvent.propTypes = {
+  addEvent: PropTypes.func.isRequired,
+  getCenters: PropTypes.func.isRequired,
+  centers: PropTypes.object.isRequired,
+  message: PropTypes.string,
+  className: PropTypes.string,
+  error: PropTypes.string,
+  addingEvent: PropTypes.bool.isRequired
+};
+
 const mapStateToProps = state => ({
-  centers: state.centersReducer.centers
+  centers: state.centersReducer.centers,
+  message: state.flashMessages.message,
+  className: state.flashMessages.className,
+  error: state.flashMessages.error,
+  addingEvent: state.eventsReducer.addingEvent
 });
 
 export default connect(mapStateToProps, { getCenters, addEvent })(AddEvent);
