@@ -3,7 +3,6 @@ import db from '../models';
 const { Event } = db;
 
 export default {
-
   /**
    * @description adds a new center to the database
    * @param {object} req HTTP request object
@@ -11,10 +10,7 @@ export default {
    * @returns {object} new event
    */
   createEvent: (req, res) => {
-    const {
-      title, notes, centerId, date
-    } = req.body;
-
+    const { title, notes, centerId, date } = req.body;
     // check if the user fills the required fields
     if (!centerId || !title || !date) {
       return res.status(401).json({
@@ -29,14 +25,14 @@ export default {
         date
       }
     })
-      .then((originalEvent) => {
-      // if the event is taken send an error
+      .then(originalEvent => {
+        // if the event is taken send an error
         if (originalEvent) {
           res.status(404).json({
             success: false,
             message: 'This date is not available'
           });
-        // else create the event
+          // else create the event
         } else {
           Event.create({
             title,
@@ -45,25 +41,30 @@ export default {
             date,
             userId: req.user.userId
           })
-            .then(event => res.status(201).json({
-              success: true,
-              message: 'Event created succesfully!',
-              event
-            }))
-            .catch(error => res.status(404).json({
-              success: false,
-              message: 'Center does not exist',
-              error: error.message
-            }));
+            .then(event =>
+              res.status(201).json({
+                success: true,
+                message: 'Event created succesfully!',
+                event
+              })
+            )
+            .catch(error =>
+              res.status(404).json({
+                success: false,
+                message: 'Center does not exist',
+                error: error.message
+              })
+            );
         }
       })
-      .catch(error => res.status(500).json({
-        success: false,
-        message: 'Invalid input',
-        error: error.message
-      }));
+      .catch(error =>
+        res.status(500).json({
+          success: false,
+          message: 'Invalid input',
+          error: error.message
+        })
+      );
   },
-
 
   /**
    * @description updates an event
@@ -72,59 +73,61 @@ export default {
    * @returns {object} new event
    */
   updateEvent: (req, res) => {
-    const {
-     centerId, date
-    } = req.body;
+    const { centerId, date } = req.body;
 
-      Event.findById(req.params.eventId)
-        .then(event => {
-          if (!event) {
-            return res.status(404).send({
-              success: false,
-              message: 'Event does not exist!'
-            })
-          }
-          // check if the person that created the event is tryign to update
-          if (event.userId !== req.user.userId ) {
-            return res.status(401).send({
-              success: false,
-              message: 'You\'re not authorized to access this route'
-            });
-          } else {
-            Event.findOne({
-              where: {
-                centerId,
-                date
-              }
-            }).then(found => {
+    Event.findById(req.params.eventId)
+      .then(event => {
+        if (!event) {
+          return res.status(404).send({
+            success: false,
+            message: 'Event does not exist!'
+          });
+        }
+        // check if the person that created the event is tryign to update
+        if (event.userId !== req.user.userId) {
+          return res.status(401).send({
+            success: false,
+            message: "You're not authorized to access this route"
+          });
+        } else {
+          Event.findOne({
+            where: {
+              centerId,
+              date
+            }
+          })
+            .then(found => {
               // console.log('bbbbbbbb,', found.id, event.id)
-              if (found && (found.id != event.id)) {
+              if (found && found.id != event.id) {
                 return res.status(400).json({
                   success: false,
-                  message: 'Center already booked!',
-                })
+                  message: 'Center already booked!'
+                });
               } else {
                 return event.update({
                   title: req.body.title || event.title,
                   notes: req.body.notes || event.notes,
                   centerId: req.body.centerId || event.centerId,
                   date: req.body.date || event.date
-                })
+                });
               }
             })
             .then(updatedEvent => {
-               res.status(200).send({
+              res.status(200).send({
                 success: true,
                 message: 'Event succesfully updated!',
                 updatedEvent
-              })
-            })
-          }
-        }).catch(error => res.status(400).json({
+              });
+            });
+        }
+      })
+      .catch(error =>
+        res.status(400).json({
           success: false,
           message: 'Could not update event',
           error: error.message
-        }));
+        })
+      );
   },
 
   /**
@@ -141,7 +144,7 @@ export default {
      */
     const id = req.params.eventId;
     Event.findById(id)
-      .then((event) => {
+      .then(event => {
         if (!event) {
           return res.status(400).json({
             success: false,
@@ -152,20 +155,23 @@ export default {
             return res.status(403).json({
               success: false,
               message: 'You cannot delete this event'
-            })
+            });
           }
-          return event.destroy()
-            .then(res.status(200).send({
+          return event.destroy().then(
+            res.status(200).send({
               success: true,
               message: 'Event deleted succesfully',
               event
-            }));
+            })
+          );
         }
       })
-      .catch(error => res.status(400).send({
-        success: false,
-        message: 'Something went wrong',
-        error: error.message
-      }));
-  },
+      .catch(error =>
+        res.status(400).send({
+          success: false,
+          message: 'Something went wrong',
+          error: error.message
+        })
+      );
+  }
 };
