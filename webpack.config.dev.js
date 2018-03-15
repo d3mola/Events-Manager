@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/index.html',
@@ -10,19 +11,16 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: [
-    'babel-polyfill',
-    path.resolve(__dirname, 'client/index.js')
-  ],
+  entry: ['babel-polyfill', path.resolve(__dirname, 'client/index.js')],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'client/build'),
-    publicPath: '/',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  target: "web",
+  target: 'web',
   module: {
     rules: [
       {
@@ -68,15 +66,19 @@ module.exports = {
             options: {}
           }
         ]
-      },
+      }
     ]
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'client/build'),
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    HtmlWebpackPluginConfig
-  ],
+    HtmlWebpackPluginConfig,
+    new Dotenv({
+      path: './.env', // Path to .env file (this is the default)
+      safe: false // load .env.example (defaults to "false" which does not use dotenv-safe)
+    })
+  ]
 };
