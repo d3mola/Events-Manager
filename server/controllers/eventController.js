@@ -13,7 +13,6 @@ export default {
    */
   createEvent: (req, res) => {
     const { title, notes, centerId, date } = req.body;
-
     // check if date is already taken
     Event.find({
       where: {
