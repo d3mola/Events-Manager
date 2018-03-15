@@ -1,18 +1,27 @@
-/** 
+/**
  * Inital state tree of the redux store
  */
 export default {
+  authReducer: {
+    isLoading: false,
+    isAuthenticated: false,
+    token: localStorage.getItem('token'),
+    error: null
+  },
   eventsReducer: {
-    fetchingEvents: false,
+    isFetching: false,
     events: [],
     shouldHide: true
   },
   centersReducer: {
-    fetchingCenters: false,
-    centers: [],
+    isFetching: false,
+    // centerFetched: false,
+    centers: []
+    // selectedCenter: {}
+    // error: false
   },
   flashMessages: {
     message: null,
     className: null
   }
-}
+};
