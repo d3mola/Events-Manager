@@ -1,3 +1,4 @@
+import { all } from 'redux-saga/effects';
 import { watchSignUpAsync, watchSignInAsync, watchLogout } from './authSaga';
 import {
   watchFetchCentersAsync,
@@ -21,7 +22,7 @@ import {
  * @export
  */
 export default function* rootSaga() {
-  yield [
+  yield all([
     watchSignUpAsync(),
     watchSignInAsync(),
     watchFetchCentersAsync(),
@@ -36,5 +37,5 @@ export default function* rootSaga() {
     watchDeleteEventAsync(),
     watchLogout()
     // watchshowEditFormAsync()
-  ];
+  ]);
 }
