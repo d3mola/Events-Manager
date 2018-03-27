@@ -12,12 +12,13 @@ class EventListContainer extends React.Component {
   }
 
   render() {
-    const { events, match, isFetching } = this.props;
+    const { events, match, isFetching, error } = this.props;
     return (
       <EventListComponent
         events={events}
         match={match}
         isFetching={isFetching}
+        error={error}
       />
     );
   }
@@ -27,12 +28,14 @@ EventListContainer.propTypes = {
   events: PropTypes.array.isRequired,
   getEvents: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  error: PropTypes.string
 };
 
 const mapStateToProps = state => ({
   events: state.eventsReducer.events,
-  isFetching: state.eventsReducer.isFetching
+  isFetching: state.eventsReducer.isFetching,
+  error: state.eventsReducer.error
 });
 
 export default connect(mapStateToProps, {
