@@ -32,13 +32,13 @@ const EventDetailsComponent = ({
         style={{ marginRight: 10 }}
         className="btn btn-outline-primary btn-sm"
       >
-        <i className="fa fa-edit" />
+        <i className="fa fa-edit" /> Edit
       </Link>
       <button
         className="btn btn-outline-danger btn-sm"
         onClick={() => handleDelete(currentEvent.id)}
       >
-        <i className="fa fa-trash" />
+        <i className="fa fa-trash" /> Delete
       </button>
     </div>
   );
