@@ -28,7 +28,7 @@ const token = localStorage.getItem('token');
  * @param {any} action
  * @returns {object} response
  */
-export function* fetchcentersAsync(action) {
+export function* fetchcentersAsync() {
   try {
     const response = yield call(axios.get, `${url}/centers`, {
       headers: { 'x-access-token': token }
@@ -67,8 +67,8 @@ export function* fetchcentersAsync(action) {
  * @export
  */
 export function* watchFetchCentersAsync() {
-  console.log('listening for GET_CENTERS');
-  yield takeEvery(types.GET_CENTERS, fetchcentersAsync);
+  yield takeLatest(types.GET_CENTERS, fetchcentersAsync);
+  // yield takeEvery(types.GET_CENTERS, fetchcentersAsync);
 }
 
 /**
@@ -112,7 +112,8 @@ export function* addCenterAsync(action) {
     error.response.status.message === (401 || 403)
       ? yield put(push('/login'))
       : null; // redirect to an error page
-    // yield put({ type: types.ADD_CENTER_FAILURE, response: 'ADD_CENTER_FAILED' });
+    // yield put({ type: types.ADD_CENTER_FAILURE,
+    // response: 'ADD_CENTER_FAILED' });
   }
 }
 
