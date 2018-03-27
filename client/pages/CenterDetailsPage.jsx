@@ -7,7 +7,13 @@ import CenterDetailsContainer from '../containers/CenterDetailsContainer';
 
 const CenterDetailsPage = ({ match }) => (
   <div>
-    <Header links={['centers', 'events', 'centers/add']} />
+    <Header
+      links={{
+        centers: 'centers',
+        events: 'events',
+        'add center': 'centers/add'
+      }}
+    />
     <CenterDetailsContainer match={match} />
     <Footer />
   </div>
