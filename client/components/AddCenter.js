@@ -60,7 +60,9 @@ class AddCenter extends React.Component {
   render() {
     return (
       <div className="add-center-page">
-        <Header links={['centers', 'events', 'logout']} />
+        <Header
+          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+        />
         <FlashMessage
           message={this.props.message}
           className={this.props.className}

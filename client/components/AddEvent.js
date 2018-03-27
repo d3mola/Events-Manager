@@ -6,7 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Loading from './Loading';
 import { addEvent, getCenters } from '../actions/actionCreators';
-import FlashMessage from './flashMessage';
+import FlashMessage from './FlashMessage';
 
 /**
  * Creates AddEvent Component
@@ -66,7 +66,9 @@ class AddEvent extends Component {
     const { message, className, error, addingEvent } = this.props;
     return (
       <div className="add-event-page">
-        <Header links={['centers', 'events', 'logout']} />
+        <Header
+          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+        />
         <FlashMessage message={message} className={className} error={error} />
         {addingEvent && <Loading />}
         <Link to="/centers" style={{ color: 'white', marginLeft: 20 }}>
