@@ -12,7 +12,7 @@ const EventComponent = ({ singleEvent, match }) => (
       style={{ marginRight: 10 }}
       className="btn btn-outline-primary btn-sm"
     >
-      <i className="fa fa-info" />
+      <i className="fa fa-info" /> Details
     </Link>
     <hr />
   </div>

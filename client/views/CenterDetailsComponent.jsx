@@ -10,8 +10,8 @@ const CenterDetailsComponent = props => {
     return <Loading />;
   } else {
     return (
-      <div className="container center-details-page text-center fill-viewport mt-4">
-        <div className="row">
+      <div className="container center-details-page fill-viewport mt-4">
+        <div className="row text-center">
           <div className="col col-md-12">
             <h3 className="font-weight-bold text-uppercase mt-3">
               Center Details
