@@ -41,25 +41,27 @@ export function* getEventsAsync() {
     });
     // yield put({ type: types.SET_LOGIN_STATUS, isAuthenticated: true });
   } catch (error) {
-    console.log('error', error);
-    console.log('error', error.response.status);
     let message;
-    switch (error.response.status) {
-      case 401:
-        message = 'You need to login';
-        yield put(push('/login'));
-        break;
-      case 500:
-        message = 'Server error, try again';
-        break;
-      case 404:
-        message = 'no events, do you wish to create one?';
-        break;
-      default:
-        message = 'Something went wrong';
-        console.log(
-          'error - remember to dispatch get events failure action here'
-        );
+    if (!error.response) {
+      message = 'Possible network error, please reload the page';
+    } else {
+      switch (error.response.status) {
+        case 401:
+          message = 'You need to login';
+          yield put(push('/login'));
+          break;
+        case 500:
+          message = 'Server error, try again';
+          break;
+        case 404:
+          message = 'no events, do you wish to create one?';
+          break;
+        default:
+          message = 'Something went wrong';
+          console.log(
+            'error - remember to dispatch get events failure action here'
+          );
+      }
     }
     yield put({ type: types.GET_EVENTS_FAILURE, error: message });
   }
