@@ -28,7 +28,12 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
     case actionTypes.GET_EVENTS:
       return { ...state, isFetching: true };
     case actionTypes.GET_EVENTS_SUCCESS:
-      return { ...state, events: action.events, isFetching: false };
+      return {
+        ...state,
+        events: action.events,
+        isFetching: false,
+        error: null
+      };
     case actionTypes.GET_EVENTS_FAILURE:
       return { ...state, error: action.error, isFetching: false };
 
