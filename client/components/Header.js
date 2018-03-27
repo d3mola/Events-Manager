@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Logout from '../views/LogoutButton';
 // import { logout } from '../actions/actionCreators';
@@ -11,7 +10,6 @@ import Logout from '../views/LogoutButton';
  * @returns {JSX} - representaion of header
  */
 const Header = ({ links }) => {
-  // const links = ["centers", "events", "register", "login", "logout"];
   return (
     <div id="header">
       <nav className="navbar navbar-toggleable-md">
@@ -36,11 +34,11 @@ const Header = ({ links }) => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
-            {links.map(link => {
+            {Object.entries(links).map(link => {
               return (
-                <li key={link} className="nav-item">
-                  <NavLink className="nav-link" to={`/${link}`}>
-                    {link.toUpperCase()}
+                <li key={link[0]} className="nav-item">
+                  <NavLink className="nav-link" to={`/${link[1]}`}>
+                    {link[0].toUpperCase()}
                   </NavLink>
                 </li>
               );
@@ -54,7 +52,7 @@ const Header = ({ links }) => {
 };
 
 Header.propTypes = {
-  links: PropTypes.array.isRequired
+  links: PropTypes.object.isRequired
 };
 
 export default Header;

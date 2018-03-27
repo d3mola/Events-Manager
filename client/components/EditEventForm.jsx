@@ -1,21 +1,22 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Header from "./Header";
-import Footer from "./Footer";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Header from './Header';
+import Footer from './Footer';
 import {
   getSingleEvent,
   editEvent,
   getCenters
-} from "../actions/actionCreators";
+} from '../actions/actionCreators';
 
 class EditEventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      notes: "",
-      centerId: "0",
-      date: ""
+      title: '',
+      notes: '',
+      centerId: '0',
+      date: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -72,7 +73,9 @@ class EditEventForm extends Component {
       <h1>loading...</h1>
     ) : (
       <div className="">
-        <Header links={["centers", "events", "logout"]}/>
+        <Header
+          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+        />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
@@ -85,7 +88,7 @@ class EditEventForm extends Component {
                   Edit Event!
                 </h3>
                 <em
-                  style={{ fontWeight: 700, marginBottom: 20, color: "black" }}
+                  style={{ fontWeight: 700, marginBottom: 20, color: 'black' }}
                 >
                   editing {title}...
                 </em>
@@ -174,6 +177,14 @@ class EditEventForm extends Component {
     );
   }
 }
+EditEventForm.propTypes = {
+  getCenters: PropTypes.func.isRequired,
+  getSingleEvent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  editEvent: PropTypes.func.isRequired,
+  centers: PropTypes.array.isRequired,
+  currentEvent: PropTypes.object.isRequired
+};
 
 /** maps reux state to props
  * @param {any} state
