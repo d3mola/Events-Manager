@@ -8,8 +8,8 @@ import * as actionTypes from '../actions/actionTypes';
  */
 const centers = (state = initialState.centersReducer, action) => {
   switch (action.type) {
-    // case actionTypes.GET_CENTERS:
-    //   return { ...state, isFetching: true };
+    case actionTypes.GET_CENTERS:
+      return { ...state, isFetching: true };
 
     case actionTypes.GET_CENTERS_SUCCESS:
       return { ...state, centers: action.centers, isFetching: false };
