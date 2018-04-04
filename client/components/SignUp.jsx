@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-import FlashMessage from './FlashMessage';
+// import FlashMessage from './FlashMessage';
 
 /**
  * @description Creates SignUpForm component
@@ -67,8 +67,10 @@ class SignUp extends React.Component {
   render() {
     return (
       <div className="register-page">
-        <Header links={['centers', 'events', 'login']} />
-        <FlashMessage />
+        <Header
+          links={{ centers: 'centers', events: 'events', login: 'login' }}
+        />
+        {/* <FlashMessage /> */}
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">

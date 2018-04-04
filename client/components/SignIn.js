@@ -8,7 +8,7 @@ import Footer from './Footer';
 import Loading from './Loading';
 
 import { signIn, sendFlashMessage } from '../actions/actionCreators';
-import FlashMessage from './flashMessage';
+// import FlashMessage from './FlashMessage';
 // import UserAction from "./UserAction";
 
 /**
@@ -73,7 +73,9 @@ class SignIn extends React.Component {
     ) : null;
     return (
       <div className="login-page">
-        <Header links={['centers', 'events', 'register']} />
+        <Header
+          links={{ centers: 'centers', events: 'events', register: 'register' }}
+        />
         {/* <FlashMessage /> */}
         <br />
         <div className="container">
