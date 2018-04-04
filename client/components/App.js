@@ -8,7 +8,7 @@ import PrivateRoute from '../customRoutes/PrivateRoutes';
 import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Centers from '../pages/CenterListPage';
+import CentersListPage from '../pages/CenterListPage';
 import CenterDetailsPage from '../pages/CenterDetailsPage';
 import AddCenter from './AddCenter';
 import AddEvent from './AddEvent';
@@ -46,7 +46,7 @@ class App extends Component {
           <PrivateRoute path="/centers/add" component={AddCenter} />
           <PrivateRoute path="/centers/:id/edit" component={EditCenterForm} />
           <PrivateRoute path="/centers/:id" component={CenterDetailsPage} />
-          <PrivateRoute path="/centers" component={Centers} />
+          <PrivateRoute path="/centers" component={CentersListPage} />
           {/* <Route path="/link" component={Link} />
           <Route path="/test" component={Test} /> */}
           <Route component={Error} />
