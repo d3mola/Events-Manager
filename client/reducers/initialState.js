@@ -11,10 +11,11 @@ export default {
   eventsReducer: {
     isFetching: false,
     events: [],
-    shouldHide: true
+    addingEvent: false,
   },
   centersReducer: {
     isFetching: false,
+    addingCenter: false,
     // centerFetched: false,
     centers: []
     // selectedCenter: {}
