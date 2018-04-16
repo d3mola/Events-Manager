@@ -7,11 +7,14 @@ import Loading from '../components/Loading';
 import CenterComponent from './CenterComponent';
 
 const CenterListComponent = props => {
-  const { centers, match } = props;
+  const { centers, match, isFetching } = props;
   const renderCenters = () => {
-    if (!centers.length) {
+    if (isFetching) {
       return <Loading />;
     } else {
+      if (centers.length === 0) {
+        return <p>No centers at this time.</p>
+      }
       return (
         <div className="row fill-viewport">
           {centers.map(center => (
@@ -36,7 +39,8 @@ const CenterListComponent = props => {
 
 CenterListComponent.propTypes = {
   centers: PropTypes.array.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 export default CenterListComponent;
