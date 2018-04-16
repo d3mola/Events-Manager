@@ -2,15 +2,11 @@ import { delay } from 'redux-saga';
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
+import setApiUrl from '../utils/setUrl';
 
 import * as types from '../actions/actionTypes';
-// import * as actions from '../actions/actionCreators';
 
-let api = '/api/v1';
-const url =
-  process.env.NODE_ENV === ('development' || 'test')
-    ? `http://localhost:8000${api}`
-    : `https://party-palace.herokuapp.com${api}`;
+let url = setApiUrl(process.env.NODE_ENV);
 
 /**
  * Aysnc operation to sign up
@@ -55,55 +51,6 @@ export function* watchSignUpAsync() {
  * Aysnc operation to sign in
  */
 
-// previoes implemetation of sign in..
-// to be deleted later if new implentation is prefered
-// /**
-//  * Sign in async operation
-//  * @export
-//  * @param {any} action
-//  * @returns {object} response
-//  */
-// export function* signInAsync(action) {
-//   try {
-//     const response = yield call(axios.post, `${url}/users/login`, {
-//       email: action.payload.email,
-//       password: action.payload.password
-//     });
-//     localStorage.setItem('token', response.data.token);
-//     console.log('login response----------- ', response.data);
-//     // Add loading indicator here----------------------------------
-//     yield put({
-//       type: types.SIGN_IN_SUCCESS,
-//       response: response.data.message,
-//       isAuthenticated: true
-//     });
-//     // yield put({
-//     //   type: types.SET_LOGIN_STATUS,
-//     //   isAuthenticated: true
-//     // });
-//     // yield put({
-//     //   type: types.FLASH_MESSAGE,
-//     //   payload: { message: response.data.message, className: 'alert-success' }
-//     // });
-//     // yield delay(2000);
-//     yield put(push('/centers'));
-//   } catch (error) {
-//     console.log('saga error in sign in', error.response.data.message);
-//     // yield put({
-//     //   type: types.SIGN_IN_FAILURE,
-//     //   error: error.response.data.message
-//     // });
-//     yield put(actions.loginFailure(error.response.data.message));
-//     yield put({
-//       type: types.FAILURE_FLASH_MESSAGE,
-//       error: error.response.data.message
-//     });
-//     yield delay(5000);
-//     yield put({ type: types.CLEAR_FLASH_MESSAGE });
-//   }
-// }
-
-// new implwntation of sign in - likely to be kept
 /**
  * Login async operation
  * @export
@@ -123,16 +70,19 @@ export function* loginAsync(action) {
     yield put(push('/centers'));
   } catch (error) {
     console.log('login async error', error);
+    console.log('login async error ------>', error.response);
     let message;
-    switch (error.response.status) {
-      case 500:
-        message = 'Internal Server Error';
-        break;
-      case 401:
-        message = 'Invalid credentials';
-        break;
-      default:
-        message = 'Something went wrong';
+    if (error.response) {
+      switch (error.response.status) {
+        case 500:
+          message = 'Internal Server Error';
+          break;
+        case 401:
+          message = 'Invalid credentials';
+          break;
+        default:
+          message = 'Something went wrong';
+      }
     }
     yield put({ type: types.SIGN_IN_FAILURE, error: message });
     localStorage.removeItem('token');
@@ -153,7 +103,7 @@ export function* watchSignInAsync() {
  *  log out saga
  */
 
-export function* logout(action) {
+export function* logout() {
   try {
     localStorage.removeItem('token');
     yield put({
