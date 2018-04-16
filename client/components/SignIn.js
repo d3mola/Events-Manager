@@ -1,12 +1,15 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { signIn, sendFlashMessage } from "../actions/actionCreators";
-import Header from "./Header";
-import Footer from "./Footer";
-import FlashMessage from "./flashMessage";
-import UserAction from "./UserAction";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import Header from './Header';
+import Footer from './Footer';
+import Loading from './Loading';
+
+import { signIn, sendFlashMessage } from '../actions/actionCreators';
+// import FlashMessage from './FlashMessage';
+// import UserAction from "./UserAction";
 
 /**
  * @description Creates SignIn component
@@ -27,8 +30,8 @@ class SignIn extends React.Component {
 
     //setting the initial state of the component
     this.state = {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     };
   } // constructor
 
@@ -63,11 +66,18 @@ class SignIn extends React.Component {
    * @returns {object} signin
    */
   render() {
+    const { isLoading } = this.props;
+    const loadingIndicator = isLoading ? (
+      // <Loader type="TailSpin" color="#5cb85c" height="50" width="50" />
+      <Loading />
+    ) : null;
     return (
       <div className="login-page">
-        <Header links={["centers", "events", "register"]}/>
-        <FlashMessage />
-        <br/>
+        <Header
+          links={{ centers: 'centers', events: 'events', register: 'register' }}
+        />
+        {/* <FlashMessage /> */}
+        <br />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
@@ -103,6 +113,9 @@ class SignIn extends React.Component {
                     onChange={this.handleChange}
                   />
                 </div>
+                {loadingIndicator}
+                {/* <div className="text-center">{loadingIndicator}</div> */}
+                {/* {isLoading ? <h1>loading...dan..</h1> : <h1>empty...dan..</h1>} */}
                 <input
                   className="btn btn-outline-success"
                   type="submit"
@@ -127,6 +140,16 @@ class SignIn extends React.Component {
 
 SignIn.propTypes = {
   signIn: PropTypes.func.isRequired,
-}
+  sendFlashMessage: PropTypes.func,
+  isLoading: PropTypes.bool.isRequired
+};
 
-export default connect(null, { signIn, sendFlashMessage })(SignIn);
+const mapStateToProps = state => {
+  const { authReducer } = state;
+  // console.log('mapSTP------', authReducer);
+  return {
+    isLoading: authReducer.isLoading
+  };
+};
+
+export default connect(mapStateToProps, { signIn, sendFlashMessage })(SignIn);
