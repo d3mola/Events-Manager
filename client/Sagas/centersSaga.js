@@ -2,19 +2,11 @@ import { delay } from 'redux-saga';
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-// import dotenv from 'dotenv';
+import setApiUrl from '../utils/setUrl'
 
 import * as types from '../actions/actionTypes';
 
-// Load .env
-// dotenv.config();
-
-const api = '/api/v1';
-const url =
-  process.env.NODE_ENV === ('development' || 'test')
-    ? `http://localhost:8000${api}`
-    : `https://party-palace.herokuapp.com${api}`;
-// const url = `http://localhost:8000${api}`;
+let url = setApiUrl(process.env.NODE_ENV);
 const token = localStorage.getItem('token');
 // axios.defaults.headers.common['x-access-token'] = token;
 
@@ -38,11 +30,11 @@ export function* fetchcentersAsync() {
       centers: response.data.centers
     });
   } catch (error) {
-    console.log(
-      'GET_CENTERS_FAILURE ---> ',
-      error.response.status,
-      error.response.data.message
-    );
+    // console.log(
+    //   'GET_CENTERS_FAILURE ---> ',
+    //   error.response.status,
+    //   error.response.data.message
+    // );
     yield put({
       type: types.GET_CENTERS_FAILURE,
       error: error.response.data.message
@@ -83,8 +75,6 @@ export function* watchFetchCentersAsync() {
  */
 export function* addCenterAsync(action) {
   try {
-    console.log('Trying to post a center to the api..  ', action);
-    // console.log(`${url}/api/v1/centers`)
     const response = yield call(axios.post, `${url}/centers`, {
       //   headers: { "x-access-token": token }
       // }, {
@@ -99,9 +89,6 @@ export function* addCenterAsync(action) {
       type: types.SUCCESS_FLASH_MESSAGE,
       response: { message: response.data.message }
     });
-    yield delay(10000);
-    yield put({ type: types.CLEAR_FLASH_MESSAGE });
-    // yield put(push('/centers'));
   } catch (error) {
     yield put({
       type: types.FAILURE_FLASH_MESSAGE,
@@ -111,9 +98,7 @@ export function* addCenterAsync(action) {
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
     error.response.status.message === (401 || 403)
       ? yield put(push('/login'))
-      : null; // redirect to an error page
-    // yield put({ type: types.ADD_CENTER_FAILURE,
-    // response: 'ADD_CENTER_FAILED' });
+      : null;
   }
 }
 
@@ -136,7 +121,7 @@ export function* fetchSingleCenterAsync(action) {
     const response = yield call(axios.get, `${url}/centers/${action.centerId}`);
     yield put({
       type: types.GET_SINGLE_CENTER_SUCCESS,
-      response: response.data
+      center: response.data.center
     });
   } catch (error) {
     console.log(error.response.data.message);
