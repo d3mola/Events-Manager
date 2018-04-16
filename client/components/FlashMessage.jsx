@@ -36,9 +36,9 @@ const mapStateToProps = ({ flashMessages }) => ({
 });
 
 FlashMessage.propTypes = {
-  message: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired
+  message: PropTypes.string,
+  className: PropTypes.string,
+  error: PropTypes.string
 };
 
 export default connect(mapStateToProps)(FlashMessage);

@@ -173,7 +173,7 @@ EditCenterForm.propTypes = {
   match: PropTypes.object.isRequired,
   fetchSingleCenter: PropTypes.func.isRequired,
   updateCenter: PropTypes.func.isRequired,
-  selectedCenter: PropTypes.object.isRequired
+  selectedCenter: PropTypes.object
 };
 
 /** maps reux state to props
