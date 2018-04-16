@@ -49,11 +49,11 @@ class AddEvent extends Component {
             title: '',
             notes: '',
             centerId: '0',
-            date: 0
+            date: ''
           }
-        },
-        console.log('state', this.state)
-      )
+        }
+      ),
+      console.log('state', this.state)
     );
   }
 
@@ -170,11 +170,11 @@ class AddEvent extends Component {
 AddEvent.propTypes = {
   addEvent: PropTypes.func.isRequired,
   getCenters: PropTypes.func.isRequired,
-  centers: PropTypes.object.isRequired,
+  centers: PropTypes.array,
   message: PropTypes.string,
   className: PropTypes.string,
   error: PropTypes.string,
-  addingEvent: PropTypes.bool.isRequired
+  addingEvent: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
