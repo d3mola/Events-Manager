@@ -2,20 +2,11 @@ import { delay } from 'redux-saga';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-// import dotenv from 'dotenv';
+import setApiUrl from '../utils/setUrl';
 
 import * as types from '../actions/actionTypes';
 
-// Load .env
-// dotenv.config();
-
-const api = '/api/v1';
-const url =
-  process.env.NODE_ENV === ('development' || 'test')
-    ? `http://localhost:8000${api}`
-    : `https://party-palace.herokuapp.com${api}`;
-
-// const url = `http://localhost:8000${api}`;
+let url = setApiUrl(process.env.NODE_ENV);
 
 const token = localStorage.getItem('token');
 axios.defaults.headers.common['x-access-token'] = token;
