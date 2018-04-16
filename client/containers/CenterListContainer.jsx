@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import swal from 'sweetalert';
 import { getCenters } from '../actions/actionCreators';
 import CenterListComponent from '../views/CenterListComponent';
 
@@ -13,17 +11,10 @@ import CenterListComponent from '../views/CenterListComponent';
  * @extends {React.Component}
  */
 class CenterListContainer extends React.Component {
-  // cold be useful in center details container
-  // handleDisplayDetails = center => {
-  //   console.log('cb passed down as props', center);
-  //   this.props.fetchSingleCenter(center.id);
-  //   console.log(this.props.match.url + '/' + center.id);
-  //   // history.push(`${this.props.match.url}/${center.id}`);
-  // };
 
   /**
    *  fetch centers as soon as component renders
-   * @returns {object} centers
+   * @returns {array} list of centers
    * @memberof Centers
    */
   componentDidMount() {
@@ -40,6 +31,7 @@ class CenterListContainer extends React.Component {
       <CenterListComponent
         centers={this.props.centers}
         match={this.props.match}
+        isFetching={this.props.isFetching}
       />
     );
   }
@@ -48,11 +40,13 @@ class CenterListContainer extends React.Component {
 CenterListContainer.propTypes = {
   centers: PropTypes.array.isRequired,
   getCenters: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  centers: state.centersReducer.centers
+  centers: state.centersReducer.centers,
+  isFetching: state.centersReducer.isFetching
 });
 
 export default connect(mapStateToProps, {
