@@ -3,6 +3,10 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Center name already exists!'
+      },
     },
     location: {
       type: DataTypes.STRING,

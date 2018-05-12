@@ -2,17 +2,39 @@ import express from 'express';
 import centerController from '../controllers/centerController';
 import authenticate from '../middleware/authenticate';
 import adminCheck from '../middleware/adminCheck';
+import ValidateInput from '../middleware/validateInput';
 
 const router = express.Router();
 
-router.post('/centers', authenticate, adminCheck, centerController.create);
+router
+  .route('/centers')
+  .post(
+    authenticate,
+    adminCheck,
+    ValidateInput.centerPayloadValidator,
+    centerController.create
+  )
+  .get(authenticate, centerController.getAllCenters);
 
-router.get('/centers', authenticate, centerController.getAllCenters);
-
-router.put('/centers/:centerId', authenticate, adminCheck, centerController.update);
-
-router.get('/centers/:centerId', authenticate, centerController.getACenter);
-
-router.delete('/centers/:centerId', authenticate, adminCheck, centerController.deleteCenter);
+router
+  .route('/centers/:centerId')
+  .put(
+    authenticate,
+    adminCheck,
+    ValidateInput.paramIdValidator,
+    ValidateInput.centerPayloadValidator,
+    centerController.update
+  )
+  .get(
+    authenticate,
+    ValidateInput.paramIdValidator,
+    centerController.getACenter
+  )
+  .delete(
+    authenticate,
+    adminCheck,
+    ValidateInput.paramIdValidator,
+    centerController.deleteCenter
+  );
 
 export default router;

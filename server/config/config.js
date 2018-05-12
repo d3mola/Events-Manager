@@ -1,17 +1,19 @@
+require ('dotenv').config();
+
 module.exports = {
   development: {
-    username: 'postgres',
-    password: 'ariya',
-    database: 'events_manager_dev',
-    host: '127.0.0.1',
-    port: 5432,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME_DEV,
+    host: process.env.DB_HOST,
+    port: process.env.PORT,
     dialect: 'postgres'
   },
   test: {
-    username: 'postgres',
-    password: 'ariya',
-    database: 'events_manager_test',
-    host: '127.0.0.1',
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME_TEST,
+    host: process.env.DB_HOST,
     dialect: 'postgres'
   },
   production: {

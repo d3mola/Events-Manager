@@ -1,24 +1,33 @@
-export default {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [{
-      username: 'demola',
-      email: 'demola@demo.com',
-      password: 'demola',
-      isAdmin: true
-    }, {
-      username: 'adam',
-      email: 'adam@demo.com',
-      password: 'adamadam',
-      isAdmin: false
-    }, {
-      username: 'leke',
-      email: 'leke@demo.com',
-      password: 'lekeleke',
-      isAdmin: false
-    }]);
-  },
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {});
-  }
+dotenv.config();
+
+module.exports = {
+  up: queryInterface => queryInterface.bulkInsert('Users', [{
+    username: 'Demola',
+    email: 'demola@test.com',
+    password: bcrypt.hashSync(process.env.SEEDED_USER_PASS, 10),
+    isAdmin: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }, {
+    username: 'Adam',
+    email: 'adam@test.com',
+    password: bcrypt.hashSync(process.env.SEEDED_USER_PASS, 10),
+    isAdmin: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }, {
+    username: 'Leke',
+    email: 'leke@test.com',
+    password: bcrypt.hashSync(process.env.SEEDED_USER_PASS, 10),
+    isAdmin: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }], {}),
+
+  down: queryInterface => queryInterface.bulkDelete('Users', [{
+    username: 'Demola'
+  }])
 };

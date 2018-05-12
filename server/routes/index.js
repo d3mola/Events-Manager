@@ -1,3 +1,5 @@
-import { users } from './users';
+import userRoutes from './users';
+import centerRoutes from './centers';
+import eventRoutes from './events';
 
-export default { users };// export other routes too when needed
+export default { userRoutes, centerRoutes, eventRoutes };

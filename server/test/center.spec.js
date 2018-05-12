@@ -131,16 +131,16 @@ describe('Center', () => {
         });
     });
 
-    it('should return 500 for a network error', (done) => {
-      request.get('/api/v1/centers/undefined')
+    it('should return 400 for invalid id', (done) => {
+      request.get('/api/v1/centers/invalid')
         .send({
           token: adminToken,
           centerId: 44
         })
         .end((err, res) => {
-          expect(res.status).to.equal(500);
+          expect(res.status).to.equal(400);
           expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.be.equal('Could not get the center details');
+          expect(res.body.message).to.be.equal('Id should be an integer');
           done();
         });
     });
@@ -195,7 +195,7 @@ describe('Center', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body.success).to.equal(false);
-        expect(res.body.message).to.equal('Incomplete credentials');
+        expect(res.body.message).to.equal('Center price is required!');
         done();
       });
   });
@@ -210,7 +210,7 @@ describe('Center', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body.success).to.equal(false);
-        expect(res.body.message).to.equal('Incomplete credentials');
+        expect(res.body.message).to.equal('Center name is required!');
         done();
       });
   });
@@ -224,7 +224,7 @@ describe('Center', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body.success).to.equal(false);
-        expect(res.body.message).to.equal('Incomplete credentials');
+        expect(res.body.message).to.equal('Center location is required!');
         done();
       });
   });
