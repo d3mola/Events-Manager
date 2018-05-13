@@ -1,137 +1,148 @@
 import db from '../models';
 
-const { Event } = db;
+const { Event, Center } = db;
 
 export default {
-
   /**
-   * @description adds a new center to the database
+   * @description adds a new event to the database
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
+   *
    * @returns {object} new event
    */
   createEvent: (req, res) => {
-    const {
-      title, notes, centerId, date
-    } = req.body;
+    const { title, notes, centerId, date } = req.body;
 
-    // check if the user fills the required fields
-    if (!centerId || !title || !date) {
-      return res.status(401).json({
-        success: false,
-        message: 'Incomplete credentials'
-      });
-    }
     // check if date is already taken
-    return Event.find({
+    Event.find({
       where: {
         centerId,
         date
       }
     })
-      .then((originalEvent) => {
-      // if the event is taken send an error
-        if (originalEvent) {
-          res.status(404).json({
+      .then(existingEvent => {
+        // an event has taken the center and date
+        if (existingEvent) {
+          return res.status(404).json({
             success: false,
-            message: 'This date is not available'
+            message: 'This center is not available for this day'
           });
-        // else create the event
-        } else {
+          // else create the event
+        }
+        Center.findById(centerId).then(existingCenter => {
+          if (!existingCenter) {
+            return res.status(404).json({
+              success: false,
+              message: 'Center does not exist!'
+            });
+          }
           Event.create({
             title,
             notes,
             centerId,
             date,
-            userId: req.user.userId
+            userId: req.user.userId // from the decoded token
           })
-            .then(event => res.status(201).json({
-              success: true,
-              message: 'Event created succesfully!',
-              event
-            }))
-            .catch(error => res.status(404).json({
-              success: false,
-              message: 'Center does not exist',
-              error: error.message
-            }));
-        }
+            .then(event =>
+              res.status(201).json({
+                success: true,
+                message: 'Event created succesfully!',
+                event
+              })
+            )
+            .catch(error =>
+              res.status(500).json({
+                success: false,
+                message:
+                  'Something went wrong, internal server error' || error.message
+              })
+            );
+        });
+        //
       })
-      .catch(error => res.status(500).json({
-        success: false,
-        message: 'Invalid input',
-        error: error.message
-      }));
+      .catch(error =>
+        res.status(500).json({
+          success: false,
+          message:
+            'Something went wrong, internal server error' || error.message
+        })
+      );
   },
-
 
   /**
    * @description updates an event
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * @returns {object} new event
+   *
+   * @returns {object} response onject with updated event
    */
   updateEvent: (req, res) => {
-    const {
-     centerId, date
-    } = req.body;
-
-      Event.findById(req.params.eventId)
-        .then(event => {
-          if (!event) {
-            return res.status(404).send({
-              success: false,
-              message: 'Event does not exist!'
-            })
+    const { centerId, date } = req.body;
+    const id = req.params.eventId;
+    Event.findById(id)
+      .then(event => {
+        if (!event) {
+          return res.status(404).send({
+            success: false,
+            message: 'Event does not exist!'
+          });
+        }
+        // check if the person that created the event is trying to update
+        // console.log(req.user, '<<<<<<<<>>>>>>>>>>');
+        if (event.userId !== req.user.userId) {
+          return res.status(403).send({
+            success: false,
+            message: "You're not authorized to access this route"
+          });
+        }
+        Event.findOne({
+          where: {
+            centerId,
+            date
           }
-          // check if the person that created the event is tryign to update
-          if (event.userId !== req.user.userId ) {
-            return res.status(401).send({
+        }).then(existingEvent => {
+          // console.log('bbbbbbbb,', existingEvent.id, event.id)
+          if (existingEvent) {
+            return res.status(404).json({
               success: false,
-              message: 'You\'re not authorized to access this route'
+              message: 'Center already booked!'
             });
-          } else {
-            Event.findOne({
-              where: {
-                centerId,
-                date
-              }
-            }).then(found => {
-              // console.log('bbbbbbbb,', found.id, event.id)
-              if (found && (found.id != event.id)) {
-                return res.status(400).json({
-                  success: false,
-                  message: 'Center already booked!',
-                })
-              } else {
-                return event.update({
-                  title: req.body.title || event.title,
-                  notes: req.body.notes || event.notes,
-                  centerId: req.body.centerId || event.centerId,
-                  date: req.body.date || event.date
-                })
-              }
-            })
-            .then(updatedEvent => {
-               res.status(200).send({
-                success: true,
-                message: 'Event succesfully updated!',
-                updatedEvent
-              })
-            })
           }
-        }).catch(error => res.status(400).json({
+          Event.update(
+            {
+              title: req.body.title || event.title,
+              notes: req.body.notes || event.notes,
+              centerId: req.body.centerId || event.centerId,
+              date: req.body.date || event.date
+            },
+            { where: { id }, returning: true, plain: true }
+          ).then(updatedEventInfo => {
+            res.status(200).send({
+              success: true,
+              message: 'Event updated succesfully!',
+              updatedEvent: updatedEventInfo[1]
+            });
+          });
+        });
+      })
+      .catch(error =>
+        res.status(500).json({
           success: false,
-          message: 'Could not update event',
-          error: error.message
-        }));
+          message:
+            'Something went wrong, internal server error' || error.message
+        })
+      );
   },
 
   /**
    * @description deletes an event
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * @returns {object} message
+   *
+   * @returns {object} deleted event
    */
   deleteEvent: (req, res) => {
     /**
@@ -141,9 +152,9 @@ export default {
      */
     const id = req.params.eventId;
     Event.findById(id)
-      .then((event) => {
+      .then(event => {
         if (!event) {
-          return res.status(400).json({
+          return res.status(404).json({
             success: false,
             message: 'Event does not exist'
           });
@@ -152,20 +163,23 @@ export default {
             return res.status(403).json({
               success: false,
               message: 'You cannot delete this event'
-            })
+            });
           }
-          return event.destroy()
-            .then(res.status(200).send({
+          return event.destroy().then(
+            res.status(200).send({
               success: true,
               message: 'Event deleted succesfully',
               event
-            }));
+            })
+          );
         }
       })
-      .catch(error => res.status(400).send({
-        success: false,
-        message: 'Something went wrong',
-        error: error.message
-      }));
-  },
+      .catch(error =>
+        res.status(500).send({
+          success: false,
+          message: 'Something went wrong, internal server error',
+          error: error.message
+        })
+      );
+  }
 };

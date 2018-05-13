@@ -1,25 +1,46 @@
-export default {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [{
-      title: 'Wedding',
-      notes: 'Lorem ipsum yada yada',
-      userId: 1
-    }, {
-      title: 'Burial',
-      notes: 'Lorem ipsum yada yada',
-      userId: 2
-    }, {
-      title: 'Wedding',
-      notes: 'Lorem ipsum yada yada',
-      userId: 4
-    }, {
-      title: 'Convocation',
-      notes: 'Lorem ipsum yada yada',
-      userId: 3
-    }]);
+module.exports = {
+  up: queryInterface => {
+    return queryInterface.bulkInsert('Events', [
+      {
+        title: 'Wedding',
+        notes: 'Wedding ipsum yada yada',
+        date: new Date,
+        userId: 2,
+        centerId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Burial',
+        notes: 'Burial ipsum yada yada',
+        date: new Date,
+        userId: 2,
+        centerId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Wedding',
+        notes: 'Wedding ipsum yada yada',
+        date: new Date,
+        userId: 3,
+        centerId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        title: 'Convocation',
+        notes: 'Convocation ipsum yada yada',
+        date: new Date,
+        userId: 3,
+        centerId: 3,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ], {});
   },
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {});
+  down: queryInterface => {
+    return queryInterface.bulkDelete('Events', null, {});
   }
 };

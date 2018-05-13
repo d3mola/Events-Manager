@@ -2,6 +2,7 @@ import express from 'express';
 import userController from '../controllers/userController';
 import authenticate from '../middleware/authenticate';
 import adminCheck from '../middleware/adminCheck';
+import ValidateInput from '../middleware/validateInput';
 
 const router = express.Router();
 
@@ -10,12 +11,9 @@ router.get('/', (req, res) => {
   res.send('Welcome to Party Palace API');
 });
 
-// endpoints with '/auth' sre specific to a particular user
-
-router.post('/users', userController.signup);
-router.post('/users/login', userController.login);
+router.post('/users', ValidateInput.signupValidator, userController.signup);
+router.post('/users/login', ValidateInput.loginValidator, userController.login);
 router.get('/users', authenticate, adminCheck, userController.getAllUsers);
-router.get('/users/auth/events', authenticate, userController.getUserEvents);
-router.get('/users/auth/events/:eventId', authenticate, userController.getOneUserEvent);
-// router.post('/users/logout', authenticate, userController.logout);
+
+router.get('/users/logout', userController.logout);
 export default router;
