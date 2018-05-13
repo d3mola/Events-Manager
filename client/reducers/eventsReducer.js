@@ -46,6 +46,13 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
         currentEvent: action.response.event,
         isFetching: false
       };
+    case actionTypes.GET_SINGLE_EVENT_FAILURE:
+      return {
+        ...state,
+        currentEvent: null,
+        isFetching: false,
+        error: action.error
+      };
 
     case actionTypes.DELETE_EVENT_SUCCESS:
       events = state.events.filter(

@@ -97,7 +97,7 @@ describe('Centers Reducers', () => {
   it('should handle GET_SINGLE_CENTER_SUCCESS', () => {
     recievedState = centersReducer(
       initialState.centersReducer,
-      { type: types.GET_SINGLE_CENTER_SUCCESS }
+      { type: types.GET_SINGLE_CENTER_SUCCESS, center: firstCenter }
     );
     expect(recievedState.selectedCenter).toEqual(firstCenter);
     expect(recievedState.isFetching).toEqual(false);

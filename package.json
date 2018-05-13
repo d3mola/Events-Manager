@@ -13,6 +13,7 @@
     "test:client": "jest client/",
     "test:client:watch": "jest client/ --watch",
     "test:client:coverage": "jest client/ --coverage",
+    "jest": "jest client/ --coverage --watch",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed:create": "sequelize seed:generate --name",
@@ -35,13 +36,14 @@
     "setupFiles": [
       "./client/__test__/jestsetup.js"
     ],
-    "setupTestFrameworkScriptFile":"./client/utils/localStorageMock",
+    "setupTestFrameworkScriptFile": "./client/utils/localStorageMock",
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "identity-obj-proxy"
-    }
+    },
+    "coverageDirectory": "<rootDir>/client/coverage"
   },
   "engines": {
     "node": "8.11.1",

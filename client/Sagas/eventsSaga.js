@@ -93,7 +93,11 @@ export function* getSingleEventAsync(action) {
       response: response.data
     });
   } catch (error) {
-    console.log('issa error', error.response.data.message);
+    yield put({
+      type: types.GET_SINGLE_EVENT_FAILURE,
+      error: error.response.data.message || error.message
+    });
+    // console.log('issa error', error.response.data.message);
   }
 }
 

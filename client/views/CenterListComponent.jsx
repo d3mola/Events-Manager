@@ -18,7 +18,7 @@ const CenterListComponent = props => {
       return (
         <div className="row fill-viewport">
           {centers.map(center => (
-            <div className="col-md-4 text-center" key={center.id}>
+            <div className="col-md-4 text-center center-list" key={center.id}>
               <CenterComponent center={center} match={match} />
             </div>
           ))}

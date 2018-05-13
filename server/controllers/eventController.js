@@ -23,12 +23,13 @@ export default {
       .then(existingEvent => {
         // an event has taken the center and date
         if (existingEvent) {
-          return res.status(404).json({
+          return res.status(409).json({
             success: false,
             message: 'This center is not available for this day'
           });
-          // else create the event
         }
+
+        // check if the center picked exists
         Center.findById(centerId).then(existingCenter => {
           if (!existingCenter) {
             return res.status(404).json({
@@ -36,6 +37,7 @@ export default {
               message: 'Center does not exist!'
             });
           }
+
           Event.create({
             title,
             notes,
@@ -89,41 +91,52 @@ export default {
           });
         }
         // check if the person that created the event is trying to update
-        // console.log(req.user, '<<<<<<<<>>>>>>>>>>');
         if (event.userId !== req.user.userId) {
           return res.status(403).send({
             success: false,
             message: "You're not authorized to access this route"
           });
         }
-        Event.findOne({
-          where: {
-            centerId,
-            date
-          }
-        }).then(existingEvent => {
-          // console.log('bbbbbbbb,', existingEvent.id, event.id)
-          if (existingEvent) {
+
+        Center.findById(centerId).then(existingCenter => {
+          if (!existingCenter) {
             return res.status(404).json({
               success: false,
-              message: 'Center already booked!'
+              message: 'Center does not exist!'
             });
           }
-          Event.update(
-            {
-              title: req.body.title || event.title,
-              notes: req.body.notes || event.notes,
-              centerId: req.body.centerId || event.centerId,
-              date: req.body.date || event.date
-            },
-            { where: { id }, returning: true, plain: true }
-          ).then(updatedEventInfo => {
-            res.status(200).send({
-              success: true,
-              message: 'Event updated succesfully!',
-              updatedEvent: updatedEventInfo[1]
+
+          Event.findOne({
+            where: {
+              centerId,
+              date
+            }
+          }).then(existingEvent => {
+            if (existingEvent && existingEvent.userId !== req.user.userId) {
+              return res.status(409).json({
+                success: false,
+                message: 'Center already booked!'
+              });
+            }
+
+            Event.update(
+              {
+                title: req.body.title || event.title,
+                notes: req.body.notes || event.notes,
+                centerId: req.body.centerId || event.centerId,
+                date: req.body.date || event.date
+              },
+              { where: { id }, returning: true, plain: true }
+            ).then(updatedEventInfo => {
+              return res.status(200).send({
+                success: true,
+                message: 'Event updated succesfully!',
+                updatedEvent: updatedEventInfo[1]
+              });
             });
+            
           });
+
         });
       })
       .catch(error =>

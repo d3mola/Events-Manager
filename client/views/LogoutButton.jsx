@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 import { logout } from '../actions/actionCreators';
 
-const Logout = props => {
-  const handleLogout = e => {
+export const Logout = props => {
+  const handleLogout = () => {
     props.logout();
   };
 

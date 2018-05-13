@@ -21,9 +21,7 @@ import Error from './Error';
 // import Test from '../views/CenterComponent';
 
 /**
- * @public
  * @class App
- * @description React Component encapsulating application user interface
  * @extends {Component}
  */
 class App extends Component {

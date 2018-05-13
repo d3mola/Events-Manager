@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import CenterDetailsComponent from '../views/CenterDetailsComponent';
 import { fetchSingleCenter, deleteCenter } from '../actions/actionCreators';
 
-class CenterDetailsContainer extends Component {
+export class CenterDetailsContainer extends Component {
   /**
    * callback to handle deletion of a center
    * passed down as props to CenterDetailsComponent
@@ -44,14 +44,16 @@ class CenterDetailsContainer extends Component {
  * @returns {object} props selectedCenter
  */
 const mapStateToProps = state => ({
-  selectedCenter: state.centersReducer.selectedCenter
+  selectedCenter: state.centersReducer.selectedCenter,
+  isFetching: state.centersReducer.isFetching
 });
 
 CenterDetailsContainer.propTypes = {
   selectedCenter: PropTypes.object,
   fetchSingleCenter: PropTypes.func.isRequired,
   deleteCenter: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  isFetching: PropTypes.bool.isRequired
 };
 
 CenterDetailsContainer.defaultProps = {
