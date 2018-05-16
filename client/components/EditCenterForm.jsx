@@ -1,10 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
 
-import { fetchSingleCenter, updateCenter } from "../actions/actionCreators";
-import Header from "./Header";
-import Footer from "./Footer";
+import PropTypes from 'prop-types';
+// import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+
+import { fetchSingleCenter, updateCenter } from '../actions/actionCreators';
+import Header from './Header';
+import Footer from './Footer';
 
 /**
  * Edits center details
@@ -22,10 +24,10 @@ class EditCenterForm extends React.Component {
 
     //sets the initial state of the component
     this.state = {
-      name: "",
-      location: "",
-      capacity: "",
-      price: ""
+      name: '',
+      location: '',
+      capacity: '',
+      price: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,7 +87,9 @@ class EditCenterForm extends React.Component {
       <h1>select a center to edit</h1>
     ) : (
       <div className="">
-        <Header links={["centers", "events", "logout"]}/>
+        <Header
+          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+        />
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
@@ -164,6 +168,13 @@ class EditCenterForm extends React.Component {
     );
   }
 }
+
+EditCenterForm.propTypes = {
+  match: PropTypes.object.isRequired,
+  fetchSingleCenter: PropTypes.func.isRequired,
+  updateCenter: PropTypes.func.isRequired,
+  selectedCenter: PropTypes.object
+};
 
 /** maps reux state to props
  * @param {any} state
