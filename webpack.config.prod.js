@@ -1,16 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
   entry: [
     'babel-polyfill',
     path.resolve(__dirname, 'client/index.js')
   ],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'client/build')
+    path: path.resolve(__dirname, 'client/build'),
+    publicPath: '/'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
   target: "web",
   module: {
@@ -20,7 +23,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'env']
+          presets: ['react', 'env', 'stage-2'],
+          plugins: ['transform-class-properties']
         }
       },
       {
@@ -60,13 +64,9 @@ module.exports = {
       },
     ]
   },
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'client'),
-  //   historyApiFallback: true
-  // },
-  // plugins: [
-  //   new UglifyJSPlugin({
-  //     sourceMap: true
-  //   }),
-  // ],
+  plugins: [
+    new UglifyJSPlugin({
+      sourceMap: true
+    }),
+  ],
 };

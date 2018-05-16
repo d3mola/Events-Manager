@@ -20,10 +20,10 @@
     "seed": "sequelize db:seed:all",
     "seed:undo": "sequelize db:seed:undo:all",
     "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls",
-    "start": "babel-node ./server/app.js",
+    "start": "node ./dist/app.js",
     "start:client": "webpack-dev-server --hot --inline --config webpack.config.dev.js",
     "start:server": "nodemon ./server/app --exec babel-node",
-    "heroku-postbuild": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "heroku-postbuild": "rm -rf dist && npm run build:client && npm run build:server",
     "heroku-api": "./node_modules/.bin/babel ./server -d dist && node dist/app.js"
   },
   "nyc": {
@@ -126,11 +126,11 @@
     "sweetalert": "^2.1.0",
     "uglifyjs-webpack-plugin": "^1.1.2",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "babel-jest": "^22.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1"
   },
   "devDependencies": {
-    "babel-jest": "^22.2.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
