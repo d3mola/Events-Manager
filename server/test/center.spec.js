@@ -59,7 +59,7 @@ describe('Center', () => {
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal('There are no centers at this time');
+          expect(res.body.message).to.equal('No center found!');
           done();
         });
     });

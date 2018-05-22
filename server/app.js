@@ -33,6 +33,13 @@ app.use('/api/v1', routes);
 app.use('/api/v1', centerRoutes);
 app.use('/api/v1', eventRoutes);
 
+app.use((req, res) =>
+  res.status(404).json({
+    success: false,
+    message: 'Route does not exist'
+  })
+);
+
 app.get('/bundle.js', (req, res) => res.sendFile(
   path.join(path.dirname(__dirname), 'client/build/bundle.js')
 ));

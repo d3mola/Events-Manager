@@ -18,6 +18,7 @@ export default (sequelize, DataTypes) => {
         key: 'id',
         as: 'userId',
       },
+      allowNull: false,
     },
     centerId: {
       type: DataTypes.INTEGER,
@@ -26,6 +27,7 @@ export default (sequelize, DataTypes) => {
         key: 'id',
         as: 'centerId',
       },
+      allowNull: true,
     },
   });
 

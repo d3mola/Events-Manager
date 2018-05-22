@@ -17,7 +17,7 @@ export default {
    * @returns {object} new user
    */
   signup: (req, res) => {
-    const { username, password, email, isAdmin } = req.body;
+    const { username, password, email } = req.body;
 
     // check if username/ email are already taken, then return error messages
     return User.find({
@@ -43,7 +43,7 @@ export default {
           username,
           email,
           password,
-          isAdmin
+          // isAdmin
         }) // generate token
           .then(user => {
             const payload = {

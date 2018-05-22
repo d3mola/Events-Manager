@@ -74,11 +74,17 @@ export default {
             message: 'Center doesnt exist'
           });
         }
+
+        const name = req.body.name || center.name;
+        const location = req.body.location || center.location;
+        const capacity = req.body.capacity || center.capacity;
+        const price = req.body.price || center.price;
+
         Center.update({
-          name: req.body.name || center.name,
-          location: req.body.location || center.location,
-          capacity: req.body.capacity || center.capacity,
-          price: req.body.price || center.price,
+          name,
+          location,
+          capacity,
+          price
         }, { where: { id }, returning: true, plain: true })
           .then(updatedCenterInfo =>
             res.status(200).json({
@@ -112,28 +118,49 @@ export default {
    * 
    * @returns {object} list of centers
    */
-  getAllCenters: (req, res) =>
-    Center.findAll()
-      .then(centers => {
-        if (!centers.length) {
-          res.status(404).json({
-            success: false,
-            message: 'There are no centers at this time'
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            centers
-          });
-        }
-      })
-      .catch(error =>
-        res.status(500).json({
+  getAllCenters: (req, res) => {
+    let offset = 0;
+    let page = parseInt(req.query.page, 10);
+    if (isNaN(page) || page < 1) page = 1;
+
+    let limit = parseInt(req.query.limit, 10) || 12;
+
+    if (isNaN(limit)) {
+      limit = 12;
+    } else if (limit > 50) {
+      limit = 50;
+    } else if (limit < 1) {
+      limit = 1;
+    }
+
+    offset = limit * (page - 1);
+
+    Center.findAndCountAll({
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']],
+    }).then(countedCenters => {
+      if (!countedCenters || countedCenters.count === 0) {
+        return res.status(404).json({
           success: false,
-          message: 'Could not get centers',
-          error: error.message
+          message: "No center found!"
         })
-      ),
+      }
+
+      if (countedCenters && countedCenters.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "No center on this page!"
+        })
+      }
+      return res.status(200).json({
+        success: true,
+        centers: countedCenters.rows,
+        page,
+        count: countedCenters.count
+      })
+    });
+  },
 
   /**
    * @description gets a center and associated events
@@ -178,28 +205,24 @@ export default {
    * @return {object} deletedCenter
    */
   deleteCenter: (req, res) => {
-    const id = req.params.centerId;
-    Center.findById(id)
-      .then(center => {
-        if (!center) {
-          return res.status(404).json({
-            success: false,
-            message: 'Center doesnt exist'
-          });
-        }
-        Center.destroy({where: { id }}).then(
-          res.status(200).send({
-            success: true,
-            message: 'Center deleted succesfully!'
-          })
-        );
-      })
-      .catch(error =>
-        res.status(500).json({
+  const id = req.params.centerId;
+    Center.destroy({ where: { id } }).then(deletedCenter => {
+      if (!deletedCenter) {
+        return res.status(404).json({
           success: false,
-          message: "Couldn't delete center try again!",
-          error: error.message
-        })
-      );
+          message: 'Center doesnt exist'
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: 'Center deleted succesfully!'
+      })
+    })
+    .catch(error =>
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Couldn\'t delete center try again!',
+      })
+    );
   }
 };

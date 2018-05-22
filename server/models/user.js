@@ -58,7 +58,9 @@ export default (sequelize, DataTypes) => {
     User.hasMany(models.Event, {
       as: 'events',
       foreignKey: 'userId'
-    });
+    },
+  { onDelete: 'cascade', hooks: true }
+);
 
     User.hasMany(models.Center, {
       foreignKey: 'userId'
