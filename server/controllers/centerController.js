@@ -140,6 +140,9 @@ export default {
       offset,
       order: [['createdAt', 'DESC']],
     }).then(countedCenters => {
+
+      const numPages = Math.ceil(countedCenters.count / limit);
+
       if (!countedCenters || countedCenters.count === 0) {
         return res.status(404).json({
           success: false,
@@ -157,6 +160,7 @@ export default {
         success: true,
         centers: countedCenters.rows,
         page,
+        numPages,
         count: countedCenters.count
       })
     });
@@ -224,5 +228,64 @@ export default {
         message: error.message || 'Couldn\'t delete center try again!',
       })
     );
-  }
+  },
+
+  /**
+   * @description searches for a center based on the location or the name
+   * 
+   * @param { object } req http request object
+   * @param { object } res http response object
+   * 
+   * @returns { array } list of centers
+   */
+  searchCenter: (req, res) => {
+
+    const searchOptions = {
+      name: req.query.name,
+      location: req.query.location
+    }
+
+    const paginationOptions = {
+      limit: parseInt(req.query.limit) || 10,
+      page: Number(req.query.page) || 1
+    };
+
+    if (paginationOptions.limit < 1) paginationOptions.limit = 1;
+    if (paginationOptions.page < 1) paginationOptions.page = 1;
+
+    const offset = paginationOptions.limit * (paginationOptions.page - 1);
+
+    Center.findAndCountAll({
+      where: {
+        $or: {
+          name: { $iLike: `%${searchOptions.name}%` },
+          location: { $iLike: `%${searchOptions.location}%` }
+        }
+      },
+        limit: paginationOptions.limit,
+        offset
+    }).then(centers => {
+
+      const numPages = Math.ceil(centers.count / paginationOptions.limit);
+
+      if (centers.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'No centers found!'
+        })
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Centers found!',
+        page: paginationOptions.page,
+        numPages,
+        count: centers.count,
+        centers: centers.rows
+      })
+    }).catch(error => res.status(500).json({
+      success: false,
+      message: error.message || 'Internal server error'
+    }))
+  },
 };

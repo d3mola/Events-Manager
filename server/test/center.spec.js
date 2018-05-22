@@ -13,6 +13,17 @@ let userToken;
 
 describe('Center', () => {
   before((done) => {
+
+    // Center.bulkCreate([
+    //   mockData.manchester,
+    //   mockData.chelsea,
+    //   mockData.arsenal,
+    //   mockData.liverpool,
+    //   mockData.everton,
+    //   mockData.burnley,
+    //   mockData.spurs
+    // ]);
+
     User.create({
       username: 'ademola',
       email: 'ademola@gmail.com',
@@ -293,6 +304,90 @@ describe('Center', () => {
             expect(res.status).to.equal(200);
             expect(res.body.success).to.equal(true);
             expect(res.body.message).to.equal('Center deleted succesfully!');
+            done();
+          });
+      });
+    });
+
+    // search center
+    describe('#GET/centers?location=location&name=name', () => {
+      before(() => {
+        Center.bulkCreate([
+          mockData.manchester,
+          mockData.chelsea,
+          mockData.arsenal,
+          mockData.liverpool,
+          mockData.everton,
+          mockData.burnley,
+          mockData.spurs
+        ]);
+      })
+
+      it('should return 404 if no centers match the location query', (done) => {
+        // console.log('**************** token **********', adminToken);
+        request.get(`/api/v1/search?location='nonexistentCenter'`)
+          .send({
+            token: adminToken
+          })
+          .end((err, res) => {
+            expect(res.status).to.equal(404);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('No centers found!');
+            done();
+          });
+      });
+      it('should return 404 if no centers match the name query', (done) => {
+        request.get(`/api/v1/search?name=''nonexistentCenterName'`)
+          .send({
+            token: adminToken
+          })
+          .end((err, res) => {
+            expect(res.status).to.equal(404);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('No centers found!');
+            done();
+          });
+      });
+      it('should return a list of centers if only location is supplied and found', (done) => {
+        request.get(`/api/v1/search?location=${mockData.manchester.location}`)
+          .send({
+            token: adminToken
+          })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.equal(true);
+            expect(res.body.message).to.equal('Centers found!');
+            expect(res.body.centers).to.be.an('array');
+            expect(res.body.centers).to.have.lengthOf(2);
+            done();
+          });
+      });
+      it('should return a list of centers if only name is supplied and found', (done) => {
+        request.get(`/api/v1/search?name=${mockData.burnley.name}`)
+          .send({
+            token: adminToken
+          })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.equal(true);
+            expect(res.body.message).to.equal('Centers found!');
+            expect(res.body.centers).to.be.an('array');
+            expect(res.body.centers[0].name).to.equal('burnley hall');
+            expect(res.body.centers).to.have.lengthOf(1);
+            done();
+          });
+      });
+      it('should return a list centers if both name and location is supplied and found', (done) => {
+        request.get(`/api/v1/search?name=${mockData.everton.name}&location=${mockData.arsenal.location}`)
+          .send({
+            token: adminToken
+          })
+          .end((err, res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.equal(true);
+            expect(res.body.message).to.equal('Centers found!');
+            expect(res.body.centers).to.be.an('array');
+            expect(res.body.centers).to.have.lengthOf(4);
             done();
           });
       });
