@@ -80,23 +80,30 @@ export default {
    * @returns {object} response onject with updated event
    */
   updateEvent: (req, res) => {
-    const { centerId, date } = req.body;
     const id = req.params.eventId;
     Event.findById(id)
       .then(event => {
         if (!event) {
-          return res.status(404).send({
+          return res.status(404).json({
             success: false,
             message: 'Event does not exist!'
           });
         }
+
+        // if centerId is not supplied, use the original centerId from the db
+        // const centerId = req.body.centerId || event.centerId;
         // check if the person that created the event is trying to update
         if (event.userId !== req.user.userId) {
-          return res.status(403).send({
+          return res.status(403).json({
             success: false,
             message: "You're not authorized to access this route"
           });
         }
+
+        const title = req.body.title || event.title;
+        const notes = req.body.notes || event.notes;
+        const centerId = req.body.centerId || event.centerId;
+        const date = req.body.date || event.date;
 
         Center.findById(centerId).then(existingCenter => {
           if (!existingCenter) {
@@ -108,23 +115,34 @@ export default {
 
           Event.findOne({
             where: {
-              centerId,
-              date
+              centerId: req.body.centerId,
+              date: req.body.date
             }
           }).then(existingEvent => {
             if (existingEvent && existingEvent.userId !== req.user.userId) {
               return res.status(409).json({
                 success: false,
-                message: 'Center already booked!'
+                message: 'Center already booked by another user!'
+              });
+            }
+
+            if (
+              existingEvent &&
+              existingEvent.userId === req.user.userId &&
+              existingEvent.eventId !== req.params.eventId
+            ) {
+              return res.status(409).json({
+                success: false,
+                message: 'Center already booked by you!'
               });
             }
 
             Event.update(
               {
-                title: req.body.title || event.title,
-                notes: req.body.notes || event.notes,
-                centerId: req.body.centerId || event.centerId,
-                date: req.body.date || event.date
+                title,
+                notes,
+                centerId,
+                date
               },
               { where: { id }, returning: true, plain: true }
             ).then(updatedEventInfo => {
@@ -134,10 +152,8 @@ export default {
                 updatedEvent: updatedEventInfo[1]
               });
             });
-            
           });
-
-        });
+        }); //
       })
       .catch(error =>
         res.status(500).json({
@@ -159,7 +175,8 @@ export default {
   deleteEvent: (req, res) => {
     /**
      * look for the event by param, then, if the event doesnt exist, throw err
-     * else look for the center associted with the event and set the isavailble status to false
+     * else look for the center associted with the event and
+     * set the isavailble status to false
      * then destroy
      */
     const id = req.params.eventId;
@@ -178,7 +195,7 @@ export default {
             });
           }
           return event.destroy().then(
-            res.status(200).send({
+            res.status(200).json({
               success: true,
               message: 'Event deleted succesfully',
               event
@@ -187,7 +204,7 @@ export default {
         }
       })
       .catch(error =>
-        res.status(500).send({
+        res.status(500).json({
           success: false,
           message: 'Something went wrong, internal server error',
           error: error.message

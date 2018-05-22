@@ -32,6 +32,8 @@ module.exports = {
         key: 'id',
         as: 'userId',
       },
+      onDelete: 'CASCADE',
+      allowNull: false
     },
     centerId: {
       type: Sequelize.INTEGER,
@@ -40,6 +42,8 @@ module.exports = {
         key: 'id',
         as: 'centerId',
       },
+      onDelete: 'set null',
+      allowNull: true
     },
   }),
 

@@ -19,11 +19,15 @@ export const stripRequestBody = (reqBody) => {
  * @param { object } reqBody http request body
  * @returns { object } trimmed req.body
  */
-export const trimRequestBody = (reqBody => {
+export const trimRequestBody = (reqBody) => {
   const inputFields = Object.keys(reqBody);
   inputFields.forEach((key) => {
       reqBody[key] = reqBody[key].trim();
   });
 
   return reqBody; 
-})
+}
+
+export const isAWord = str => /[a-zA-Z]/.test(str);
+
+export const isDoubleSpaced = str => /(\s){2}/.test(str)
