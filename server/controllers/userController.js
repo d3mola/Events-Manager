@@ -56,7 +56,7 @@ export default {
               expiresIn: '24h' // expires in 24hrs
             });
 
-            delete user.password
+            user.password = undefined;
             
             return res.status(201).json({
               success: true,
@@ -127,7 +127,8 @@ export default {
                 expiresIn: '24h' // expires in 24hrs
               });
 
-              delete user.password;
+              user.password = undefined;
+              
               return res.status(200).json({
                 success: true,
                 message: `Welcome ${user.username}`,

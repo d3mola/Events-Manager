@@ -43,6 +43,8 @@ module.exports = {
         as: 'userId',
       },
     },
+    imageUrl: Sequelize.STRING,
+    imageId: Sequelize.STRING,
   }),
 
   down: queryInterface => queryInterface.dropTable('Centers')
