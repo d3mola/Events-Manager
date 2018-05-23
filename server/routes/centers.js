@@ -37,4 +37,6 @@ router
     centerController.deleteCenter
   );
 
+  router.get('/search', centerController.searchCenter);
+
 export default router;
