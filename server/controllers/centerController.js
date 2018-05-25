@@ -1,59 +1,83 @@
 import db from '../models';
+import { uploadImage, deleteCloudImage } from '../helpers/uploadImage';
 
 const { Center, Event } = db;
 export default {
   /**
    * @description adds a new center to the database
-   * 
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * 
+   *
    * @returns {object} new center
    */
   create: (req, res) => {
     const { name, location, capacity, price, isAvailable } = req.body;
+
     Center.findOne({
       where: { name }
     })
       .then(existingCenter => {
-        if (!existingCenter) {
-          Center.create({
-            name,
-            location,
-            capacity,
-            price,
-            isAvailable,
-            userId: req.user.userId
-          })
-            .then(center =>
-              res.status(201).json({
-                success: true,
-                message: 'Center created succesfully!',
-                center
-              })
-            )
-            .catch(error =>
-              res.status(500).json({
-                success: false,
-                message:
-                  (error.errors && error.errors[0].message) ||
-                  'Something went wrong, internal server error'
-              })
-            );
-        } else {
-          res.status(409).json({
+        if (existingCenter) {
+          return res.status(409).json({
             success: false,
             message: 'Center already exists!'
           });
         }
+        // if center does not exist, upload image here
+        // then create it
+
+        if (req.file) {
+          uploadImage(req.file)
+            .then(({ secure_url, public_id }) => {
+              Center.create({
+                name,
+                location,
+                capacity,
+                price,
+                isAvailable,
+                userId: req.user.userId,
+                imageId: public_id,
+                imageUrl: secure_url
+              })
+                .then(center => {
+                  return res.status(201).json({
+                    success: true,
+                    message: 'Center created succesfully!',
+                    center
+                  });
+                })
+                .catch(error => {
+                  return res.status(500).json({
+                    success: false,
+                    message:
+                      (error.errors && error.errors[0].message) ||
+                      'Something went wrong, internal server error'
+                  });
+                });
+            })
+            .catch(error => {
+              return res.status(400).json({
+                success: false,
+                message:
+                  error.message ||
+                  'Something went wrong, unable to upload image'
+              });
+            });
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: 'No image file was uploaded'
+          });
+        }
       })
-      .catch(error =>
-        res.status(500).json({
+      .catch(error => {
+        return res.status(500).json({
           success: false,
           message:
             'Something went wrong, internal server error' || error.message
-        })
-      );
+        });
+      });
   }, // end of centerController.create
 
   /**
@@ -80,26 +104,54 @@ export default {
         const capacity = req.body.capacity || center.capacity;
         const price = req.body.price || center.price;
 
-        Center.update({
-          name,
-          location,
-          capacity,
-          price
-        }, { where: { id }, returning: true, plain: true })
-          .then(updatedCenterInfo =>
-            res.status(200).json({
-              success: true,
-              message: 'Center updated succesfully!',
-              updatedCenter: updatedCenterInfo[1]
+        if (req.file) {
+          deleteCloudImage(center.imageId)
+            .then(result => {
+              if (result) {
+                uploadImage(req.file)
+                  .then(({ secure_url, public_id }) => {
+                    Center.update(
+                      {
+                        name,
+                        location,
+                        capacity,
+                        price,
+                        imageId: public_id,
+                        imageUrl: secure_url
+                      },
+                      { where: { id }, returning: true, plain: true }
+                    )
+                      .then(updatedCenterInfo =>
+                        res.status(200).json({
+                          success: true,
+                          message: 'Center updated succesfully!',
+                          updatedCenter: updatedCenterInfo[1]
+                        })
+                      )
+                      .catch(error =>
+                        res.json({
+                          sucess: false,
+                          message:
+                            error.message ||
+                            'Something went wrong, internal server error'
+                        })
+                      );
+                  })
+                  .catch(error => {
+                    return res.status(400).json({
+                      success: false,
+                      message: error.message || 'Image upload failed!'
+                    });
+                  });
+              }
             })
-          )
-          .catch(error =>
-            res.json({
-              sucess: false,
-              message:
-                error.message || 'Something went wrong, internal server error'
-            })
-          );
+            .catch(error => {
+              return res.status(400).json({
+                success: false,
+                message: error.message || 'Image upload failed!'
+              });
+            });
+        }
       })
       .catch(error =>
         res.status(500).json({
@@ -112,10 +164,10 @@ export default {
 
   /**
    * @description gets all centers
-   * 
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * 
+   *
    * @returns {object} list of centers
    */
   getAllCenters: (req, res) => {
@@ -138,23 +190,22 @@ export default {
     Center.findAndCountAll({
       limit,
       offset,
-      order: [['createdAt', 'DESC']],
+      order: [['createdAt', 'DESC']]
     }).then(countedCenters => {
-
       const numPages = Math.ceil(countedCenters.count / limit);
 
       if (!countedCenters || countedCenters.count === 0) {
         return res.status(404).json({
           success: false,
-          message: "No center found!"
-        })
+          message: 'No center found!'
+        });
       }
 
       if (countedCenters && countedCenters.rows.length === 0) {
         return res.status(404).json({
           success: false,
-          message: "No center on this page!"
-        })
+          message: 'No center on this page!'
+        });
       }
       return res.status(200).json({
         success: true,
@@ -162,16 +213,16 @@ export default {
         page,
         numPages,
         count: countedCenters.count
-      })
+      });
     });
   },
 
   /**
    * @description gets a center and associated events
-   * 
+   *
    * @param {object} req HTTP request object
    * @param {object} res HTTP response object
-   * 
+   *
    * @returns {object} center
    */
   getACenter: (req, res) =>
@@ -202,48 +253,63 @@ export default {
 
   /**
    * @description deletes a center from the database
-   * 
+   *
    * @param {object} req request object
    * @param {object} res response object
-   * 
+   *
    * @return {object} deletedCenter
    */
   deleteCenter: (req, res) => {
-  const id = req.params.centerId;
-    Center.destroy({ where: { id } }).then(deletedCenter => {
-      if (!deletedCenter) {
-        return res.status(404).json({
+    const id = req.params.centerId;
+
+    Center.findById(id)
+      .then(center => {
+        if (!center) {
+          return res.status(404).json({
+            success: false,
+            message: 'Center doesnt exist'
+          });
+        }
+
+        const imageUrl = center.imageId;
+        center
+          .destroy()
+          .then(() => {
+            deleteCloudImage(imageUrl);
+
+            return res.status(200).json({
+              success: true,
+              message: 'Event deleted succesfully'
+            });
+          })
+          .catch(error => {
+            res.status(500).json({
+              success: false,
+              message: error.message || "Couldn't delete center try again!"
+            });
+          });
+      })
+      .catch(error => {
+        res.status(500).json({
           success: false,
-          message: 'Center doesnt exist'
+          message: error.message || 'Internal server error'
         });
-      }
-      return res.status(200).json({
-        success: true,
-        message: 'Center deleted succesfully!'
-      })
-    })
-    .catch(error =>
-      res.status(500).json({
-        success: false,
-        message: error.message || 'Couldn\'t delete center try again!',
-      })
-    );
+      });
   },
 
   /**
    * @description searches for a center based on the location or the name
-   * 
+   *
    * @param { object } req http request object
    * @param { object } res http response object
-   * 
+   *
    * @returns { array } list of centers
    */
   searchCenter: (req, res) => {
-
     const searchOptions = {
       name: req.query.name,
       location: req.query.location
-    }
+    };
 
     const paginationOptions = {
       limit: parseInt(req.query.limit) || 10,
@@ -262,30 +328,33 @@ export default {
           location: { $iLike: `%${searchOptions.location}%` }
         }
       },
-        limit: paginationOptions.limit,
-        offset
-    }).then(centers => {
+      limit: paginationOptions.limit,
+      offset
+    })
+      .then(centers => {
+        const numPages = Math.ceil(centers.count / paginationOptions.limit);
 
-      const numPages = Math.ceil(centers.count / paginationOptions.limit);
+        if (centers.rows.length === 0) {
+          return res.status(404).json({
+            success: false,
+            message: 'No centers found!'
+          });
+        }
 
-      if (centers.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: 'No centers found!'
-        })
-      }
-
-      return res.status(200).json({
-        success: true,
-        message: 'Centers found!',
-        page: paginationOptions.page,
-        numPages,
-        count: centers.count,
-        centers: centers.rows
+        return res.status(200).json({
+          success: true,
+          message: 'Centers found!',
+          page: paginationOptions.page,
+          numPages,
+          count: centers.count,
+          centers: centers.rows
+        });
       })
-    }).catch(error => res.status(500).json({
-      success: false,
-      message: error.message || 'Internal server error'
-    }))
-  },
+      .catch(error =>
+        res.status(500).json({
+          success: false,
+          message: error.message || 'Internal server error'
+        })
+      );
+  }
 };

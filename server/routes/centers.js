@@ -3,6 +3,8 @@ import centerController from '../controllers/centerController';
 import authenticate from '../middleware/authenticate';
 import adminCheck from '../middleware/adminCheck';
 import ValidateInput from '../middleware/validateInput';
+import parseImageUpload from '../middleware/parseImageUpload';
+
 
 const router = express.Router();
 
@@ -11,6 +13,7 @@ router
   .post(
     authenticate,
     adminCheck,
+    parseImageUpload(),
     ValidateInput.centerPayloadValidator,
     centerController.create
   )
@@ -21,6 +24,7 @@ router
   .put(
     authenticate,
     adminCheck,
+    parseImageUpload(),
     ValidateInput.paramIdValidator,
     ValidateInput.centerPayloadValidator,
     centerController.update

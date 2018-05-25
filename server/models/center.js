@@ -33,6 +33,8 @@ export default (sequelize, DataTypes) => {
         as: 'userId',
       },
     },
+    imageUrl: DataTypes.STRING,
+    imageId: DataTypes.STRING,
   });
 
   // class methods

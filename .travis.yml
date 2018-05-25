@@ -10,7 +10,7 @@ services:
     #directories: 
         #- "node_modules"
         #- $HOME/.npm
-script: npm run test
+script: npm run test:server
 before_script:
     - psql -c 'drop database if exists events_manager_test;' -U postgres
     - psql -c 'CREATE DATABASE events_manager_test;' -U postgres
