@@ -6,7 +6,6 @@ import Header from './Header';
 import Footer from './Footer';
 import Loading from './Loading';
 import { addEvent, getCenters } from '../actions/actionCreators';
-import FlashMessage from './FlashMessage';
 
 /**
  * Creates AddEvent Component
@@ -38,23 +37,6 @@ class AddEvent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.addEvent(this.state.data);
-    // this.props.addEvent(this.state);
-    // reset the state of the form
-    this.setState(
-      prevState => (
-        {
-          ...prevState,
-          error: this.props.error,
-          data: {
-            title: '',
-            notes: '',
-            centerId: '0',
-            date: ''
-          }
-        }
-      ),
-      console.log('state', this.state)
-    );
   }
 
   componentDidMount() {
@@ -69,7 +51,6 @@ class AddEvent extends Component {
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
-        <FlashMessage message={message} className={className} error={error} />
         {addingEvent && <Loading />}
         <Link to="/centers" style={{ color: 'white', marginLeft: 20 }}>
           <i className="fa fa-angle-double-right" />
@@ -181,7 +162,8 @@ const mapStateToProps = state => ({
   centers: state.centersReducer.centers,
   message: state.flashMessages.message,
   className: state.flashMessages.className,
-  error: state.flashMessages.error,
+  error: state.eventsReducer.error,
+  // error: state.flashMessages.error,
   addingEvent: state.eventsReducer.addingEvent
 });
 

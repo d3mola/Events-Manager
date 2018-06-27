@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-// import FlashMessage from './FlashMessage';
 
 /**
  * @description Creates SignUpForm component
@@ -56,7 +55,6 @@ class SignUp extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(this.state);
   }
 
   /**
@@ -65,12 +63,12 @@ class SignUp extends React.Component {
    * @memberof SignUp
    */
   render() {
+    const { isLoading } = this.props;
     return (
       <div className="register-page">
         <Header
           links={{ centers: 'centers', events: 'events', login: 'login' }}
         />
-        {/* <FlashMessage /> */}
         <div className="container">
           <div className="row">
             <div className="col-md-6 mx-auto">
@@ -133,12 +131,14 @@ class SignUp extends React.Component {
                   className="btn btn-outline-success"
                   type="submit"
                   value="Register"
+                  disabled={isLoading}
                 />
                 <br />
                 <p className="text-center">
                   Already have an account? <Link to="/login">Login</Link>
                 </p>
               </form>
+
             </div>
           </div>
         </div>
@@ -153,4 +153,8 @@ SignUp.propTypes = {
   signUp: PropTypes.func.isRequired
 };
 
-export default connect(null, { signUp })(SignUp);
+const mapStateToProps = state => ({
+    isLoading: state.authReducer.isLoading
+});
+
+export default connect(mapStateToProps, { signUp })(SignUp);

@@ -6,7 +6,9 @@ export default {
     isLoading: false,
     isAuthenticated: false,
     token: localStorage.getItem('token'),
-    error: null
+    error: null,
+    user: localStorage.getItem('user'),
+    isAdmin: !!localStorage.getItem('isAdmin')
   },
   eventsReducer: {
     isFetching: false,
@@ -16,8 +18,10 @@ export default {
   centersReducer: {
     isFetching: false,
     addingCenter: false,
+    editingCenter: false,
     // centerFetched: false,
-    centers: []
+    centers: [],
+    paginationData: {}
     // selectedCenter: {}
     // error: false
   },

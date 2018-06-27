@@ -3,8 +3,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { clearFlashMessage } from '../actions/actionCreators';
 
 class FlashMessage extends Component {
+  handleMessageClear = () => {
+    this.props.clearFlashMessage();
+  };
+
   render() {
     const { message, className, error } = this.props;
     if (!message && !error) {
@@ -15,13 +20,18 @@ class FlashMessage extends Component {
       <div className="container">
         <div className="row">
           <div
-            style={{ height: 50 }}
+            style={{ height: 50, top: 300, zIndex: 1000 }}
             className={
               'col-md-12 font-weight-bold text-center alert ' + className
             }
             role="alert"
           >
-            {message || error}
+            <span
+              style={{ float: 'right', cursor: 'pointer' }}
+              onClick={this.handleMessageClear}
+            >
+              X
+            </span>
           </div>
         </div>
       </div>
@@ -38,7 +48,8 @@ const mapStateToProps = ({ flashMessages }) => ({
 FlashMessage.propTypes = {
   message: PropTypes.string,
   className: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.string,
+  clearFlashMessage: PropTypes.func
 };
 
-export default connect(mapStateToProps)(FlashMessage);
+export default connect(mapStateToProps, { clearFlashMessage })(FlashMessage);

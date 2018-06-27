@@ -8,7 +8,7 @@ const setApiUrl = nodeEnv => {
   if (nodeEnv === 'development' || 'test') {
     return 'http://localhost:8000/api/v1';
   }
-  return '/api/v1';
+  return 'https://party-palace.herokuapp.com/api/v1';
 };
 
 export default setApiUrl;

@@ -11,9 +11,11 @@ export const Logout = props => {
   };
 
   return (
-    <button type="button" onClick={handleLogout}>
-      LOGOUT
-    </button>
+    <div>
+      <button className="btn btn-outline-success btn-md" onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
   );
 };
 

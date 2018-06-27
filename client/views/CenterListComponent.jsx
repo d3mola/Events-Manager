@@ -5,20 +5,32 @@ import PropTypes from 'prop-types';
 
 import Loading from '../components/Loading';
 import CenterComponent from './CenterComponent';
+// import Search from '../forms/Search';
+import FlashMessage from '../components/FlashMessage';
 
 const CenterListComponent = props => {
-  const { centers, match, isFetching } = props;
+  const { centers, match, isFetching, error } = props;
+
+  if (error) {
+    console.log(error, 'here');
+  }
   const renderCenters = () => {
     if (isFetching) {
       return <Loading />;
     } else {
+      if (error) {
+        return <FlashMessage error="error" className="danger" />;
+      }
       if (centers.length === 0) {
-        return <p>No centers at this time.</p>
+        return <h3 className="text-center">No centers at this time.</h3>;
       }
       return (
-        <div className="row fill-viewport">
+        <div className="row fill-viewport" style={{display:'flex', justifyContent:'center', alignItems:'baseline'}}>
           {centers.map(center => (
-            <div className="col-md-4 text-center center-list" key={center.id}>
+            <div
+              className="col-md-4 col-sm-6 text-center center-list"
+              key={center.id}
+            >
               <CenterComponent center={center} match={match} />
             </div>
           ))}
@@ -28,12 +40,11 @@ const CenterListComponent = props => {
   };
 
   return (
-    <div id="main">
-      <h3 className="text-center">These are the available centers</h3>
+    // <div className="mainn">
       <div className="container">
-        <div className="cards fill-viewport">{renderCenters()}</div>;
+        <div className="cards fill-viewport">{renderCenters()}</div>
       </div>
-    </div>
+    // </div>
   );
 };
 

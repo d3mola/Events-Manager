@@ -27,9 +27,12 @@ export default {
         // if center does not exist, upload image here
         // then create it
 
+
         if (req.file) {
+          console.log('uploading to cloud...');
           uploadImage(req.file)
             .then(({ secure_url, public_id }) => {
+              console.log('upload successful');
               Center.create({
                 name,
                 location,
@@ -56,7 +59,7 @@ export default {
                   });
                 });
             })
-            .catch(error => {
+            .catch(error => { // error while uploading image to cloudinary
               return res.status(400).json({
                 success: false,
                 message:
@@ -151,6 +154,33 @@ export default {
                 message: error.message || 'Image upload failed!'
               });
             });
+        } else {
+          Center.update(
+            {
+              name,
+              location,
+              capacity,
+              price,
+              imageId: center.imageId,
+              imageUrl: center.imageUrl
+            },
+            { where: { id }, returning: true, plain: true }
+          )
+            .then(updatedCenterInfo =>
+              res.status(200).json({
+                success: true,
+                message: 'Center updated succesfully!',
+                updatedCenter: updatedCenterInfo[1]
+              })
+            )
+            .catch(error =>
+              res.json({
+                sucess: false,
+                message:
+                  error.message ||
+                  'Something went wrong, internal server error'
+              })
+            );
         }
       })
       .catch(error =>
@@ -171,6 +201,7 @@ export default {
    * @returns {object} list of centers
    */
   getAllCenters: (req, res) => {
+    console.log('headers token >>>>>>>>>>>>>>>>>>>>>' ,req.headers);
     let offset = 0;
     let page = parseInt(req.query.page, 10);
     if (isNaN(page) || page < 1) page = 1;
@@ -207,12 +238,20 @@ export default {
           message: 'No center on this page!'
         });
       }
-      return res.status(200).json({
-        success: true,
-        centers: countedCenters.rows,
+
+      const paginationData = {
         page,
         numPages,
         count: countedCenters.count
+      };
+      const payload = {
+        centers: countedCenters.rows,
+        paginationData
+      };
+
+      return res.status(200).json({
+        success: true,
+        payload
       });
     });
   },
@@ -341,13 +380,20 @@ export default {
           });
         }
 
-        return res.status(200).json({
-          success: true,
-          message: 'Centers found!',
+        const paginationData = {
           page: paginationOptions.page,
           numPages,
           count: centers.count,
-          centers: centers.rows
+        };
+        const payload = {
+          centers: centers.rows,
+          paginationData
+        }; 
+
+        return res.status(200).json({
+          success: true,
+          message: 'Centers found!',
+          payload
         });
       })
       .catch(error =>

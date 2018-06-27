@@ -152,6 +152,7 @@ class ValidateInput {
     const { name, location, capacity, price } = req.body;
 
     if (req.method === 'POST' && (!name || name === '')) {
+      // console.log('here >>>>>>>>>>>>>>', req.body)
       return res.status(400).json({
         success: false,
         message: 'Center name is required!'
