@@ -1,6 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './client/index.html',
+  filename: 'index.html',
+  inject: 'body'
+});
 
 module.exports = {
   entry: [
@@ -65,6 +73,7 @@ module.exports = {
     ]
   },
   plugins: [
+    HtmlWebpackPluginConfig,
     new UglifyJSPlugin({
       sourceMap: true
     }),

@@ -2,8 +2,9 @@ import { delay } from 'redux-saga';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-import setApiUrl from '../utils/setUrl';
+import toastr from 'toastr';
 
+import setApiUrl from '../utils/setUrl';
 import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
@@ -97,7 +98,6 @@ export function* getSingleEventAsync(action) {
       type: types.GET_SINGLE_EVENT_FAILURE,
       error: error.response.data.message || error.message
     });
-    // console.log('issa error', error.response.data.message);
   }
 }
 
@@ -129,19 +129,14 @@ export function* addEventAsync(action) {
       type: types.SUCCESS_FLASH_MESSAGE,
       response: { message: response.data.message }
     });
-    yield delay(5000);
-    yield put({ type: types.CLEAR_FLASH_MESSAGE });
-    // yield put(push('/events'));
+    toastr.success(response.data.message);
+    yield put(push('/events'));
   } catch (error) {
     yield put({
       type: types.ADD_EVENT_ERROR,
       error: error.response.data.message
     });
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
-    yield delay(5000);
+    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
@@ -169,18 +164,14 @@ export function* editEventAsync(action) {
       date: action.event.date
     });
     yield put({ type: types.EDIT_EVENT_SUCCESS, response: response.data });
+    toastr.success(response.data.message);
     yield put(push('/events'));
   } catch (error) {
-    console.log(error.response.data.message);
     yield put({
       type: types.EDIT_EVENT_FAILURE,
       error
     });
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
-    yield delay(5000);
+    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
@@ -204,17 +195,14 @@ export function* deleteEventAsync(action) {
       `${url}/events/${action.eventId}`
     );
     yield put({ type: types.DELETE_EVENT_SUCCESS, response: response.data });
+    toastr.success(response.data.message);
     yield put(push('/events'));
   } catch (error) {
     yield put({
       type: types.DELETE_EVENT_FAILURE,
       error: error.response.data.message
     });
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
-    yield delay(5000);
+    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }

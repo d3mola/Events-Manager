@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Modal from 'react-responsive-modal';
 
 import CenterDetailsComponent from '../views/CenterDetailsComponent';
 import { fetchSingleCenter, deleteCenter } from '../actions/actionCreators';
 
 export class CenterDetailsContainer extends Component {
+  state = {
+    open: false
+  };
+
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+
   /**
    * callback to handle deletion of a center
    * passed down as props to CenterDetailsComponent
@@ -27,13 +40,40 @@ export class CenterDetailsContainer extends Component {
   }
 
   render() {
+    const { open } = this.state;
     const { selectedCenter, match } = this.props;
     return (
-      <CenterDetailsComponent
-        selectedCenter={selectedCenter}
-        handleDelete={this.handleCenterDelete}
-        match={match}
-      />
+      <div>
+        <Modal
+          open={open}
+          onClose={this.onCloseModal}
+          center
+          handleDelete={this.handleCenterDelete}
+          match={match}
+        >
+          { selectedCenter && <h2>Delete {selectedCenter.name}</h2> }
+          <p>
+            Are you sure you want to delete this center? It may have unintended
+            consequeces if it's currently booked by a customer!
+          </p>
+          <button
+            className="btn btn-outline-danger btn-md"
+            // onClick={() => console.log(this.props)}
+            onClick={() => {
+              this.setState({open: false});
+              this.props.deleteCenter(match.params.id)
+            }}
+          >
+            <i className="fa fa-trash" /> Delete
+          </button>
+        </Modal>
+        <CenterDetailsComponent
+          handleModalOpen={this.onOpenModal}
+          selectedCenter={selectedCenter}
+          handleDelete={this.handleCenterDelete}
+          match={match}
+        />
+      </div>
     );
   }
 }
@@ -45,7 +85,8 @@ export class CenterDetailsContainer extends Component {
  */
 const mapStateToProps = state => ({
   selectedCenter: state.centersReducer.selectedCenter,
-  isFetching: state.centersReducer.isFetching
+  isFetching: state.centersReducer.isFetching,
+  message: state.centersReducer.message
 });
 
 CenterDetailsContainer.propTypes = {

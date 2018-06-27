@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { fetchSingleCenter, updateCenter } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
+import FlashMessage from './FlashMessage';
+import Loading from './Loading';
 
 /**
  * Edits center details
@@ -27,11 +29,13 @@ class EditCenterForm extends React.Component {
       name: '',
       location: '',
       capacity: '',
-      price: ''
+      price: '',
+      image: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.fileChangedHandler = this.fileChangedHandler.bind(this);
   }
 
   /**
@@ -76,21 +80,29 @@ class EditCenterForm extends React.Component {
     });
   }
 
+  fileChangedHandler(event) {
+    const image = event.target.files['0'];
+    console.log(image);
+    this.setState(prevState => ({ ...prevState, image }));
+  }
+
   /**
    * renders signUpForm component
    * @returns {JSX} rendered component
    * @memberof EditCenterForm
    */
   render() {
-    const { name, location, price, capacity } = this.state;
+    const { name, location, price, capacity, image } = this.state;
     return !this.props.selectedCenter ? (
       <h1>select a center to edit</h1>
     ) : (
       <div className="">
-        <Header
-          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+        <Header links={{ centers: 'centers', events: 'events' }} />
+        <FlashMessage
+          message={this.props.message}
+          className={this.props.className}
         />
-        <div className="container">
+        <div className="containerr edit-center-body">
           <div className="row">
             <div className="col-md-6 mx-auto">
               <form
@@ -98,8 +110,7 @@ class EditCenterForm extends React.Component {
                 id="form-box"
                 action=""
                 method="post"
-                onSubmit={this.handleSubmit}
-              >
+                onSubmit={this.handleSubmit}>
                 <h2 className="text-center mb-4">EDIT CENTER</h2>
                 <div className="form-group">
                   <label htmlFor="name">Name:</label>
@@ -127,6 +138,8 @@ class EditCenterForm extends React.Component {
                   />
                 </div>
 
+                {this.props.editingCenter && <Loading />}
+
                 <div className="form-group">
                   <label htmlFor="capacity">Capacity:</label>
                   <input
@@ -150,6 +163,18 @@ class EditCenterForm extends React.Component {
                     placeholder="100000"
                     value={price}
                     onChange={this.handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <img src={this.props.selectedCenter.imageUrl} alt="" />
+                  <label htmlFor="image">Image:</label>
+                  <input
+                    className="form-control"
+                    type="file"
+                    name="image"
+                    id="image"
+                    onChange={this.fileChangedHandler}
                   />
                 </div>
 
@@ -182,7 +207,10 @@ EditCenterForm.propTypes = {
  */
 const mapStateToProps = state => {
   return {
-    selectedCenter: state.centersReducer.selectedCenter
+    selectedCenter: state.centersReducer.selectedCenter,
+    editingCenter: state.centersReducer.editingCenter,
+    message: state.flashMessages.message,
+    className: state.flashMessages.className
   };
 };
 

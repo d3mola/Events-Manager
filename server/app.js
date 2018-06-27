@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
+import history from 'connect-history-api-fallback';
+// import connect from 'connect';
 
 // import routes
 import routes from './routes/users';
@@ -19,7 +21,7 @@ const port = parseInt(process.env.PORT, 10) || 8000;
 
 // Using cors
 app.use(cors('*'));
-
+app.use(history());
 app.use(logger('dev'));
 
 // Parse incoming requests data

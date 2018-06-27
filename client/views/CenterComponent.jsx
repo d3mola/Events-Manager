@@ -1,32 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import history from '../history';
 
-const CenterComponent = ({ center, match }) => (
-  <div className="card">
-    <div className="card-header">
-      <h4>{center.name}</h4>
+const CenterComponent = props => {
+  const { center, match } = props;
+
+  const getDetails = () => {
+    history.push(`${match.url}/${center.id}`);
+  };
+
+  return (
+    <div className="card" onClick={getDetails}>
+      <div className="card-body">
+        <h4 className="card-title">{center.image}</h4>
+        <img
+          src={
+            center.imageUrl ||
+            'https://res.cloudinary.com/dz64x6jkl/raw/upload/v1527268754/dev/events_manager/ehkispmvikxxcspccc98.jpg'
+          }
+          alt="Image goes here"
+          width="100%"
+          height="180px"
+        />
+        <div className="card-text font-weight-bold">
+          {center.name.charAt(0).toUpperCase() + center.name.substr(1)}
+        </div>
+        <div className="card-text font-weight-light">
+          <i className="fa fa-md fa-map-marker" />
+          {'  '}
+          {center.location}
+        </div>
+        <div className="card-text pull-right mr-3">
+          <i className="fa fa-users" /> {center.capacity}{' '}
+          <span className="font-weight-light" />
+        </div>
+        <div className="card-text">&#8358; {center.price}</div>
+        {/* <hr /> */}
+      </div>
     </div>
-    <div className="card-body">
-      {/* <h4 className="card-title">{center.image}</h4> */}
-      {/* <img
-                    src="../static/images/Capture.png"
-                    alt="Image goes here"
-                    width="200px"
-                    height="200px"
-                  /> */}
-      <p className="card-text">Location: {center.location.toUpperCase()}</p>
-      <p className="card-text">Capacity: {center.capacity}</p>
-      <p className="card-text">Price: {'#' + center.price}</p>
-      <hr />
-    </div>
-    <div className="card-footerr">
-      <Link to={`${match.url}/${center.id}`} className="btn btn-success mb-2">
-        <i className="fa fa-info fa-sm fw" /> Details
-      </Link>
-    </div>
-  </div>
-);
+  );
+};
 
 CenterComponent.propTypes = {
   center: PropTypes.object.isRequired,

@@ -19,32 +19,29 @@ class Home extends React.Component {
         <Header
           links={{
             centers: 'centers',
-            events: 'events',
             register: 'register',
-            login: 'login',
-            logout: 'logout'
+            login: 'login'
           }}
         />
 
         <div>
           <section id="introduction">
-            <div className="container">
-              <div className="row align-items-center fill-viewport">
-                <div className="col-12">
-                  <h1>Party like there is no tomorrow!</h1>
-                  <p>Do you plan to hold your dream event, try us today!</p>
-                  <Link to="/register" className="btn btn-outline-success">
-                    Book an event
-                  </Link>
-                  <Link to="/centers" className="btn btn-outline-primary">
-                    Get Centers
-                  </Link>
+            <div className="overlay">
+              <div className="container">
+                <div className="row align-items-center fill-viewport">
+                  <div className="col-12">
+                    <h1>Party like there is no tomorrow!</h1>
+                    <p>Do you plan to hold your dream event, we have centers that can meet your needs.</p>
+                    <Link to="/centers" className="btn btn-outline-success">
+                      Book a center
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <section id="info-1">
+          {/* <section id="info-1">
             <div className="container">
               <div className="row align-items-center fill-viewport">
                 <div className="col-12 col-md-12">
@@ -64,9 +61,9 @@ class Home extends React.Component {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
-          <section id="pictures">
+          {/* <section id="pictures">
             <div className="container">
               <div className="row fill-viewport text-center">
                 <div className="col-md">
@@ -96,7 +93,7 @@ class Home extends React.Component {
               </div>
             </div>
             <hr />
-          </section>
+          </section> */}
         </div>
 
         <Footer />
