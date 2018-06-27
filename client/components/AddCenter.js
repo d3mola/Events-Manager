@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addCenter } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-import FlashMessage from './FlashMessage';
+import Loading from './Loading';
 
 /**
  * @description Creates AddCenter component
@@ -17,7 +17,13 @@ class AddCenter extends React.Component {
     name: '',
     location: '',
     capacity: 0,
-    price: 0
+    price: 0,
+    image: ''
+  };
+
+  fileChangedHandler = event => {
+    const image = event.target.files['0'];
+    this.setState(prevState => ({ ...prevState, image }));
   };
 
   /**
@@ -58,14 +64,11 @@ class AddCenter extends React.Component {
    * @memberof AddCenter
    */
   render() {
+    const { addingCenter } = this.props;
     return (
       <div className="add-center-page">
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
-        />
-        <FlashMessage
-          message={this.props.message}
-          className={this.props.className}
         />
         <div className="container">
           <div className="row">
@@ -75,8 +78,8 @@ class AddCenter extends React.Component {
                 id="form-box"
                 action=""
                 method="post"
-                onSubmit={this.handleSubmit}
-              >
+                onSubmit={this.handleSubmit}>
+                { addingCenter && <Loading/> }
                 <h2 className="text-center">Create A Center!</h2>
                 <div className="form-group">
                   <label htmlFor="name">Name:</label>
@@ -130,17 +133,29 @@ class AddCenter extends React.Component {
                   />
                 </div>
 
+                <div className="form-group">
+                  <label htmlFor="image">Image:</label>
+                  <input
+                    className="form-control"
+                    type="file"
+                    name="image"
+                    id="image"
+                    onChange={this.fileChangedHandler}
+                  />
+                </div>
+
                 <input
                   className="btn btn-outline-success"
                   type="submit"
                   value="Create"
+                  disabled={addingCenter}
                 />
               </form>
             </div>
           </div>
         </div>
-        <hr />
-        <Footer />
+        {/* <hr />
+        <Footer /> */}
       </div>
     );
   }
@@ -154,7 +169,8 @@ AddCenter.propTypes = {
 
 const mapStateToProps = state => ({
   message: state.flashMessages.message,
-  className: state.flashMessages.className
+  className: state.flashMessages.className,
+  addingCenter: state.centersReducer.addingCenter
 });
 
 export default connect(mapStateToProps, { addCenter })(AddCenter);

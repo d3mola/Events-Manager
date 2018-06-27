@@ -4,6 +4,7 @@ import { ConnectedRouter as Router } from 'react-router-redux';
 
 import history from '../history';
 import PrivateRoute from '../customRoutes/PrivateRoutes';
+import AdminRoute from '../customRoutes/AdminRoute';
 
 import Home from './Home';
 import SignIn from './SignIn';
@@ -17,6 +18,7 @@ import EventListPage from '../pages/EventListPage';
 import EditEventForm from './EditEventForm.jsx';
 import EditCenterForm from './EditCenterForm.jsx';
 import Error from './Error';
+import '../../node_modules/toastr/build/toastr.min.css';
 // import Link from '../__test__/Link.react';
 // import Test from '../views/CenterComponent';
 
@@ -41,7 +43,7 @@ class App extends Component {
           <PrivateRoute path="/events/:id/edit" component={EditEventForm} />
           <PrivateRoute path="/events/:id" component={EventDetailsPage} />
           <PrivateRoute path="/events" component={EventListPage} />
-          <PrivateRoute path="/centers/add" component={AddCenter} />
+          <AdminRoute path="/centers/add" component={AddCenter} />
           <PrivateRoute path="/centers/:id/edit" component={EditCenterForm} />
           <PrivateRoute path="/centers/:id" component={CenterDetailsPage} />
           <PrivateRoute path="/centers" component={CentersListPage} />

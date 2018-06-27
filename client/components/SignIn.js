@@ -6,10 +6,9 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import Footer from './Footer';
 import Loading from './Loading';
+import history from '../history';
 
 import { signIn, sendFlashMessage } from '../actions/actionCreators';
-// import FlashMessage from './FlashMessage';
-// import UserAction from "./UserAction";
 
 /**
  * @description Creates SignIn component
@@ -66,7 +65,7 @@ class SignIn extends React.Component {
    * @returns {object} signin
    */
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, token } = this.props;
     const loadingIndicator = isLoading ? (
       // <Loader type="TailSpin" color="#5cb85c" height="50" width="50" />
       <Loading />
@@ -76,7 +75,6 @@ class SignIn extends React.Component {
         <Header
           links={{ centers: 'centers', events: 'events', register: 'register' }}
         />
-        {/* <FlashMessage /> */}
         <br />
         <div className="container">
           <div className="row">
@@ -120,10 +118,11 @@ class SignIn extends React.Component {
                   className="btn btn-outline-success"
                   type="submit"
                   value="Sign in"
+                  disabled={isLoading}
                 />
                 <br />
                 <p className="text-center">
-                  Dont have an account yet? <Link to="/register">Register</Link>
+                  Dont have an account yet? <Link to="/register" style={{color: '#9acd32'}}>Register</Link>
                 </p>
               </form>
             </div>
@@ -131,8 +130,6 @@ class SignIn extends React.Component {
             {/* <UserAction /> */}
           </div>
         </div>
-        <hr />
-        <Footer />
       </div>
     );
   }
@@ -148,7 +145,8 @@ const mapStateToProps = state => {
   const { authReducer } = state;
   // console.log('mapSTP------', authReducer);
   return {
-    isLoading: authReducer.isLoading
+    isLoading: authReducer.isLoading,
+    token: authReducer.token
   };
 };
 

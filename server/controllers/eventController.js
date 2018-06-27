@@ -129,7 +129,7 @@ export default {
             if (
               existingEvent &&
               existingEvent.userId === req.user.userId &&
-              existingEvent.eventId !== req.params.eventId
+              existingEvent.id !== Number(req.params.eventId)
             ) {
               return res.status(409).json({
                 success: false,

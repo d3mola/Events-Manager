@@ -5,7 +5,8 @@ import {
   watchAddCenterAsync,
   watchGetSingleCenterAsync,
   watchEditCenterAsync,
-  watchDeleteCenterAsync
+  watchDeleteCenterAsync,
+  watchSearchCentersAysnc
 } from './centersSaga';
 import {
   watchGetEventsAsync,
@@ -35,7 +36,8 @@ export default function* rootSaga() {
     watchAddEventAsync(),
     watchEditEventAsync(),
     watchDeleteEventAsync(),
-    watchLogout()
+    watchLogout(),
+    watchSearchCentersAysnc()
     // watchshowEditFormAsync()
   ]);
 }

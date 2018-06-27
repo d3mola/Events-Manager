@@ -11,7 +11,7 @@ const CenterDetailsPage = ({ match }) => (
       links={{
         centers: 'centers',
         events: 'events',
-        'add center': 'centers/add'
+        // 'add center': 'centers/add'
       }}
     />
     <CenterDetailsContainer match={match} />

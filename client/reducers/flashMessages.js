@@ -8,7 +8,7 @@ export default (state = initialState.flashMessages, action) => {
     case actionTypes.SUCCESS_FLASH_MESSAGE:
       return {
         ...state,
-        message: action.response.message,
+        message: action.response.message || 'Center deleted succesfully',
         className: 'alert-success'
       };
     case actionTypes.FAILURE_FLASH_MESSAGE:

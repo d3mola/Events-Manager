@@ -1,8 +1,10 @@
-import { delay } from 'redux-saga';
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
+import toastr from 'toastr';
+
 import setApiUrl from '../utils/setUrl';
+
 
 import * as types from '../actions/actionTypes';
 
@@ -25,15 +27,17 @@ export function* signUpAsync(action) {
       email: action.payload.email,
       password: action.payload.password
     });
-    yield put({ type: types.SUCCESS_FLASH_MESSAGE, response: response.data });
-    yield delay(500);
+    const token  = response.data.token;
+    const user  = response.data.user;
+    localStorage.setItem('token', token);
+    localStorage.setItem('isAdmin', user.isAdmin);
+    localStorage.setItem('user', user.username);
+    yield put({ type: types.SIGN_UP_SUCCESS, token, user });
+    toastr.success('Registration successful!');
     yield put(push('/centers'));
   } catch (error) {
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
-    yield delay(5000);
+    yield put({ type: types.SIGN_UP_FAILURE,error: error.response.data.message});
+    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
@@ -64,13 +68,14 @@ export function* loginAsync(action) {
       password: action.payload.password
     });
     let token = response.data.token;
-    yield put({ type: types.SIGN_IN_SUCCESS, token });
-    console.log('dispatching sign in success', action);
+    let user = response.data.user;
+    yield put({ type: types.SIGN_IN_SUCCESS, token, user });
     localStorage.setItem('token', token);
+    localStorage.setItem('isAdmin', user.isAdmin);
+    localStorage.setItem('user', user.username);// change user to isAdmin
+    toastr.success(`Welcome ${user.username}!`);
     yield put(push('/centers'));
   } catch (error) {
-    console.log('login async error', error);
-    console.log('login async error ------>', error.response);
     let message;
     if (error.response) {
       switch (error.response.status) {
@@ -86,6 +91,8 @@ export function* loginAsync(action) {
     }
     yield put({ type: types.SIGN_IN_FAILURE, error: message });
     localStorage.removeItem('token');
+    toastr.error(error.response.data.message);
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -96,7 +103,6 @@ export function* loginAsync(action) {
  */
 export function* watchSignInAsync() {
   yield takeLatest(types.SIGN_IN, loginAsync);
-  // yield takeLatest(types.SIGN_IN, signInAsync);
 }
 
 /**
@@ -106,6 +112,8 @@ export function* watchSignInAsync() {
 export function* logout() {
   try {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('isAdmin');
     yield put({
       type: types.LOG_OUT_SUCCESS,
       isAuthenticated: false,

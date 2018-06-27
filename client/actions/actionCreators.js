@@ -23,10 +23,15 @@ export const signIn = payload => ({
 });
 
 /**
+ * fetches centers based on the page number and limit supplied as queries
+ * @param {number} page page number
+ * @param {number} limit number of items per page
  * @returns {object} centers
  */
-export const getCenters = () => ({
-  type: types.GET_CENTERS
+export const getCenters = (page, limit) => ({
+  type: types.GET_CENTERS,
+  page,
+  limit
 });
 
 /**
@@ -103,16 +108,20 @@ export const sendFlashMessage = (message, className) => ({
   payload: { message, className }
 });
 
+export const clearFlashMessage = () => ({
+  type: types.CLEAR_FLASH_MESSAGE
+});
+
 export const logout = () => ({
   type: types.LOG_OUT
 });
-
-// export const loginSuccess = (response, isAuthenticated) => ({
-//   type: types.SIGN_IN_SUCCESS,
-//   payload: { response, isAuthenticated }
-// });
 
 export const loginFailure = error => ({
   type: types.SIGN_IN_FAILURE,
   error
 });
+
+export const searchCenters = payload => ({
+  type: types.SEARCH_CENTERS,
+  payload
+})

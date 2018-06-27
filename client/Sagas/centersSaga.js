@@ -1,14 +1,12 @@
-import { delay } from 'redux-saga';
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-import setApiUrl from '../utils/setUrl'
+import toastr from 'toastr';
+import setApiUrl from '../utils/setUrl';
 
 import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
-const token = localStorage.getItem('token');
-// axios.defaults.headers.common['x-access-token'] = token;
 
 /**
  * Aysnc operation to get all centers
@@ -20,21 +18,23 @@ const token = localStorage.getItem('token');
  * @param {any} action
  * @returns {object} response
  */
-export function* fetchcentersAsync() {
+export function* fetchcentersAsync(action) {
+  const page = action.page || 1;
+  const limit = action.limit || 9;
+  const paginationQuery = `page=${page}&limit=${limit}`;
+  const token = localStorage.getItem('token');
   try {
-    const response = yield call(axios.get, `${url}/centers`, {
-      headers: { 'x-access-token': token }
-    });
+    const response = yield call(
+      axios.get,
+      `${url}/centers?${paginationQuery}`,
+      { headers: { 'x-access-token': token } }
+    );
     yield put({
       type: types.GET_CENTERS_SUCCESS,
-      centers: response.data.centers
+      centers: response.data.payload.centers,
+      paginationData: response.data.payload.paginationData
     });
   } catch (error) {
-    // console.log(
-    //   'GET_CENTERS_FAILURE ---> ',
-    //   error.response.status,
-    //   error.response.data.message
-    // );
     yield put({
       type: types.GET_CENTERS_FAILURE,
       error: error.response.data.message
@@ -74,27 +74,33 @@ export function* watchFetchCentersAsync() {
  * @returns {object} response
  */
 export function* addCenterAsync(action) {
+  const token = localStorage.getItem('token');
   try {
-    const response = yield call(axios.post, `${url}/centers`, {
-      //   headers: { "x-access-token": token }
-      // }, {
-      token,
-      name: action.payload.name,
-      location: action.payload.location,
-      capacity: action.payload.capacity,
-      price: action.payload.price
-    });
+    const formData = new FormData();
+    formData.append('name', action.payload.name);
+    formData.append('location', action.payload.location);
+    formData.append('capacity', action.payload.capacity);
+    formData.append('price', action.payload.price);
+    formData.append('image', action.payload.image);
+    const headers = {
+      'x-access-token': token,
+      'Content-Type': 'multipart/form-data'
+    };
+    const response = yield call(
+      axios.post,
+      `${url}/centers`,
+      formData,
+      headers
+    );
     yield put({ type: types.ADD_CENTER_SUCCESS, center: response.data.center });
-    yield put({
-      type: types.SUCCESS_FLASH_MESSAGE,
-      response: { message: response.data.message }
-    });
+    toastr.success(response.data.message);
+    yield put(push('/centers'));
   } catch (error) {
     yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
+      type: types.ADD_CENTER_FAILURE,
       error: error.response.data.message
     });
-    yield delay(5000);
+    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
     error.response.status.message === (401 || 403)
       ? yield put(push('/login'))
@@ -117,8 +123,13 @@ export function* watchAddCenterAsync() {
  */
 
 export function* fetchSingleCenterAsync(action) {
+  const token = localStorage.getItem('token');
   try {
-    const response = yield call(axios.get, `${url}/centers/${action.centerId}`);
+    const response = yield call(
+      axios.get,
+      `${url}/centers/${action.centerId}`,
+      { headers: { 'x-access-token': token } }
+    );
     yield put({
       type: types.GET_SINGLE_CENTER_SUCCESS,
       center: response.data.center
@@ -141,25 +152,36 @@ export function* watchGetSingleCenterAsync() {
  */
 
 export function* editCenterAsync(action) {
+  const token = localStorage.getItem('token');
   try {
+    const formData = new FormData();
+    formData.append('name', action.center.name);
+    formData.append('location', action.center.location);
+    formData.append('capacity', action.center.capacity);
+    formData.append('price', action.center.price);
+    if (action.center.image) formData.append('image', action.center.image);
+    const headers = {
+      'x-access-token': token,
+      'Content-Type': 'multipart/form-data'
+    };
     const response = yield call(
       axios.put,
       `${url}/centers/${action.center.id}`,
-      {
-        token,
-        name: action.center.name,
-        capacity: action.center.capacity,
-        location: action.center.location,
-        price: action.center.price
-      }
+      formData,
+      headers
     );
     yield put({
       type: types.EDIT_CENTER_SUCCESS,
       response: response.data
     });
+    toastr.success(response.data.message);
     yield put(push('/centers'));
   } catch (error) {
-    yield put({ type: types.EDIT_CENTER_FAILURE, error: error });
+    yield put({
+      type: types.EDIT_CENTER_FAILURE,
+      error: error.response.data.message || 'error editing'
+    });
+    toastr.error(error.response.data.message);
   }
 }
 
@@ -172,24 +194,63 @@ export function* watchEditCenterAsync() {
  */
 
 export function* deleteCenterAsync(action) {
+  const token = localStorage.getItem('token');
   try {
     const response = yield call(
       axios.delete,
-      `${url}/centers/${action.centerId}`
+      `${url}/centers/${action.centerId}`,
+      { headers: { 'x-access-token': token } }
     );
     yield put({
       type: types.DELETE_CENTER_SUCCESS,
       response: response.data
     });
+    toastr.success(response.data.message);
     yield put(push('/centers'));
   } catch (error) {
     yield put({
       type: types.DELETE_CENTER_FAILURE,
       error: error.response.data.message
     });
+    toastr.error(error.response.data.message);
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 
 export function* watchDeleteCenterAsync() {
   yield takeEvery(types.DELETE_CENTER, deleteCenterAsync);
+}
+
+// search centers
+
+// worker saga
+export function* searchCentersAysnc({ type, payload }) {
+  const token = localStorage.getItem('token');
+  const searchQuery = `name=${payload}&location=${payload}`;
+  try {
+    const response = yield call(axios.get, `${url}/search?${searchQuery}`, {
+      headers: { 'x-access-token': token }
+    });
+
+    yield put({
+      type: types.SEARCH_CENTERS_SUCCESS,
+      centers: response.data.payload.centers,
+      paginationData: response.data.payload.paginationData
+    });
+  } catch (error) {
+    yield put({
+      type: types.SEARCH_CENTERS_FAILURE,
+      error: error.response.data.message
+    });
+
+    yield put({
+      type: types.FAILURE_FLASH_MESSAGE,
+      error: error.response.data.message
+    });
+  }
+}
+
+//nwatcher
+export function* watchSearchCentersAysnc() {
+  yield takeLatest(types.SEARCH_CENTERS, searchCentersAysnc);
 }
