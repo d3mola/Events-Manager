@@ -39,6 +39,7 @@ export function* fetchcentersAsync(action) {
       type: types.GET_CENTERS_FAILURE,
       error: error.response.data.message
     });
+    yield put({ type: types.CLEAR_FLASH_MESSAGE});
     let errorStatus = error.response.status;
     switch (errorStatus) {
       case 401:
@@ -86,11 +87,12 @@ export function* addCenterAsync(action) {
       'x-access-token': token,
       'Content-Type': 'multipart/form-data'
     };
+    console.log(headers, "here")
     const response = yield call(
       axios.post,
       `${url}/centers`,
       formData,
-      headers
+      { headers }
     );
     yield put({ type: types.ADD_CENTER_SUCCESS, center: response.data.center });
     toastr.success(response.data.message);
@@ -101,10 +103,10 @@ export function* addCenterAsync(action) {
       error: error.response.data.message
     });
     toastr.error(error.response.data.message);
-    yield put({ type: types.CLEAR_FLASH_MESSAGE });
     error.response.status.message === (401 || 403)
-      ? yield put(push('/login'))
-      : null;
+    ? yield put(push('/login'))
+    : null;
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 
@@ -168,7 +170,7 @@ export function* editCenterAsync(action) {
       axios.put,
       `${url}/centers/${action.center.id}`,
       formData,
-      headers
+      { headers }
     );
     yield put({
       type: types.EDIT_CENTER_SUCCESS,

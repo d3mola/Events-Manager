@@ -35,7 +35,6 @@ const CenterComponent = props => {
           <span className="font-weight-light" />
         </div>
         <div className="card-text">&#8358; {center.price}</div>
-        {/* <hr /> */}
       </div>
     </div>
   );

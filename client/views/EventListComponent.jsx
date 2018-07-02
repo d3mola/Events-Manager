@@ -7,47 +7,17 @@ import Loading from '../components/Loading';
 import EventComponent from './EventComponent';
 
 const EventListComponent = ({ events, match, isFetching, error }) => {
-  let component;
-  if (events.length === 0) {
-    component = (
-      <div className="fill-viewport">
-        {/* <h3>You do not have any events at this time.</h3> */}
-        <h3>{error}</h3>
-        <Link to="/events/add">
-          <button className="btn btn-success">&#43; Create Event</button>
-        </Link>
-      </div>
-    );
-  } else {
-    component = (
-      <div className="fill-viewport">
-        <div style={{ fontWeight: 'bold' }}>
-          <h3>My Events</h3>
-          <Link to="/events/add">
-            <button className="btn btn-success btn-sm">
-              <i className="fa fa-plus" /> Create Event
-            </button>
-          </Link>
-          <div>
-            {events.map(singleEvent => (
-              <div key={singleEvent.id}>
-                <EventComponent singleEvent={singleEvent} match={match} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+
+  const renderEventsList = () => {
+    return events.map(event => {
+      return <EventComponent key={event.id} singleEvent={event} match={match} />
+    });
   }
-  return isFetching ? (
-    <div className="fill-viewport">
-      <Loading />
-    </div>
-  ) : (
-    component
-  );
-  // return component;
-};
+
+  return (
+    isFetching ? <Loading /> : events.length === 0 ? <h3>No event created</h3> :renderEventsList()
+  )
+}
 
 EventListComponent.propTypes = {
   events: PropTypes.array.isRequired,

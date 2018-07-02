@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Modal from 'react-responsive-modal';
 
 import EventDetailsComponent from '../views/EventDetailsComponent';
 import { getSingleEvent, deleteEvent } from '../actions/actionCreators';
 
 class EventDetailsContainer extends Component {
+  state = {
+    open: false
+  };
+
+  onOpenModal = () => {
+    this.setState({ open: true });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+
   /**
    * callback to handle deletion of an event
    * passed down as props to component
@@ -27,14 +40,38 @@ class EventDetailsContainer extends Component {
   }
 
   render() {
+    const { open } = this.state;
     const { currentEvent, match, isFetching } = this.props;
     return (
-      <EventDetailsComponent
-        currentEvent={currentEvent}
-        handleDelete={this.handleEventDelete}
-        match={match}
-        isFetching={isFetching}
-      />
+      <div>
+        <Modal
+          open={open}
+          onClose={this.onCloseModal}
+          // center
+          handleDelete={this.handleEventDelete}
+          match={match}
+        >
+          { currentEvent && <h2>Delete {currentEvent.title}</h2> }
+          <p>Are you sure you want to delete this event?</p>
+          <button
+            className="btn btn-outline-danger btn-md"
+            // onClick={() => console.log(this.props)}
+            onClick={() => {
+              this.setState({open: false});
+              this.props.deleteEvent(match.params.id)
+            }}
+          >
+            <i className="fa fa-trash" /> Delete
+          </button>
+        </Modal>
+        <EventDetailsComponent
+          currentEvent={currentEvent}
+          handleDelete={this.handleEventDelete}
+          match={match}
+          isFetching={isFetching}
+          handleModalOpen={this.onOpenModal}
+        />
+      </div>
     );
   }
 }
@@ -42,7 +79,7 @@ class EventDetailsContainer extends Component {
 /**
  * maps redux state to props
  * @param {object} state redux state
- * @returns {object} props selectedCenter
+ * @returns {object} props currentEvent
  */
 const mapStateToProps = state => ({
   currentEvent: state.eventsReducer.currentEvent,
@@ -58,7 +95,7 @@ EventDetailsContainer.propTypes = {
 };
 
 EventDetailsContainer.defaultProps = {
-  // selectedCenter: {}
+  // currentEvent: {}
 };
 
 export default connect(mapStateToProps, { getSingleEvent, deleteEvent })(

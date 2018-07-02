@@ -100,14 +100,18 @@ img {
 .login-page,
 .add-center-page,
 .add-event-page {
-  background-color: $darkgreen;
+  background: url('../images/camera.jpg') 0% 0%/cover, linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  background-blend-mode: overlay;
   min-height: 100vh;
   #form-box {
-    font-weight: 500;
-    background-color: #eee;
+    font-weight: 600;
+    background-color: rgba(255,255,255,0.55);
+    font-size: 1.1em;
     font-family: $open-sans;
     h2 {
       font-weight: 500;
+      margin-bottom: 53px;
+      margin-top: -25px;
     }
   }
   hr {
@@ -135,16 +139,19 @@ img {
   }
 }
 
+.edit-event-body,
 .edit-center-body {
   background: $darkgreen;
+  background: url('../images/camera.jpg') 0% 0%/cover, linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  background-blend-mode: overlay;
 }
 
 .edit-event-form,
 .edit-center-form {
-  background-color: #fff;
+  background-color: rgba(255,255,255,0.55);
   color: #000;
   font-family: $open-sans;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .center-details-page {
@@ -251,11 +258,14 @@ img {
 
 // Center page
 .main {
+  background: url('../images/camera.jpg') 0% 0%/cover, linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  background-blend-mode: overlay;
   // background-color: #eee;
   padding-top: 30px;
   h3 {
     font-family: 'Lucida Grande';
     font-weight: 500;
+    color: white;
   }
   .cards {
     padding-top: 30px;
@@ -263,6 +273,8 @@ img {
       cursor: pointer;
       background-color: #eee;
       margin-bottom: 30px;
+      transition:  all .8s ease-in-out;
+
       .card-header {
         background-color: $darkgreen;
         color: white;
@@ -289,6 +301,8 @@ img {
     }
   }
 
+}
+
   .float {
     position: fixed;
     width: 60px;
@@ -302,13 +316,13 @@ img {
     box-shadow: 2px 2px 3px #999;
     z-index: 1000;
     &:hover {
-      // color: red;
+    color: white;
+    transform: scale(1.04);
     }
     .my-float {
       margin-top: 22px;
     }
   }
-}
 
 .hidden {
   display: none;
@@ -324,10 +338,160 @@ img {
 }
 
 .rc-pagination-options-quick-jumper::before {
-  content: 'Goto' !important;
+  content: 'Jump to' !important;
+  color: white;
 }
 
 .rc-pagination-item-active {
   background-color: #16534e !important;
   color: white;
+}
+
+.rc-pagination-options-quick-jumper::before {
+  content: 'Jump to' !important;
+  color: white;
+}
+
+.rc-pagination-item-active {
+  background-color: #16534e !important;
+  color: white;
+}
+
+.custom-pagination {
+  padding-bottom: 28px;
+  margin-bottom: 0;
+
+  ::after {
+    background: rgb(224, 228, 230);
+    color: rgb(26, 2, 16);
+  }
+}
+
+/* event card */
+.event-card {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  height: 195px;
+  font-family: $open-sans;
+  font-weight: 500;
+  margin-bottom: 30px;
+
+  /* event card header */
+  .e-card-header {
+    display: flex;
+    flex-direction: row;
+    margin: 18px 40px;
+    min-width: 70%;
+    height: 10%;
+    justify-content: space-between;
+
+    // location
+    .e-card-location {
+      margin-left: 30px;
+      margin-top: 5px;
+      font-size: 15px;
+      font-weight: 300;
+    };
+
+    // date
+    .e-card-date {
+      margin-right: 35px;
+      margin-top: 5px;
+      font-size: 1em;
+      font-weight: 400;
+    }
+  };
+
+  /* event card body */
+  .e-card-body {
+    display: flex;
+    flex-direction: column;
+    // background-color: #eee;
+    // color: #000;
+    background-color: #726f75;
+    color: white;
+    margin: 5px 40px;
+    min-width: 70%;
+    height: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: all .6s ease-in-out; 
+
+    &:hover {
+      transform: scale(1.04);
+      background-color: #16534e;
+      color: #fff;
+    }
+
+    .e-card-body-top {
+      display: flex;
+      flex-direction: row;
+      height: 50%;
+      width: 100%;
+      justify-content: space-between;
+
+      // event ttile
+      .e-card-title {
+        margin-left: 30px;
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 1.3em;
+      };
+
+      // event deatils button
+      .e-card-button {
+        width: 80px;
+        height: 38px;
+        margin-top: 21px;
+        margin-right: 25px;
+        // border: 2px solid #2196F3;
+        color: dodgerblue;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: white;
+        border-radius: 5px;
+        text-decoration: none;
+
+        &:hover {
+          background: #2196F3;
+          color: white;
+        }
+      };
+
+    };
+
+    .e-card-body-bottom {
+      height: 50%;
+      width: 70%;
+      margin-left: 30px;
+      padding-top: 18px;
+    };
+
+  }
+}
+
+.e-list-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url('../images/camera.jpg') 0% 0%/cover, linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  background-blend-mode: overlay;
+  color: white;
+
+  h3 {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    font-family: 'Lucida Grande';
+    font-weight: 500;
+  }
+
+  .e-list {
+    display: flex;
+    // flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+    // margin-top: 20px;
+  }
 }

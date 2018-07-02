@@ -34,6 +34,10 @@ router.get(
   userController.getOneUserEvent
 );
 
-router.get('/users/auth/events', authenticate, userController.getUserEvents);
+router.get(
+  '/users/auth/events',
+  authenticate,
+  eventController.getMyEvents,
+);
 
 export default router;

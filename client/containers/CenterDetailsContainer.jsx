@@ -47,7 +47,7 @@ export class CenterDetailsContainer extends Component {
         <Modal
           open={open}
           onClose={this.onCloseModal}
-          center
+          // center
           handleDelete={this.handleCenterDelete}
           match={match}
         >

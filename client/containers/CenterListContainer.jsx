@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Pagination from 'rc-pagination';
 import Select from 'rc-select';
+import queryString from 'query-string';
 
 import Search from '../forms/Search';
 
@@ -31,7 +32,9 @@ class CenterListContainer extends React.Component {
    * @memberof Centers
    */
   componentDidMount() {
-    this.props.getCenters();
+    const parsedQueryString = queryString.parse(location.search);
+    const { page, limit } = parsedQueryString;
+    this.props.getCenters(page, limit);
   }
 
   /**
@@ -69,7 +72,6 @@ class CenterListContainer extends React.Component {
    */
   render() {
     const { paginationData, isAdmin } = this.props;
-    // console.log(this.props)
     return (
       <div className="main">
         <h3 className="text-center">These are the available centers</h3>
