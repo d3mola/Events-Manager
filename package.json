@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "build:server": "./node_modules/.bin/babel ./server -d dist",
-    "build:client": "webpack -p --config webpack.config.prod.js",
+    "build:client": "webpack --config webpack.config.prod.js",
     "eslint": "./node_modules/.bin/eslint ./server/app.js",
     "nodemon": "nodemon ./server/app",
     "test:db": "cross-env NODE_ENV=test sequelize db:migrate:undo:all &&cross-env NODE_ENV=test sequelize db:migrate",
@@ -154,7 +154,6 @@
     "nyc": "^11.3.0",
     "react-test-renderer": "^16.2.0",
     "supertest": "^3.0.0",
-    "uglify-js-brunch": "^2.10.0",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-dev-server": "^2.9.4",
     "webpack-hot-middleware": "^2.21.0"

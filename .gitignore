@@ -6,6 +6,8 @@ npm-debug.log
 coverage
 .coveralls.yml
 /dist
+client/build/*
+!client/build/index.html
 todo.md
 client/components/Centers
 client/components/Headerrr
