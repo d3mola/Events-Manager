@@ -19,8 +19,6 @@ import EditEventForm from './EditEventForm.jsx';
 import EditCenterForm from './EditCenterForm.jsx';
 import Error from './Error';
 import '../../node_modules/toastr/build/toastr.min.css';
-// import Link from '../__test__/Link.react';
-// import Test from '../views/CenterComponent';
 
 /**
  * @class App
@@ -44,11 +42,9 @@ class App extends Component {
           <PrivateRoute path="/events/:id" component={EventDetailsPage} />
           <PrivateRoute path="/events" component={EventListPage} />
           <AdminRoute path="/centers/add" component={AddCenter} />
-          <PrivateRoute path="/centers/:id/edit" component={EditCenterForm} />
-          <PrivateRoute path="/centers/:id" component={CenterDetailsPage} />
-          <PrivateRoute path="/centers" component={CentersListPage} />
-          {/* <Route path="/link" component={Link} />
-          <Route path="/test" component={Test} /> */}
+          <AdminRoute path="/centers/:id/edit" component={EditCenterForm} />
+          <Route path="/centers/:id" component={CenterDetailsPage} />
+          <Route path="/centers" component={CentersListPage} />
           <Route component={Error} />
         </Switch>
       </Router>

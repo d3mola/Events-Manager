@@ -14,12 +14,12 @@ export default {
     isFetching: false,
     events: [],
     addingEvent: false,
+    paginationData: {}
   },
   centersReducer: {
     isFetching: false,
     addingCenter: false,
     editingCenter: false,
-    // centerFetched: false,
     centers: [],
     paginationData: {}
     // selectedCenter: {}

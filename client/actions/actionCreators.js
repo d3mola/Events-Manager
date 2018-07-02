@@ -75,8 +75,10 @@ export const deleteCenter = centerId => ({
  * Event
  */
 
-export const getEvents = () => ({
-  type: types.GET_EVENTS
+export const getEvents = (page, limit) => ({
+  type: types.GET_EVENTS,
+  page,
+  limit
 });
 
 export const getSingleEvent = eventId => ({

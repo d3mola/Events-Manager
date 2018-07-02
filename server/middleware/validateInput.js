@@ -152,7 +152,6 @@ class ValidateInput {
     const { name, location, capacity, price } = req.body;
 
     if (req.method === 'POST' && (!name || name === '')) {
-      // console.log('here >>>>>>>>>>>>>>', req.body)
       return res.status(400).json({
         success: false,
         message: 'Center name is required!'
@@ -299,7 +298,7 @@ class ValidateInput {
       });
     }
 
-    if (title && title.length > 30) {
+    if (title && title.length > 20) {
       return res.status(400).json({
         success: false,
         message: 'Event title cannot exceed 20 characters!'

@@ -2,17 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 
-import Logout from '../views/LogoutButton';
-// import { logout } from '../actions/actionCreators';
+import LogoutButton from '../views/LogoutButton';
 /**
  * header
  * @param {array} links - array of nav links
  * @returns {JSX} - representaion of header
  */
 class Header extends React.Component {
+
+  tokenHasExpired = (rawToken) => {
+    if(rawToken) {
+      const decodedToken = (jwtDecode(rawToken));
+      const tokenExpriryDate = decodedToken.exp;
+      const currentDate = Date.now().valueOf() / 1000;
+      if (currentDate > tokenExpriryDate) {
+        localStorage.clear();
+        return true;
+      }
+    }
+  }
+
   render() {
-    const { links, isAuth } = this.props;
+    const { links, token } = this.props;
     return (
       <div id="header">
         <nav className="navbar navbar-toggleable-md">
@@ -29,13 +42,13 @@ class Header extends React.Component {
             <span className="navbar-toggler-icon" />
           </button>
           <div>
-            {isAuth ? (
+            {this.tokenHasExpired(token) ? (
               <Link id="brand-logo" className="navbar-brand" to="/centers">
-                party <br />palace
+                Party palace
               </Link>
             ) : (
               <Link id="brand-logo" className="navbar-brand" to="/">
-                party <br />palace
+                Party palace
               </Link>
             )}
           </div>
@@ -53,7 +66,7 @@ class Header extends React.Component {
               })}
             </ul>
             {this.props.user &&
-              isAuth && (
+              !this.tokenHasExpired(token) && (
                 <p
                   style={{
                     color: 'white',
@@ -63,7 +76,7 @@ class Header extends React.Component {
                   {this.props.user}
                 </p>
               )}
-            {isAuth && <Logout />}
+            {this.props.user && <LogoutButton />}
           </div>
         </nav>
       </div>
@@ -72,11 +85,12 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  links: PropTypes.object.isRequired
+  links: PropTypes.object.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isAuth: state.authReducer.token,
+  token: state.authReducer.token,
   user: state.authReducer.user
 });
 

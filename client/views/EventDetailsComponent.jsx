@@ -8,7 +8,8 @@ const EventDetailsComponent = ({
   currentEvent,
   handleDelete,
   match,
-  isFetching
+  isFetching,
+  handleModalOpen
 }) => {
   console.log('currentEvent', currentEvent);
   let component;
@@ -41,7 +42,7 @@ const EventDetailsComponent = ({
         </Link>
         <button
           className="btn btn-outline-danger btn-sm"
-          onClick={() => handleDelete(currentEvent.id)}
+          onClick={() => handleModalOpen()}
         >
           <i className="fa fa-trash" /> Delete
         </button>

@@ -58,6 +58,7 @@ class AddEvent extends Component {
         </Link>
         <div className="container">
           <div className="row">
+            <div className="col col-md-3"></div>
             <div className="col col-md-6">
               <form
                 className="jumbotron event-form-box"
@@ -133,12 +134,13 @@ class AddEvent extends Component {
                 </div>
 
                 <input
-                  className="btn btn-outline-success"
+                  className="btn btn-success"
                   type="submit"
                   value="Schedule"
                 />
               </form>
             </div>
+            <div className="col col-md-3"></div>
           </div>
         </div>
         <hr />

@@ -201,7 +201,6 @@ export default {
    * @returns {object} list of centers
    */
   getAllCenters: (req, res) => {
-    console.log('headers token >>>>>>>>>>>>>>>>>>>>>' ,req.headers);
     let offset = 0;
     let page = parseInt(req.query.page, 10);
     if (isNaN(page) || page < 1) page = 1;

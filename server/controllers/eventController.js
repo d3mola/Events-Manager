@@ -1,6 +1,7 @@
+import sequelize from 'sequelize';
 import db from '../models';
 
-const { Event, Center } = db;
+const { Event, Center, User } = db;
 
 export default {
   /**
@@ -210,5 +211,65 @@ export default {
           error: error.message
         })
       );
+  },
+
+  getMyEvents: (req, res) => {
+    let offset = 0;
+    let page = parseInt(req.query.page, 10);
+    if (isNaN(page) || page < 1) page = 1;
+
+    let limit = parseInt(req.query.limit, 10) || 12;
+
+    if (isNaN(limit)) {
+      limit = 12;
+    } else if (limit > 50) {
+      limit = 50;
+    } else if (limit < 1) {
+      limit = 1;
+    }
+
+    offset = limit * (page - 1);
+
+    Event
+      .findAndCountAll({
+        where: { userId: req.user.userId },
+        limit,
+        offset,
+        order: [['createdAt', 'DESC']],
+        include: [{
+          attributes: [],
+          model: Center,
+        },{
+          attributes: [],
+          model: User,
+        }],
+        attributes: [
+          'id',
+          'title',
+          'notes',
+          'centerId',
+          'userId',
+          'date',
+          [sequelize.col('Center.name'), 'centerName'],
+          [sequelize.col('Center.location'), 'centerLocation'],
+          [sequelize.col('User.username'), 'username'],
+          [sequelize.col('User.email'), 'email'],
+        ]
+      })
+      .then(result => {
+        const numPages = Math.ceil(result.count / limit);
+        const payload = {
+          events: result.rows,
+          paginationData: {
+            page,
+            numPages,
+            count: result.count
+          }
+        }
+        return res.status(200).json({
+          success: false,
+          payload
+        });
+    });
   }
 };

@@ -17,7 +17,9 @@ router
     ValidateInput.centerPayloadValidator,
     centerController.create
   )
-  .get(authenticate, centerController.getAllCenters);
+  .get(
+    centerController.getAllCenters
+  );
 
 router
   .route('/centers/:centerId')
@@ -30,7 +32,6 @@ router
     centerController.update
   )
   .get(
-    authenticate,
     ValidateInput.paramIdValidator,
     centerController.getACenter
   )

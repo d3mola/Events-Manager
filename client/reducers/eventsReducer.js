@@ -8,14 +8,12 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
       return { ...state, addingEvent: true };
 
     case actionTypes.ADD_EVENT_SUCCESS:
-      // console.log('redcucer success===> ', {...state, addingEvent:false})
       return { ...state, addingEvent: false };
 
     case actionTypes.ADD_EVENT_ERROR:
       return { ...state, error: action.error, addingEvent: false };
 
     case actionTypes.EDIT_EVENT_SUCCESS:
-      // console.log('redcucer success===> ', {...state})
       return {
         ...state,
         currentEvent: action.response.updatedEvent,
@@ -31,6 +29,7 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
       return {
         ...state,
         events: action.events,
+        paginationData: action.paginationData,
         isFetching: false,
         error: null
       };
@@ -65,7 +64,6 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
       return { ...state, events, currentEvent };
 
     case actionTypes.DELETE_EVENT_FAILURE:
-      // console.log('Reducer==> delete events unsuccessfull', action.response);
       return { ...state };
 
     case actionTypes.SHOW_EDIT_FORM_SUCCESS:

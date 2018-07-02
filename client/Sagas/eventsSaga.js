@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -8,9 +7,6 @@ import setApiUrl from '../utils/setUrl';
 import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
-
-const token = localStorage.getItem('token');
-axios.defaults.headers.common['x-access-token'] = token;
 
 /**
  * Aysnc operation to get a users events
@@ -22,16 +18,22 @@ axios.defaults.headers.common['x-access-token'] = token;
  * @param {any} action
  * @returns {object} response
  */
-export function* getEventsAsync() {
+export function* getEventsAsync(action) {
+  const page = action.page || 1;
+  const limit = action.limit || 10;
+  const paginationQuery = `page=${page}&limit=${limit}`;
+  const token = localStorage.getItem('token');
   try {
-    const response = yield call(axios.get, `${url}/users/auth/events`, {
-      headers: { 'x-access-token': token }
-    });
+    const response = yield call(
+      axios.get,
+      `${url}/users/auth/events?${paginationQuery}`,
+      { headers: { 'x-access-token': token } }
+    );
     yield put({
       type: types.GET_EVENTS_SUCCESS,
-      events: response.data.events
+      events: response.data.payload.events,
+      paginationData: response.data.payload.paginationData
     });
-    // yield put({ type: types.SET_LOGIN_STATUS, isAuthenticated: true });
   } catch (error) {
     let message;
     if (!error.response) {
@@ -56,6 +58,8 @@ export function* getEventsAsync() {
       }
     }
     yield put({ type: types.GET_EVENTS_FAILURE, error: message });
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
+    toastr.error(message);
   }
 }
 
@@ -80,6 +84,7 @@ export function* watchGetEventsAsync() {
  * @returns {object} response
  */
 export function* getSingleEventAsync(action) {
+  const token = localStorage.getItem('token');
   try {
     console.log('trying to fetch details of a single event api..', action);
     const response = yield call(
@@ -115,14 +120,14 @@ export function* watchGetSingleEventAsync() {
  */
 
 export function* addEventAsync(action) {
+  const token = localStorage.getItem('token');
   try {
     const response = yield call(axios.post, `${url}/events`, {
-      // token,
       title: action.event.title,
       notes: action.event.notes,
       centerId: action.event.centerId,
       date: action.event.date
-    });
+    },{ headers: { 'x-access-token': token } });
 
     yield put({ type: types.ADD_EVENT_SUCCESS, response: response.data });
     yield put({
@@ -155,14 +160,14 @@ export function* watchAddEventAsync() {
  */
 
 export function* editEventAsync(action) {
+  const token = localStorage.getItem('token');
   try {
     const response = yield call(axios.put, `${url}/events/${action.event.id}`, {
-      token,
       title: action.event.title,
       notes: action.event.notes,
       centerId: action.event.centerId,
       date: action.event.date
-    });
+    },{ headers: { 'x-access-token': token } });
     yield put({ type: types.EDIT_EVENT_SUCCESS, response: response.data });
     toastr.success(response.data.message);
     yield put(push('/events'));
@@ -189,10 +194,12 @@ export function* watchEditEventAsync() {
  */
 
 export function* deleteEventAsync(action) {
+  const token = localStorage.getItem('token');
   try {
     const response = yield call(
       axios.delete,
-      `${url}/events/${action.eventId}`
+      `${url}/events/${action.eventId}`,
+      { headers: { 'x-access-token': token } }
     );
     yield put({ type: types.DELETE_EVENT_SUCCESS, response: response.data });
     toastr.success(response.data.message);

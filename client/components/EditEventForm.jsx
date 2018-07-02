@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from './Header';
 import Footer from './Footer';
+import Loading from './Loading';
 import {
   getSingleEvent,
   editEvent,
@@ -70,13 +71,13 @@ class EditEventForm extends Component {
     const { title, notes, centerId, date } = this.state;
     const { centers } = this.props;
     return !this.props.currentEvent ? (
-      <h1>loading...</h1>
+      <Loading />
     ) : (
       <div className="">
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
-        <div className="container">
+        <div className="containerr edit-event-body">
           <div className="row">
             <div className="col-md-6 mx-auto">
               <form

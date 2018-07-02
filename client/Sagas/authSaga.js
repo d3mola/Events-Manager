@@ -117,7 +117,9 @@ export function* logout() {
     yield put({
       type: types.LOG_OUT_SUCCESS,
       isAuthenticated: false,
-      token: null
+      token: null,
+      user: null,
+      isAdmin: false
     });
     yield put(push('/'));
   } catch (error) {

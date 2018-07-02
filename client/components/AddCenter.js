@@ -35,14 +35,6 @@ class AddCenter extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.addCenter(this.state);
-    // reset the state of the form
-    this.setState(prevState => ({
-      ...prevState,
-      name: '',
-      location: '',
-      capacity: 0,
-      price: 0
-    }));
   }; // handleSubmit
 
   /**
@@ -145,7 +137,7 @@ class AddCenter extends React.Component {
                 </div>
 
                 <input
-                  className="btn btn-outline-success"
+                  className="btn btn-success"
                   type="submit"
                   value="Create"
                   disabled={addingCenter}
@@ -154,8 +146,6 @@ class AddCenter extends React.Component {
             </div>
           </div>
         </div>
-        {/* <hr />
-        <Footer /> */}
       </div>
     );
   }
