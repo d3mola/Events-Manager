@@ -8,7 +8,7 @@ export default {
     token: localStorage.getItem('token'),
     error: null,
     user: localStorage.getItem('user'),
-    isAdmin: !!localStorage.getItem('isAdmin')
+    isAdmin: localStorage.getItem('isAdmin')
   },
   eventsReducer: {
     isFetching: false,

@@ -127,17 +127,6 @@ export default {
               });
             }
 
-            if (
-              existingEvent &&
-              existingEvent.userId === req.user.userId &&
-              existingEvent.id !== Number(req.params.eventId)
-            ) {
-              return res.status(409).json({
-                success: false,
-                message: 'Center already booked by you!'
-              });
-            }
-
             Event.update(
               {
                 title,
@@ -213,6 +202,14 @@ export default {
       );
   },
 
+  /**
+   * @description fetches events of a user
+   *
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   *
+   * @returns {array} events
+   */
   getMyEvents: (req, res) => {
     let offset = 0;
     let page = parseInt(req.query.page, 10);
@@ -257,6 +254,13 @@ export default {
         ]
       })
       .then(result => {
+        if (result.count === 0) {
+          return res.status(404).json({
+            success: false,
+            message: 'No events'
+          });
+        }
+
         const numPages = Math.ceil(result.count / limit);
         const payload = {
           events: result.rows,
@@ -267,7 +271,7 @@ export default {
           }
         }
         return res.status(200).json({
-          success: false,
+          success: true,
           payload
         });
     });

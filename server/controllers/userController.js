@@ -163,17 +163,10 @@ export default {
   getAllUsers: (req, res) =>
     User.findAll()
       .then(users => {
-        if (!users.length) {
-          res.status(404).json({
-            success: false,
-            message: 'There are no users at this time'
-          });
-        } else {
           res.status(200).json({
             success: true,
             users
           });
-        }
       })
       .catch(error =>
         res.status(500).json({
@@ -182,52 +175,6 @@ export default {
           error: error.message
         })
       ),
-
-  /**
-   * @description fetches a single user from the db
-   *
-   * @param {object} req HTTP request object
-   * @param {object} res HTTP response object
-   *
-   * @returns {object} user
-   */
-  getUserEvents: (req, res) => {
-    // console.log('req--------->', req.params, req.user);
-    // find user by id whic is gotten from the decoded token(req.user)
-    User.find({
-      where: { id: req.user.userId },
-      include: [{ model: Event, as: 'events' }]
-    })
-      .then(user => {
-        // if user doesnt exist, send error
-        // user always exists though because we're getting user id
-        // from the decoded token i.e req,user
-        // except the user is not logged in
-        if (!user) {
-          res.status(404).json({
-            success: false,
-            message: 'No such user exists'
-          });
-          //if user exists send user
-        } else if (user.events.length < 1) {
-          res.status(404).json({
-            success: false,
-            message: 'No events'
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            events: user.events
-          });
-        }
-      })
-      .catch(error =>
-        res.status(500).json({
-          success: false,
-          error: error.message
-        })
-      );
-  },
 
   getOneUserEvent: (req, res) => {
     Event.find({
