@@ -15,7 +15,7 @@ const EventListComponent = ({ events, match, isFetching, error }) => {
   }
 
   return (
-    isFetching ? <Loading /> : events.length === 0 ? <h3>No event created</h3> :renderEventsList()
+    isFetching ? <Loading /> : events.length === 0 ? <h3 className="mx-auto fill-viewport">No event created</h3> :renderEventsList()
   )
 }
 

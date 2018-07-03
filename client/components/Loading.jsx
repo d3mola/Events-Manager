@@ -7,11 +7,13 @@ const Loading = () => (
     style={{
       position: 'fixed',
       zIndex: '9999',
-      margin: '0 auto',
-      top: '20px',
-      left: '50%'
+      height: '100vh',
+      width: '100vw',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
-    <Loader type="TailSpin" color="#5cb85c" height="40" width="40" />
+    <Loader type="TailSpin" color="#5cb85c" height="60" width="60" />
   </div>
 );
 

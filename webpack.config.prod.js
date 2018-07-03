@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -74,8 +75,17 @@ module.exports = {
   },
   plugins: [
     // HtmlWebpackPluginConfig,
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify("production")
+      }
+    }),
     new UglifyJSPlugin({
       sourceMap: true
     }),
+    new Dotenv({
+      path: './.env', // Path to .env file (this is the default)
+      safe: false // load .env.example (defaults to "false" which does not use dotenv-safe)
+    })
   ],
 };

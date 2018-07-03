@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
+import Loading from './Loading';
 
 /**
  * @description Creates SignUpForm component
@@ -66,6 +67,8 @@ class SignUp extends React.Component {
     const { isLoading } = this.props;
     return (
       <div className="register-page">
+        { isLoading && <Loading /> }
+
         <Header
           links={{ centers: 'centers', events: 'events', login: 'login' }}
         />
