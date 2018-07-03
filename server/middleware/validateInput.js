@@ -86,21 +86,14 @@ class ValidateInput {
     if (!email || email === '' || typeof email !== 'string') {
       return res.status(400).json({
         sucesss: false,
-        message: 'Incorrect email!'
-      });
-    }
-
-    if (email.length > 40) {
-      return res.status(400).json({
-        success: false,
-        message: 'Email length should be between 6 and 20!'
+        message: 'Email is required!'
       });
     }
 
     if (!password || password === '' || typeof password !== 'string') {
       return res.status(400).json({
         success: false,
-        message: 'Incorrect password!'
+        message: 'Password is required!'
       });
     }
     next();
@@ -132,7 +125,7 @@ class ValidateInput {
       // if (parseInt(id, 10).length > 9) {
       return res.status(400).json({
         success: false,
-        message: 'parameter too long'
+        message: 'Parameter too long'
       });
     }
 
@@ -155,20 +148,6 @@ class ValidateInput {
       return res.status(400).json({
         success: false,
         message: 'Center name is required!'
-      });
-    }
-
-    if (req.method === 'PUT' && name && name === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Center name is required!'
-      });
-    }
-
-    if (name && !isAWord(name)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Name should be a word!'
       });
     }
 
@@ -200,13 +179,6 @@ class ValidateInput {
       });
     }
 
-    if (req.method === 'PUT' && location && location === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Center location is required!'
-      });
-    }
-
     if (location && typeof location !== 'string') {
       return res.status(400).json({
         success: false,
@@ -228,13 +200,6 @@ class ValidateInput {
       });
     }
 
-    if (req.method === 'PUT' && price && price === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Center price is required!'
-      });
-    }
-
     if (price && isNaN(price)) {
       return res.status(400).json({
         success: false,
@@ -243,13 +208,6 @@ class ValidateInput {
     }
 
     if (req.method === 'POST' && (!capacity || capacity === '')) {
-      return res.status(400).json({
-        success: false,
-        message: 'Center capacity is required!'
-      });
-    }
-
-    if (req.method === 'PUT' && capacity && capacity === '') {
       return res.status(400).json({
         success: false,
         message: 'Center capacity is required!'
@@ -270,13 +228,6 @@ class ValidateInput {
     const { title, notes, centerId, date } = req.body;
 
     if (req.method === 'POST' && (!title || title === '')) {
-      return res.status(400).json({
-        success: false,
-        message: 'Title is required!'
-      });
-    }
-
-    if (req.method === 'PUT' && title && title === '') {
       return res.status(400).json({
         success: false,
         message: 'Title is required!'
@@ -337,13 +288,6 @@ class ValidateInput {
       });
     }
 
-    if (req.method === 'PUT' && centerId && centerId === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Center is required!'
-      });
-    }
-
     if (centerId && isNaN(centerId)) {
       return res.status(400).json({
         success: false,
@@ -354,13 +298,6 @@ class ValidateInput {
     // date
 
     if (req.method === 'POST' && (!date || date === '')) {
-      return res.status(400).json({
-        success: false,
-        message: 'Date is required!'
-      });
-    }
-
-    if (req.method === 'PUT' && date && date === '') {
       return res.status(400).json({
         success: false,
         message: 'Date is required!'

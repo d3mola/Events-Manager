@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 
 // only authed users can access this route
 const AdminRoute = ({ component: Component, isAdmin, ...rest }) => {
-  console.log(isAdmin, 'here to win');
   return (
     <Route
       {...rest}
       render={props =>
-        isAdmin ? <Component {...props} /> : <Redirect to="/login" />
+        isAdmin === 'true' ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );

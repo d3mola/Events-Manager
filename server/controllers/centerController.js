@@ -205,7 +205,7 @@ export default {
     let page = parseInt(req.query.page, 10);
     if (isNaN(page) || page < 1) page = 1;
 
-    let limit = parseInt(req.query.limit, 10) || 12;
+    let limit = parseInt(req.query.limit, 10);
 
     if (isNaN(limit)) {
       limit = 12;
@@ -228,13 +228,6 @@ export default {
         return res.status(404).json({
           success: false,
           message: 'No center found!'
-        });
-      }
-
-      if (countedCenters && countedCenters.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: 'No center on this page!'
         });
       }
 
@@ -317,7 +310,7 @@ export default {
 
             return res.status(200).json({
               success: true,
-              message: 'Event deleted succesfully'
+              message: 'Center deleted succesfully!'
             });
           })
           .catch(error => {

@@ -41,7 +41,7 @@ const authReducer = (state = initialState.authReducer, action) => {
         isLoading: false,
         error: action.error,
         token: null,
-        isAdmin: false,
+        isAdmin: 'false',
         user: null
       };
     case types.LOG_OUT_SUCCESS:

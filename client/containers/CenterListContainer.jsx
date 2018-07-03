@@ -81,7 +81,7 @@ class CenterListContainer extends React.Component {
           onclearFlashMessage={this.props.clearFlashMessage}
         />
 
-        {( isAdmin === true ) && <Link to="/centers/add" className="float">
+        {( isAdmin === 'true' ) && <Link to="/centers/add" className="float">
           <i className="fa fa-plus my-float" />
         </Link>}
 
