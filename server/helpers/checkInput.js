@@ -30,4 +30,6 @@ export const trimRequestBody = (reqBody) => {
 
 export const isAWord = str => /[a-zA-Z]/.test(str);
 
-export const isDoubleSpaced = str => /(\s){2}/.test(str)
+export const isDoubleSpaced = str => /(\s){2}/.test(str);
+
+export const checkIfNumber = str => /((\d)+)/g.test(str);

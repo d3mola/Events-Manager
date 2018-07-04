@@ -1,8 +1,5 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import db from '../models';
-
-const { User } = db;
 dotenv.config();
 
 /**
@@ -35,22 +32,9 @@ const authenticate = (req, res, next) => {
           message: error.message || 'token issues',
         });
       }
-      // console.log(decoded);
       req.user = decoded;
-      const { userId } = decoded;
 
-      User.findById(userId).then(user => {
-        if(!user) {
-          return res.status(404).json({
-            success: false,
-            message: 'User does not exist!'
-          })
-        }
-        next();
-      }).catch({
-        success: false,
-        message: 'Something went wrong, could not query user'
-      });
+      next();
 
     });
   } else {

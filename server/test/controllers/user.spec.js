@@ -54,7 +54,7 @@ describe('User', () => {
           .send({ email: 'babajide@gmail.com', password: 'babajide' })
           .end((err, res) => {
             expect(res.status).to.equal(200);
-            userToken1 = res.body.token;
+            // userToken1 = res.body.token;
             done();
           });
       })
@@ -89,7 +89,8 @@ describe('User', () => {
         });
     });
 
-    it('should return 400 if the user enters a password less than 6 characters', done => {
+    it('should return 400 if the user enters a password less than 6 characters',
+      done => {
       request
         .post('/api/v1/users')
         .send({
@@ -172,6 +173,15 @@ describe('User', () => {
           done();
         });
     });
+
+    it('should welcome user to the app if they visit the base api url',
+    done => {
+      request.get('/api/v1/').end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal('Welcome to Party Palace API');
+        done();
+      });
+    });
   }); // end of signup
 
   // login test
@@ -243,7 +253,7 @@ describe('User', () => {
           password: 'password1'
         })
         .end((err, res) => {
-          // userToken1 = res.body.token;
+          userToken1 = res.body.token;
           expect(res.status).to.equal(200);
           expect(res.body.success).to.equal(true);
           expect(res.body.message).to.equal('Welcome ademola');
