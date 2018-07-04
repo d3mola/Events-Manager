@@ -97,12 +97,120 @@ describe('Center', () => {
         .field('isAvailable', center.isAvailable)
         .attach('image', __dirname + '/testimage.jpg')
         .end((err, res) => {
-          // expect(res.status).to.equal(201);
-          // expect(res.body.success).to.equal(true);
+          expect(res.status).to.equal(201);
+          expect(res.body.success).to.equal(true);
           expect(res.body.message).to.equal('Center created succesfully!');
           done();
         });
     });
+
+    it('should check the formatting of the name', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', 'badly  formated')
+        .field('location', center.location)
+        .field('capacity', center.capacity)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Name is not correctly formatted!');
+          done();
+        });
+    });
+
+    it('should check the length of name', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', 'fskdgjnlsfodjndsfvjlnvfjkndfgjfendf')
+        .field('location', center.location)
+        .field('capacity', center.capacity)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center name cannot exceed 20 characters!');
+          done();
+        });
+    });
+
+    it('should check if the name is a vakid name', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', 984842)
+        .field('location', center.location)
+        .field('capacity', center.capacity)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center name must be a valid name!');
+          done();
+        });
+    });
+
+    it('should check if the location is a valid name', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', center.name)
+        .field('location', 54367)
+        .field('capacity', center.capacity)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center location must be a valid name!');
+          done();
+        });
+    });
+
+    it('should check length of center location', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', center.name)
+        .field('location', 'aaaaaaaaaaassssssssssddddddddddffffffffffgggggggggghh')
+        .field('capacity', center.capacity)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center location cannot exceed 50 characters!');
+          done();
+        });
+    });
+
+    it('should check if capactiy is supplied', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', center.name)
+        .field('location', center.location)
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .attach('image', __dirname + '/testimage.jpg')
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center capacity is required!');
+          done();
+        });
+    });
+
     it('should return an error if center already exists', done => {
       request
         .post('/api/v1/centers')

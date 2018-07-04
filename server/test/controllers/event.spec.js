@@ -1,6 +1,7 @@
 import supertest from 'supertest';
 import { expect } from 'chai';
 import dotenv from 'dotenv';
+import _ from 'lodash';
 import app from '../../app';
 import db from '../../models';
 import mockData from '../../mock/mock';
@@ -44,7 +45,6 @@ describe('Event', () => {
               .get('/api/v1/users/auth/events')
               .set({ 'x-access-token': token })
               .end((err, res) => {
-                // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>*******************', res);
                 expect(res.status).to.equal(200);
                 expect(res.body.success).to.equal(true);
                 expect(res.body.payload.events).to.be.an('array');
@@ -129,29 +129,126 @@ describe('Event', () => {
 
     // create an event
     describe('#POST /api/v1/users/auth/events/', () => {
-      it('should create a new event', done => {
+      let token;
+      before(done => {
         request
           .post('/api/v1/users/login')
-          .send({
-            email: mockData.admin.email,
-            password: mockData.admin.password
-          })
+          .send({ email: mockData.admin.email, password: mockData.admin.password })
           .end((err, res) => {
-            const token = res.body.token;
-            request
-              .post('/api/v1/events')
-              .set({ 'x-access-token': token })
-              .send(mockData.newEvent)
-              .end((err, res) => {
-                expect(res.statusCode).to.equal(201);
-                expect(res.body.success).to.equal(true);
-                expect(res.body.message).to.equal('Event created succesfully!');
-                expect(res.body.event).to.be.an('object');
-                expect(res.body.event.title).to.equal('newEvent');
-                done();
-              });
+            expect(res.status).to.equal(200);
+            token = res.body.token;
+            done();
           });
       });
+
+      it('should check length of title', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({...mockData.newEvent, title: 'this title is too long so you see an error'})
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('Event title cannot exceed 20 characters!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should check length of title', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({
+            ...mockData.newEvent,
+            notes: `this title is too long so you see an error
+            i need over a hundered characters so im just going to typejr in some gibberish
+            dsjkfdhdfsjkdsf jkdbvf dkjnbf jkdnf ewjkfbnvkjsnbfdljnlfsknklvdhjfbk
+            sdfhjbkjsdbefjkbdjnk  cvbjwljb;wjd jbc jikdwbjd knci kbcf
+            cvjf kj cbwd  cqjk jwhffhhieh huirerwbkjervjkreregjkbwe fkjrbre
+            ewrhjbrekjbrwejk
+            `
+          })
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('Note cannot exceed 100 characters!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should check if title is a string', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({...mockData.newEvent, title: 43784})
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('Title should be a string!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should check if notes is a string', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({...mockData.newEvent, notes: 78924})
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('Notes should be a string!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should check if title is formatted correctly', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({...mockData.newEvent, title: 'not  proper'})
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('Title is not correctly formatted!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should ensure center id is an integer', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send({...mockData.newEvent, centerId: 'badId'})
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(400);
+            expect(res.body.success).to.equal(false);
+            expect(res.body.message).to.equal('CenterID should be an integer!');
+            expect(res.body.event).to.not.be.an('object');
+            done();
+          });
+      });
+
+      it('should create a new event', done => {
+        request
+          .post('/api/v1/events')
+          .set({ 'x-access-token': token })
+          .send(mockData.newEvent)
+          .end((err, res) => {
+            expect(res.statusCode).to.equal(201);
+            expect(res.body.success).to.equal(true);
+            expect(res.body.message).to.equal('Event created succesfully!');
+            expect(res.body.event).to.be.an('object');
+            expect(res.body.event.title).to.equal('newEvent');
+            done();
+          });
+      });
+
       it('should not create an event if chosen center does not exist', done => {
         request
           .post('/api/v1/users/login')

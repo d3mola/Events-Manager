@@ -2,7 +2,8 @@ import {
   stripRequestBody,
   trimRequestBody,
   isAWord,
-  isDoubleSpaced
+  isDoubleSpaced,
+  checkIfNumber
 } from '../helpers/checkInput';
 import validateEmail from '../helpers/validateEmail';
 
@@ -158,10 +159,10 @@ class ValidateInput {
       });
     }
 
-    if (name && typeof name !== 'string') {
+    if (name && checkIfNumber(name)) {
       return res.status(400).json({
         success: false,
-        message: 'Center name cannot be a number!'
+        message: 'Center name must be a valid name!'
       });
     }
 
@@ -179,10 +180,10 @@ class ValidateInput {
       });
     }
 
-    if (location && typeof location !== 'string') {
+    if (location && checkIfNumber(location)) {
       return res.status(400).json({
         success: false,
-        message: 'Center location cannot be a number!'
+        message: 'Center location must be a valid name!'
       });
     }
 
@@ -262,13 +263,6 @@ class ValidateInput {
       return res.status(400).json({
         success: false,
         message: 'Notes should be a string!'
-      });
-    }
-
-    if (notes && !isAWord(notes)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Notes should be a word!'
       });
     }
 
