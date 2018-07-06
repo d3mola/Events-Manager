@@ -27,7 +27,8 @@ export function* signUpAsync(action) {
     const response = yield call(axios.post, `${url}/users`, {
       username: action.payload.username,
       email: action.payload.email,
-      password: action.payload.password
+      password: action.payload.password,
+      confirmPassword: action.payload.confirmPassword,
     });
     const token  = response.data.token;
     const user  = response.data.user;

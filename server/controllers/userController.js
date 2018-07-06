@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import _ from 'lodash';
 
 import db from '../models';
 
@@ -17,7 +18,7 @@ export default {
    * @returns {object} new user
    */
   signup: (req, res) => {
-    const { username, password, email } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     // check if username/ email are already taken, then return error messages
     return User.find({
@@ -38,12 +39,19 @@ export default {
             message: 'Another account uses this email!'
           });
         }
+
+        if (password !== confirmPassword) {
+          return res.status(400).json({
+            success: false,
+            message: 'Passwords do not match!'
+          });
+        }
+
         // if username/ password arent already taken, create the user
         User.create({
           username,
           email,
-          password,
-          // isAdmin
+          password
         }) // generate token
           .then(user => {
             const payload = {
@@ -57,6 +65,7 @@ export default {
             });
 
             user.password = undefined;
+            _.omit(user, 'password');
             
             return res.status(201).json({
               success: true,
@@ -126,8 +135,8 @@ export default {
               const token = jwt.sign(payload, process.env.SECRET, {
                 expiresIn: '24h' // expires in 24hrs
               });
-
-              user.password = undefined;
+              
+              _.omit(user, 'password');
               
               return res.status(200).json({
                 success: true,

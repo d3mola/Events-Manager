@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+
 dotenv.config();
 
 /**
@@ -20,11 +21,6 @@ const authenticate = (req, res, next) => {
 
   if (token) {
 
-    // if user is not in the db, throw err and delete token
-
-
-    // else decode token
-
     jwt.verify(token, process.env.SECRET, (error, decoded) => {
       if (error || !decoded) {
         return res.status(401).json({
@@ -32,6 +28,7 @@ const authenticate = (req, res, next) => {
           message: error.message || 'token issues',
         });
       }
+      
       req.user = decoded;
 
       next();

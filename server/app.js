@@ -4,11 +4,10 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 
-// import routes
-import routes from './routes/users';
-import centerRoutes from './routes/centers';
-import eventRoutes from './routes/events';
+import routes from './routes';
+import swaggerDoc from '../server/doc/swagger.json';
 
 // Load .env
 dotenv.config();
@@ -27,15 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', express.static(path.join(__dirname, '../client/build')));
 
-// use imported routes
-app.use('/api/v1', routes);
-app.use('/api/v1', centerRoutes);
-app.use('/api/v1', eventRoutes);
+// use the imported routes
+routes(app);
 
+// app.get('/api/v1/bundle.js', (req, res) => res.sendFile(
+//   path.join(path.dirname(__dirname), 'client/build/bundle.js')
+// ));
 
-app.get('/bundle.js', (req, res) => res.sendFile(
-  path.join(path.dirname(__dirname), 'client/build/bundle.js')
-));
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use('/api/v1/*', (req, res) =>
   res.status(404).json({
