@@ -1,7 +1,6 @@
 import {
   stripRequestBody,
   trimRequestBody,
-  isAWord,
   isDoubleSpaced,
   checkIfNumber
 } from '../helpers/checkInput';
@@ -25,7 +24,7 @@ class ValidateInput {
    */
   static signupValidator(req, res, next) {
     req.body = stripRequestBody(req.body);
-    const { username, password, email } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     if (!username || username === '' || typeof username !== 'string') {
       return res.status(400).json({
@@ -68,6 +67,14 @@ class ValidateInput {
         message: 'Password length should be between 6 and 20!'
       });
     }
+
+    if (!confirmPassword || confirmPassword === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'Password confirmation is required!'
+      });
+    }
+
     next();
   } // signUpValidator
 
@@ -243,7 +250,6 @@ class ValidateInput {
     }
 
     if (title && typeof title !== 'string') {
-      console.log(typeof title);
       return res.status(400).json({
         success: false,
         message: 'Title should be a string!'

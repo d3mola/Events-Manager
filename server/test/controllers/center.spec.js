@@ -140,7 +140,7 @@ describe('Center', () => {
         });
     });
 
-    it('should check if the name is a vakid name', done => {
+    it('should check if the name is a valid name', done => {
       request
         .post('/api/v1/centers')
         .set({ 'x-access-token': adminToken })
@@ -228,6 +228,7 @@ describe('Center', () => {
           done();
         });
     });
+
     it('should return an error if no image file was uploaded', done => {
       request
         .post('/api/v1/centers')
@@ -241,6 +242,40 @@ describe('Center', () => {
           expect(res.status).to.equal(400);
           expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('No image file was uploaded');
+          done();
+        });
+    });
+
+    it('should check if price is a number', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', 'random center name')
+        .field('location', center.location)
+        .field('capacity', center.capacity)
+        .field('price', 'not a number')
+        .field('isAvailable', center.isAvailable)
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center price should be a number!');
+          done();
+        });
+    });
+
+    it('should check if capacity is a number', done => {
+      request
+        .post('/api/v1/centers')
+        .set({ 'x-access-token': adminToken })
+        .field('name', 'random center name')
+        .field('location', center.location)
+        .field('capacity', 'not a number')
+        .field('price', center.price)
+        .field('isAvailable', center.isAvailable)
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal('Center capacity should be a number!');
           done();
         });
     });
@@ -386,7 +421,7 @@ describe('Center', () => {
 
   // adminCheck.js
   describe('POST / centers', () => {
-    it('should send 400 if the user is not an admin', done => {
+    it('should send 403 if the user is not an admin', done => {
       request
         .post('/api/v1/centers')
         .send({
@@ -397,9 +432,9 @@ describe('Center', () => {
           token: userToken
         })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal('Unauthorized');
+          expect(res.body.message).to.equal('Unauthorized to access this page');
           done();
         });
     });

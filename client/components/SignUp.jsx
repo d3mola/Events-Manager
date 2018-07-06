@@ -124,7 +124,7 @@ class SignUp extends React.Component {
                   <input
                     className="form-control"
                     type="password"
-                    name="confirm-password"
+                    name="confirmPassword"
                     id="confirm-password"
                     placeholder="Enter your password again"
                     onChange={this.handleChange}

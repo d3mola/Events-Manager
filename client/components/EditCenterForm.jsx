@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { fetchSingleCenter, updateCenter } from '../actions/actionCreators';
 import Header from './Header';
 import Footer from './Footer';
-import FlashMessage from './FlashMessage';
 import Loading from './Loading';
 
 /**
@@ -97,10 +96,6 @@ class EditCenterForm extends React.Component {
     ) : (
       <div className="">
         <Header links={{ centers: 'centers', events: 'events' }} />
-        <FlashMessage
-          message={this.props.message}
-          className={this.props.className}
-        />
         <div className="containerr edit-center-body">
           <div className="row">
             <div className="col-md-6 mx-auto">

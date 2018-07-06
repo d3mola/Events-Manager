@@ -245,7 +245,7 @@ export default {
         success: true,
         payload
       });
-    });
+    });// catch error here
   },
 
   /**
