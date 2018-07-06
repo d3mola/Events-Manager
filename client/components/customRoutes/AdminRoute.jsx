@@ -9,7 +9,9 @@ const AdminRoute = ({ component: Component, isAdmin, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        isAdmin === 'true' ? <Component {...props} /> : <Redirect to="/login" />
+        isAdmin === 'true' ?
+        <Component {...props} /> :
+        <Redirect to="/login" />
       }
     />
   );

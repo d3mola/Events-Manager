@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-responsive-modal';
 
-import CenterDetailsComponent from '../views/CenterDetailsComponent';
-import { fetchSingleCenter, deleteCenter } from '../actions/actionCreators';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
+import CenterDetailsComponent from '../presentationals/CenterDetailsComponent';
+import { fetchSingleCenter, deleteCenter } from '../../actions/actionCreators';
 
 export class CenterDetailsContainer extends Component {
   state = {
@@ -44,6 +46,14 @@ export class CenterDetailsContainer extends Component {
     const { selectedCenter, match } = this.props;
     return (
       <div>
+        <Header
+          links={{
+          centers: 'centers',
+          events: 'events',
+          // 'add center': 'centers/add'
+          }}
+        />
+
         <Modal
           open={open}
           onClose={this.onCloseModal}
@@ -67,12 +77,15 @@ export class CenterDetailsContainer extends Component {
             <i className="fa fa-trash" /> Delete
           </button>
         </Modal>
+
         <CenterDetailsComponent
           handleModalOpen={this.onOpenModal}
           selectedCenter={selectedCenter}
           handleDelete={this.handleCenterDelete}
           match={match}
         />
+        
+        <Footer />
       </div>
     );
   }

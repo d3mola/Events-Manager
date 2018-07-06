@@ -1,10 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { addCenter } from '../actions/actionCreators';
-import Header from './Header';
-import Footer from './Footer';
-import Loading from './Loading';
+import { addCenter } from '../../actions/actionCreators';
+import Header from '../commons/Header';
+import Loading from '../commons/Loading';
 
 /**
  * @description Creates AddCenter component

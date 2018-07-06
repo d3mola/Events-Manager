@@ -7,8 +7,10 @@ import Select from 'rc-select';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 
-import { getEvents } from '../actions/actionCreators';
-import EventListComponent from '../views/EventListComponent';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
+import { getEvents } from '../../actions/actionCreators';
+import EventListComponent from '../presentationals/EventListComponent';
 
 class EventListContainer extends React.Component {
   componentDidMount() {
@@ -19,10 +21,10 @@ class EventListContainer extends React.Component {
 
   /**
    * @description gets centers based on the param given
-   * 
+   *
    * @param { number } current current page number
    * @param { number } pageSize pageSize number
-   * 
+   *
    * @returns { array } list of events taht satisfy the param
    */
   onPageChange = (current, pageSize) => {
@@ -31,22 +33,28 @@ class EventListContainer extends React.Component {
 
   /**
    * @description gets centers when the page buttons are clicked
-   * 
+   *
    * @param { number } current current page number
    * @param { number } pageSize pageSize number
-   * 
+   *
    * @returns { array } list of events that satisfy the param
    */
   onShowSizeChange = (current, pageSize) => {
     console.log(current);
     console.log(pageSize);
     this.props.getEvents(current, pageSize);
-  }
+  };
 
   render() {
     const { events, match, isFetching, error, paginationData } = this.props;
     return (
       <div>
+        <Header
+          links={{
+            centers: 'centers',
+            events: 'events'
+          }}
+        />
         <div className="e-list-page">
           <h3>My Events</h3>
           <div className="e-list">
@@ -59,24 +67,24 @@ class EventListContainer extends React.Component {
           </div>
 
           <Pagination
-          style={{ display: 'flex', justifyContent: 'center' }}
-          current={paginationData.page}
-          total={paginationData.count}
-          defaultPageSize={9}
-          pageSize={9}
-          onChange={this.onPageChange}
-          selectComponentClass={Select}
-          showQuickJumper
-          showSizeChanger
-          onShowSizeChange={this.onShowSizeChange}
-          locale={{"items_per_page": "Items", "skip": "Goto"}}
-          className='custom-pagination'
-        />
-
+            style={{ display: 'flex', justifyContent: 'center' }}
+            current={paginationData.page}
+            total={paginationData.count}
+            defaultPageSize={9}
+            pageSize={9}
+            onChange={this.onPageChange}
+            selectComponentClass={Select}
+            showQuickJumper
+            showSizeChanger
+            onShowSizeChange={this.onShowSizeChange}
+            locale={{ items_per_page: 'Items', skip: 'Goto' }}
+            className="custom-pagination"
+          />
         </div>
         <Link to="/events/add" className="float">
           <i className="fa fa-plus my-float" />
         </Link>
+        <Footer />
       </div>
     );
   }
@@ -94,9 +102,12 @@ const mapStateToProps = state => ({
   events: state.eventsReducer.events,
   isFetching: state.eventsReducer.isFetching,
   error: state.eventsReducer.error,
-  paginationData: state.centersReducer.paginationData,
+  paginationData: state.centersReducer.paginationData
 });
 
-export default connect(mapStateToProps, {
-  getEvents
-})(EventListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getEvents
+  }
+)(EventListContainer);

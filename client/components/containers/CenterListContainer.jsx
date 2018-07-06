@@ -6,29 +6,30 @@ import Pagination from 'rc-pagination';
 import Select from 'rc-select';
 import queryString from 'query-string';
 
-import Search from '../forms/Search';
+import Search from '../commons/Search';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
 
 import {
   getCenters,
   searchCenters,
   clearFlashMessage
-} from '../actions/actionCreators';
-import CenterListComponent from '../views/CenterListComponent';
+} from '../../actions/actionCreators';
+import CenterListComponent from '../presentationals/CenterListComponent';
 
 /**
  * this container is connected to redux store
  * and passes down props to CenterListComponent
  * @class CenterListComponent
- * 
+ *
  * @extends {React.Component}
  */
 class CenterListContainer extends React.Component {
-
   /**
    * @description fetch centers as soon as component renders
-   * 
+   *
    * @returns {array} list of centers
-   * 
+   *
    * @memberof Centers
    */
   componentDidMount() {
@@ -39,10 +40,10 @@ class CenterListContainer extends React.Component {
 
   /**
    * @description gets centers based on the param given
-   * 
+   *
    * @param { number } current current page number
    * @param { number } pageSize pageSize number
-   * 
+   *
    * @returns { array } list of centers taht satisfy the param
    */
   onPageChange = (current, pageSize) => {
@@ -51,61 +52,74 @@ class CenterListContainer extends React.Component {
 
   /**
    * @description gets centers when the page buttons are clicked
-   * 
+   *
    * @param { number } current current page number
    * @param { number } pageSize pageSize number
-   * 
+   *
    * @returns { array } list of centers taht satisfy the param
    */
   onShowSizeChange = (current, pageSize) => {
     console.log(current);
     console.log(pageSize);
     this.props.getCenters(current, pageSize);
-  }
+  };
 
   /**
    * @description main render function
-   * 
+   *
    * @returns {jsx} jsx representation of component
-   * 
+   *
    * @memberof Centers
    */
   render() {
     const { paginationData, isAdmin } = this.props;
     return (
-      <div className="main">
-        <h3 className="text-center">These are the available centers</h3>
-        <Search
-          centers={this.props.centers}
-          onSearch={query => this.props.searchCenters(query)}
-          onclearFlashMessage={this.props.clearFlashMessage}
+      <div>
+        <Header
+          links={{
+            events: 'events'
+            // 'add center': 'centers/add'
+          }}
         />
 
-        {( isAdmin === 'true' ) && <Link to="/centers/add" className="float">
-          <i className="fa fa-plus my-float" />
-        </Link>}
+        <div className="main">
+          <h3 className="text-center">These are the available centers</h3>
+          <Search
+            centers={this.props.centers}
+            onSearch={query => this.props.searchCenters(query)}
+            onclearFlashMessage={this.props.clearFlashMessage}
+          />
 
-        <CenterListComponent
-          centers={this.props.centers}
-          match={this.props.match}
-          isFetching={this.props.isFetching}
-          error={this.props.error}
-        />
+          {isAdmin === 'true' && (
+            <Link to="/centers/add" className="float">
+              <i className="fa fa-plus my-float" />
+            </Link>
+          )}
 
-        <Pagination
-          style={{ display: 'flex', justifyContent: 'center' }}
-          current={paginationData.page}
-          total={paginationData.count}
-          defaultPageSize={9}
-          pageSize={9}
-          onChange={this.onPageChange}
-          selectComponentClass={Select}
-          showQuickJumper
-          showSizeChanger
-          onShowSizeChange={this.onShowSizeChange}
-          locale={{"items_per_page": "Items", "skip": "Goto"}}
-          className='custom-pagination'
-        />
+          <CenterListComponent
+            centers={this.props.centers}
+            match={this.props.match}
+            isFetching={this.props.isFetching}
+            error={this.props.error}
+          />
+
+          <Pagination
+            style={{ display: 'flex', justifyContent: 'center' }}
+            current={paginationData.page}
+            total={paginationData.count}
+            defaultPageSize={9}
+            pageSize={9}
+            onChange={this.onPageChange}
+            selectComponentClass={Select}
+            showQuickJumper
+            showSizeChanger
+            onShowSizeChange={this.onShowSizeChange}
+            locale={{ items_per_page: 'Items', skip: 'Goto' }}
+            className="custom-pagination"
+          />
+        </div>
+
+        <Footer />
       </div>
     );
   }
@@ -126,8 +140,11 @@ const mapStateToProps = state => ({
   isAdmin: state.authReducer.isAdmin
 });
 
-export default connect(mapStateToProps, {
-  getCenters,
-  searchCenters,
-  clearFlashMessage
-})(CenterListContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getCenters,
+    searchCenters,
+    clearFlashMessage
+  }
+)(CenterListContainer);

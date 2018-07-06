@@ -1,71 +1,99 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from './Header';
-import Footer from './Footer';
-import Loading from './Loading';
-import { addEvent, getCenters } from '../actions/actionCreators';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
+import Loading from '../commons/Loading';
+import {
+  getSingleEvent,
+  editEvent,
+  getCenters
+} from '../../actions/actionCreators';
 
-/**
- * Creates AddEvent Component
- */
-class AddEvent extends Component {
+class EditEventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {
-        title: '',
-        notes: '',
-        centerId: '0',
-        date: ''
-      },
-      error: null
+      title: '',
+      notes: '',
+      centerId: '0',
+      date: ''
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
-    // console.log(e.target.name, e.target.value);
+  /**
+   * renders once the component mounts the DOM
+   * @returns {Promise} fetches single center based on the route params
+   * @memberof Centers
+   */
+  componentDidMount() {
+    this.props.getCenters();
+    this.props.getSingleEvent(this.props.match.params.id);
+  }
+
+  /**
+   * function called when component receives new props
+   * @param {object} newProps
+   * @returns {undefined} changes the state based on the newProps received
+   */
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps.currentEvent);
+  }
+
+  /**
+   * form submission handler
+   * @param {object} event
+   * @memberof SignUp
+   * @returns {undefined} submits form
+   */
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.editEvent(this.state);
+  }
+
+  /**
+   * changes state when form fields are changed
+   * @param {any} event
+   * @memberof EditCenterForm
+   * @returns {undefined} calls setState
+   */
+  handleChange(event) {
+    // set the next state of the form
     this.setState({
-      data: { ...this.state.data, [e.target.name]: e.target.value }
+      [event.target.name]: event.target.value
     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.addEvent(this.state.data);
-  }
-
-  componentDidMount() {
-    this.props.getCenters();
-  }
-
   render() {
-    const { title, notes, centerId, date } = this.state.data;
-    const { message, className, error, addingEvent } = this.props;
-    return (
-      <div className="add-event-page">
+    const { title, notes, centerId, date } = this.state;
+    const { centers } = this.props;
+    return !this.props.currentEvent ? (
+      <Loading />
+    ) : (
+      <div className="">
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
-        {addingEvent && <Loading />}
-        <Link to="/centers" style={{ color: 'white', marginLeft: 20 }}>
-          <i className="fa fa-angle-double-right" />
-          Go to events
-        </Link>
-        <div className="container">
+        <div className="containerr edit-event-body">
           <div className="row">
-            <div className="col col-md-3"></div>
-            <div className="col col-md-6">
+            <div className="col-md-6 mx-auto">
               <form
-                className="jumbotron event-form-box"
+                className="jumbotron mt-5 edit-center-form"
                 id="form-box"
                 onSubmit={this.handleSubmit}
               >
-                <h2 className="text-center">Create An Event!</h2>
+                <h3 className="text-center" style={{ bottom: 20 }}>
+                  Edit Event!
+                </h3>
+                <em
+                  style={{ fontWeight: 700, marginBottom: 20, color: 'black' }}
+                >
+                  editing {title}...
+                </em>
+
                 <div className="form-group">
                   <label htmlFor="event-name">Event Name:</label>
                   <input
@@ -76,8 +104,10 @@ class AddEvent extends Component {
                     placeholder="E.g. John's convocation"
                     value={title}
                     onChange={this.handleChange}
+                    required
                   />
                 </div>
+
                 <div>
                   <label htmlFor="notes">Optional Note:</label>
                   <textarea
@@ -96,6 +126,7 @@ class AddEvent extends Component {
                 <div className="form-group">
                   <label htmlFor="center">Event Center: </label>
                   <select
+                    required
                     className="form-control"
                     name="centerId"
                     id="center"
@@ -105,7 +136,7 @@ class AddEvent extends Component {
                     <option value="0" disabled>
                       Select
                     </option>
-                    {this.props.centers.map(opt => {
+                    {centers.map(opt => {
                       return (
                         <option
                           key={opt.id}
@@ -124,6 +155,7 @@ class AddEvent extends Component {
                     Choose a date and time:<br />MM/DD/YYYY
                   </label>
                   <input
+                    required
                     className="form-control"
                     type="date"
                     name="date"
@@ -133,14 +165,11 @@ class AddEvent extends Component {
                   />
                 </div>
 
-                <input
-                  className="btn btn-success"
-                  type="submit"
-                  value="Schedule"
-                />
+                <button type="submit" className="btn btn-success">
+                  <i className="fa fa-send" />
+                </button>
               </form>
             </div>
-            <div className="col col-md-3"></div>
           </div>
         </div>
         <hr />
@@ -149,24 +178,28 @@ class AddEvent extends Component {
     );
   }
 }
-
-AddEvent.propTypes = {
-  addEvent: PropTypes.func.isRequired,
+EditEventForm.propTypes = {
   getCenters: PropTypes.func.isRequired,
-  centers: PropTypes.array,
-  message: PropTypes.string,
-  className: PropTypes.string,
-  error: PropTypes.string,
-  addingEvent: PropTypes.bool
+  getSingleEvent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  editEvent: PropTypes.func.isRequired,
+  centers: PropTypes.array.isRequired,
+  currentEvent: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  centers: state.centersReducer.centers,
-  message: state.flashMessages.message,
-  className: state.flashMessages.className,
-  error: state.eventsReducer.error,
-  // error: state.flashMessages.error,
-  addingEvent: state.eventsReducer.addingEvent
-});
+/** maps reux state to props
+ * @param {any} state
+ * @returns {object} props
+ */
+const mapStateToProps = state => {
+  return {
+    currentEvent: state.eventsReducer.currentEvent,
+    centers: state.centersReducer.centers
+  };
+};
 
-export default connect(mapStateToProps, { getCenters, addEvent })(AddEvent);
+export default connect(mapStateToProps, {
+  getSingleEvent,
+  editEvent,
+  getCenters
+})(EditEventForm);

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { signUp } from '../actions/actionCreators';
-import Header from './Header';
-import Footer from './Footer';
-import Loading from './Loading';
+import { signUp } from '../../actions/actionCreators';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
+import Loading from '../commons/Loading';
 
 /**
  * @description Creates SignUpForm component

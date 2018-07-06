@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from 'react-responsive-modal';
 
-import EventDetailsComponent from '../views/EventDetailsComponent';
-import { getSingleEvent, deleteEvent } from '../actions/actionCreators';
+import Header from '../commons/Header';
+import Footer from '../commons/Footer';
+import EventDetailsComponent from '../presentationals/EventDetailsComponent';
+import { getSingleEvent, deleteEvent } from '../../actions/actionCreators';
 
 class EventDetailsContainer extends Component {
   state = {
@@ -44,23 +46,27 @@ class EventDetailsContainer extends Component {
     const { currentEvent, match, isFetching } = this.props;
     return (
       <div>
+        <Header
+          links={{
+            centers: 'centers',
+            events: 'events'
+          }}
+        />
         <Modal
           open={open}
           onClose={this.onCloseModal}
           // center
           handleDelete={this.handleEventDelete}
-          match={match}
-        >
-          { currentEvent && <h2>Delete {currentEvent.title}</h2> }
+          match={match}>
+          {currentEvent && <h2>Delete {currentEvent.title}</h2>}
           <p>Are you sure you want to delete this event?</p>
           <button
             className="btn btn-outline-danger btn-md"
             // onClick={() => console.log(this.props)}
             onClick={() => {
-              this.setState({open: false});
-              this.props.deleteEvent(match.params.id)
-            }}
-          >
+              this.setState({ open: false });
+              this.props.deleteEvent(match.params.id);
+            }}>
             <i className="fa fa-trash" /> Delete
           </button>
         </Modal>
@@ -71,6 +77,7 @@ class EventDetailsContainer extends Component {
           isFetching={isFetching}
           handleModalOpen={this.onOpenModal}
         />
+        <Footer />
       </div>
     );
   }
@@ -98,6 +105,7 @@ EventDetailsContainer.defaultProps = {
   // currentEvent: {}
 };
 
-export default connect(mapStateToProps, { getSingleEvent, deleteEvent })(
-  EventDetailsContainer
-);
+export default connect(
+  mapStateToProps,
+  { getSingleEvent, deleteEvent }
+)(EventDetailsContainer);

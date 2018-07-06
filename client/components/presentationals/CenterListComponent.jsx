@@ -3,10 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
-import Loading from '../components/Loading';
+import Loading from '../commons/Loading';
 import CenterComponent from './CenterComponent';
-// import Search from '../forms/Search';
-import FlashMessage from '../components/FlashMessage';
 
 const CenterListComponent = props => {
   const { centers, match, isFetching, error } = props;

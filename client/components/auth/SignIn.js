@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Header from './Header';
-import Footer from './Footer';
-import Loading from './Loading';
-import history from '../history';
+import Header from '../commons/Header';
+import Loading from '../commons/Loading';
 
-import { signIn, sendFlashMessage } from '../actions/actionCreators';
+import { signIn, sendFlashMessage } from '../../actions/actionCreators';
 
 /**
  * @description Creates SignIn component

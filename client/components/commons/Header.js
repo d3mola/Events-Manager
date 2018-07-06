@@ -4,7 +4,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 
-import LogoutButton from '../views/LogoutButton';
+import LogoutButton from '../auth/LogoutButton';
+
 /**
  * header
  * @param {array} links - array of nav links

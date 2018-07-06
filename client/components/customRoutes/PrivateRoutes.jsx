@@ -25,7 +25,9 @@ const PrivateRoute = ({ component: Component, token, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        !tokenHasExpired(token) ? <Component {...props} /> : <Redirect to="/login" />
+        !tokenHasExpired(token) ?
+        <Component {...props} /> :
+        <Redirect to="/login" />
       }
     />
   );
