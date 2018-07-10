@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Loading from '../commons/Loading';
 
 const CenterDetailsComponent = props => {
-  const { selectedCenter, match, handleDelete, isFetching, handleModalOpen } = props;
+  const { selectedCenter, match, isFetching, handleModalOpen } = props;
   if (isFetching || !selectedCenter) {
     return (
       <div className="fill-viewport">
@@ -52,7 +52,6 @@ const CenterDetailsComponent = props => {
               <button
                 className="btn btn-outline-danger btn-md"
                 onClick={() => handleModalOpen()}
-                // onClick={() => handleDelete(match.params.id)}
                 >
                 <i className="fa fa-trash" /> Delete
               </button>
@@ -66,9 +65,9 @@ const CenterDetailsComponent = props => {
 };
 
 CenterDetailsComponent.propTypes = {
-  selectedCenter: PropTypes.object.isRequired,
+  selectedCenter: PropTypes.object,
   match: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  handleModalOpen: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class Search extends React.Component {
   state = {
@@ -8,18 +9,18 @@ export default class Search extends React.Component {
   handleChange = e => {
     // set the next state of the form
     this.setState({
-      [e.target.name]: e.target.value
+      query: e.target.value
+    }, () => {
+      if (this.state.query === '') {
+          this.props.getCenters();
+        }
     });
-
-    if (this.state.query === '') {
-      this.props.onclearFlashMessage();
-    }
   };
 
   handleSearch = event => {
     event.preventDefault();
-    console.log('searched for:', this.state.qurey);
     this.props.onSearch(this.state.query);
+    // if(this.state)
   };
 
   render() {
@@ -27,7 +28,7 @@ export default class Search extends React.Component {
       width: '350px'
     };
 
-    const { centers } = this.props;
+    // const { centers } = this.props;
     return (
       <form action="" method="post" onSubmit={this.handleSearch}>
         <div className="input-group mx-auto" style={style}>
@@ -37,7 +38,7 @@ export default class Search extends React.Component {
             name="query"
             className="form-control"
             placeholder="Search by name or location"
-            value={this.state.search}
+            value={this.state.query}
             onChange={this.handleChange}
           />
           <button
@@ -52,3 +53,8 @@ export default class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  onSearch: PropTypes.func,
+  getCenters: PropTypes.func,
+};

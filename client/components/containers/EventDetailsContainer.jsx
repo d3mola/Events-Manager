@@ -8,7 +8,7 @@ import Footer from '../commons/Footer';
 import EventDetailsComponent from '../presentationals/EventDetailsComponent';
 import { getSingleEvent, deleteEvent } from '../../actions/actionCreators';
 
-class EventDetailsContainer extends Component {
+export class EventDetailsContainer extends Component {
   state = {
     open: false
   };

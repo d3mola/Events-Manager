@@ -205,7 +205,7 @@ export function* deleteCenterAsync(action) {
     );
     yield put({
       type: types.DELETE_CENTER_SUCCESS,
-      response: response.data
+      message: response.data.message
     });
     toastr.success(response.data.message);
     yield put(push('/centers'));
@@ -244,11 +244,8 @@ export function* searchCentersAysnc({ type, payload }) {
       type: types.SEARCH_CENTERS_FAILURE,
       error: error.response.data.message
     });
-
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
+    toastr.error(error.response.data.message);
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 

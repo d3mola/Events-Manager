@@ -6,12 +6,11 @@ import Loading from '../commons/Loading';
 
 const EventDetailsComponent = ({
   currentEvent,
-  handleDelete,
   match,
   isFetching,
   handleModalOpen
 }) => {
-  console.log('currentEvent', currentEvent);
+  // console.log('currentEvent', currentEvent);
   let component;
   if (!currentEvent) {
     // <Loading />
@@ -55,7 +54,7 @@ const EventDetailsComponent = ({
 EventDetailsComponent.propTypes = {
   currentEvent: PropTypes.object,
   match: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func,
+  handleModalOpen: PropTypes.func,
   isFetching: PropTypes.bool
 };
 

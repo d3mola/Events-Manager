@@ -12,7 +12,7 @@ import Footer from '../commons/Footer';
 import { getEvents } from '../../actions/actionCreators';
 import EventListComponent from '../presentationals/EventListComponent';
 
-class EventListContainer extends React.Component {
+export class EventListContainer extends React.Component {
   componentDidMount() {
     const parsedQueryString = queryString.parse(location.search);
     const { page, limit } = parsedQueryString;
@@ -40,8 +40,6 @@ class EventListContainer extends React.Component {
    * @returns { array } list of events that satisfy the param
    */
   onShowSizeChange = (current, pageSize) => {
-    console.log(current);
-    console.log(pageSize);
     this.props.getEvents(current, pageSize);
   };
 
@@ -95,7 +93,8 @@ EventListContainer.propTypes = {
   getEvents: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  paginationData: PropTypes.object
 };
 
 const mapStateToProps = state => ({

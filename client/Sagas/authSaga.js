@@ -10,8 +10,6 @@ import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
 
-console.log(process.env.NODE_ENV, "here_____________________");
-
 /**
  * Aysnc operation to sign up
  */

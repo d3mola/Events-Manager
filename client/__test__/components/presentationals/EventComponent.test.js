@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import EventComponent from '../../views/EventComponent';
+import EventComponent from '../../../components/presentationals/EventComponent';
 
 describe('Center Component', () => {
   it('renders succesfully', () => {
@@ -16,7 +16,7 @@ describe('Center Component', () => {
     }
     const wrapper = shallow(<EventComponent {...props}/>)
     expect(wrapper.find('div').exists()).toBeTruthy();
-    expect(wrapper.find('Event').exists()).toBeTruthy();
+    expect(wrapper.find('.event-card').exists()).toBeTruthy();
     expect(wrapper).toBeDefined();
   });
 });

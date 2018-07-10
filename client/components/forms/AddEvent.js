@@ -10,7 +10,7 @@ import { addEvent, getCenters } from '../../actions/actionCreators';
 /**
  * Creates AddEvent Component
  */
-class AddEvent extends Component {
+export class AddEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +45,7 @@ class AddEvent extends Component {
 
   render() {
     const { title, notes, centerId, date } = this.state.data;
-    const { message, className, error, addingEvent } = this.props;
+    const { addingEvent } = this.props;
     return (
       <div className="add-event-page">
         <Header
@@ -154,16 +154,16 @@ AddEvent.propTypes = {
   addEvent: PropTypes.func.isRequired,
   getCenters: PropTypes.func.isRequired,
   centers: PropTypes.array,
-  message: PropTypes.string,
-  className: PropTypes.string,
+  // message: PropTypes.string,
+  // className: PropTypes.string,
   error: PropTypes.string,
   addingEvent: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
   centers: state.centersReducer.centers,
-  message: state.flashMessages.message,
-  className: state.flashMessages.className,
+  // message: state.flashMessages.message,
+  // className: state.flashMessages.className,
   error: state.eventsReducer.error,
   // error: state.flashMessages.error,
   addingEvent: state.eventsReducer.addingEvent

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CenterDetailsComponent from '../../views/CenterDetailsComponent';
+import CenterDetailsComponent from '../../../components/presentationals/CenterDetailsComponent'; //eslint-disable-line
 
 describe(' Center Details Component', () => {
   const birthday = {
@@ -36,43 +36,32 @@ describe(' Center Details Component', () => {
       params: {
         id: 1
       }
-    }
+    },
+    isFetching: false,
+    handleModalOpen: jest.fn()
   };
 
   it('renders', () => {
     const wrapper = shallow(<CenterDetailsComponent {...props} />);
-    expect(wrapper.find('div.container').exists()).toBeTruthy();
+    expect(wrapper.find('div').exists()).toBeTruthy();
     expect(wrapper).toBeDefined();
   });
+
   it('renders a loading indicator while processing data', () => {
     const alteredProps = { ...props, selectedCenter: null };
     // const wrapper = shallow(<CenterDetailsComponent />);
     const wrapper = shallow(<CenterDetailsComponent {...alteredProps} />);
-    expect(wrapper.find('div').exists()).toBeFalsy();
+    expect(wrapper.find('Loading').exists()).toBeTruthy();
     expect(wrapper.children.length).toBe(1);
-    expect(wrapper.find('div.container').exists()).toBeFalsy();
+    expect(wrapper.find('.card-main').exists()).toBeFalsy();
   });
-  it('calls the handleDelete function prop when button is clicked', () => {
+
+  it('calls the handleModalOpen function prop when button is clicked', () => {
     const wrapper = shallow(<CenterDetailsComponent {...props} />);
     wrapper
       .find('button')
       .at(0)
       .simulate('click');
-    expect(props.handleDelete).toHaveBeenCalled();
+    expect(props.handleModalOpen).toHaveBeenCalledTimes(1);
   });
-  it('renders a list of events if events exist', () => {
-    const wrapper = shallow(<CenterDetailsComponent {...props} />);
-    expect(wrapper.find('ul').exists()).toBeTruthy();
-  });
-  it('renders a p tag if center no event exists');
-  const alteredProps = {
-    ...props,
-    selectedCenter: {
-      events: []
-    }
-  };
-  const wrapper = shallow(<CenterDetailsComponent {...alteredProps} />);
-  // console.log({ ...props, selectedCenter: null }, '<<<<<<<<<<<<<<<<<');
-  expect(wrapper.find('ul').exists()).toBeFalsy();
-  expect(wrapper.find('p').exists()).toBeTruthy();
 });

@@ -9,16 +9,16 @@ import CenterComponent from './CenterComponent';
 const CenterListComponent = props => {
   const { centers, match, isFetching, error } = props;
 
-  if (error) {
-    console.log(error, 'here');
-  }
+  // if (error) {
+  //   console.log(error, 'here');
+  // }
   const renderCenters = () => {
     if (isFetching) {
       return <Loading />;
     } else {
-      if (error) {
-        return <FlashMessage error="error" className="danger" />;
-      }
+      // if (error) {
+      //   return <FlashMessage error="error" className="danger" />;
+      // }
       if (centers.length === 0) {
         return <h3 className="text-center">No centers at this time.</h3>;
       }
@@ -49,7 +49,8 @@ const CenterListComponent = props => {
 CenterListComponent.propTypes = {
   centers: PropTypes.array.isRequired,
   match: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  error: PropTypes.string
 };
 
 export default CenterListComponent;

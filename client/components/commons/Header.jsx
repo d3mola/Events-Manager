@@ -11,9 +11,10 @@ import LogoutButton from '../auth/LogoutButton';
  * @param {array} links - array of nav links
  * @returns {JSX} - representaion of header
  */
-class Header extends React.Component {
+export class Header extends React.Component {
 
   tokenHasExpired = (rawToken) => {
+    if (process.env.NODE_ENV === 'test') return false;
     if(rawToken) {
       const decodedToken = (jwtDecode(rawToken));
       const tokenExpriryDate = decodedToken.exp;

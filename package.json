@@ -43,7 +43,17 @@
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "identity-obj-proxy"
     },
-    "coverageDirectory": "<rootDir>/client/coverage"
+    "coverageDirectory": "<rootDir>/client/coverage",
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
+    "collectCoverageFrom": [
+      "!client/index.js",
+      "client/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!client/coverage/**",
+      "!client/build/**",
+      "!client/__test__/**"
+    ]
   },
   "engines": {
     "node": "8.11.1",
@@ -128,6 +138,7 @@
     "redbox-react": "^1.5.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.3",
     "redux-saga": "^0.16.0",
     "sass-loader": "^6.0.6",
     "sequelize": "^4.22.7",
@@ -151,10 +162,13 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.3.0",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
     "react-test-renderer": "^16.2.0",
+    "redux-saga-test-plan": "^3.7.0",
+    "sinon": "^6.1.3",
     "supertest": "^3.0.0",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-dev-server": "^2.9.4",

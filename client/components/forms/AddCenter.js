@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addCenter } from '../../actions/actionCreators';
 import Header from '../commons/Header';
@@ -10,7 +10,7 @@ import Loading from '../commons/Loading';
  * @class AddCenter
  * @extends {React.Component}
  */
-class AddCenter extends React.Component {
+export class AddCenter extends React.Component {
   //setting the initial state of the component
   state = {
     name: '',
@@ -152,13 +152,14 @@ class AddCenter extends React.Component {
 
 AddCenter.propTypes = {
   addCenter: PropTypes.func.isRequired,
-  message: PropTypes.string,
-  className: PropTypes.string
+  // message: PropTypes.string,
+  // className: PropTypes.string
+  addingCenter: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  message: state.flashMessages.message,
-  className: state.flashMessages.className,
+  // message: state.flashMessages.message,
+  // className: state.flashMessages.className,
   addingCenter: state.centersReducer.addingCenter
 });
 

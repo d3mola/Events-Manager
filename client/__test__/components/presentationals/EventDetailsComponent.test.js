@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import EventDetailsComponent from '../../views/EventDetailsComponent';
+import EventDetailsComponent from '../../../components/presentationals/EventDetailsComponent'; //eslint-disable-line
 
-describe(' Center Details Component', () => {
+describe(' Event Details Component', () => {
 
   const props = {
     currentEvent: {
@@ -11,14 +11,14 @@ describe(' Center Details Component', () => {
       notes: 'Ogun State',
       centerId: 2,
     },
-    handleDelete: jest.fn(),
     match: {
       url: 'someUrl',
       params: {
         id: 1
       }
     },
-    isFetching: false
+    isFetching: false,
+    handleModalOpen: jest.fn()
   };
 
   it('renders', () => {
@@ -26,6 +26,7 @@ describe(' Center Details Component', () => {
     expect(wrapper.find('div.container').exists()).toBeTruthy();
     expect(wrapper).toBeDefined();
   });
+
   it('renders a loading indicator while processing data', () => {
     const alteredProps = { ...props, isFetching: true};
     const wrapper = shallow(<EventDetailsComponent {...alteredProps} />);
@@ -33,20 +34,22 @@ describe(' Center Details Component', () => {
     expect(wrapper.children.length).toBe(1);
     expect(wrapper.find('div.container').exists()).toBeFalsy();
   });
-  it('calls the handleDelete function when button is clicked', () => {
+
+  it('calls the handleModalOpen function when button is clicked', () => {
     const wrapper = shallow(<EventDetailsComponent {...props} />);
     wrapper
       .find('button')
       .at(0)
       .simulate('click');
-    expect(props.handleDelete).toHaveBeenCalled();
+    expect(props.handleModalOpen).toHaveBeenCalledTimes(1);
   });
-  it('renders a p tag if center no event exists');
+
+  it('renders a message tag if event doesnt exists');
   const alteredProps = {
     ...props,
     currentEvent: null
   };
   const wrapper = shallow(<EventDetailsComponent {...alteredProps} />);
   expect(wrapper.find('.container').exists()).toBeFalsy();
-  expect(wrapper.find('p').exists()).toBeTruthy();
+  expect(wrapper.find('h3').exists()).toBeTruthy();
 });

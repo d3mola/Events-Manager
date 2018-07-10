@@ -1,7 +1,7 @@
 // presentational component that lists events
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import Loading from '../commons/Loading';
 import EventComponent from './EventComponent';
@@ -15,7 +15,11 @@ const EventListComponent = ({ events, match, isFetching, error }) => {
   }
 
   return (
-    isFetching ? <Loading /> : events.length === 0 ? <h3 className="mx-auto fill-viewport">No event created</h3> :renderEventsList()
+    isFetching
+    ? <Loading />
+    : events.length === 0
+      ? <h3 className="mx-auto fill-viewport">No event created</h3>
+      : <div>{renderEventsList()}</div>
   )
 }
 

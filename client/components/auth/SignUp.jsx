@@ -13,7 +13,7 @@ import Loading from '../commons/Loading';
  * @class SignUpForm
  * @extends {React.Component}
  */
-class SignUp extends React.Component {
+export class SignUp extends React.Component {
   /**
    * Creates an instance of SignUp.
    * @param {any} props

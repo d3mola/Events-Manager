@@ -21,8 +21,7 @@ const authReducer = (state = initialState.authReducer, action) => {
         isLoading: false,
         token: null,
         // isAuthenticated: false,
-        // error: action.error, // prev implementation from signInAsyn saga
-        error: action.error // new implementation from loginAsync Saga
+        error: action.error
       };
     case types.SIGN_UP:
       return { ...state, isLoading: true };

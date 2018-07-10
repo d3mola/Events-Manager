@@ -10,7 +10,7 @@ import {
   getCenters
 } from '../../actions/actionCreators';
 
-class EditEventForm extends Component {
+export class EditEventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,7 +70,7 @@ class EditEventForm extends Component {
   render() {
     const { title, notes, centerId, date } = this.state;
     const { centers } = this.props;
-    return !this.props.currentEvent ? (
+    return !this.props.currentEvent.name ? (
       <Loading />
     ) : (
       <div className="">
@@ -181,10 +181,10 @@ class EditEventForm extends Component {
 EditEventForm.propTypes = {
   getCenters: PropTypes.func.isRequired,
   getSingleEvent: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
+  match: PropTypes.object,
   editEvent: PropTypes.func.isRequired,
   centers: PropTypes.array.isRequired,
-  currentEvent: PropTypes.object.isRequired
+  currentEvent: PropTypes.object
 };
 
 /** maps reux state to props

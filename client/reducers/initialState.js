@@ -14,16 +14,17 @@ export default {
     isFetching: false,
     events: [],
     addingEvent: false,
-    paginationData: {}
+    paginationData: {},
+    error: null
   },
   centersReducer: {
     isFetching: false,
     addingCenter: false,
     editingCenter: false,
     centers: [],
-    paginationData: {}
-    // selectedCenter: {}
-    // error: false
+    paginationData: {},
+    selectedCenter: {},
+    error: null
   },
   flashMessages: {
     message: null,

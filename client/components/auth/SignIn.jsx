@@ -13,7 +13,7 @@ import { signIn, sendFlashMessage } from '../../actions/actionCreators';
  * @class SignIn
  * @extends {React.Component}
  */
-class SignIn extends React.Component {
+export class SignIn extends React.Component {
   /**
    * Creates an instance of SignIn.
    * @param {any} props
@@ -141,7 +141,6 @@ SignIn.propTypes = {
 
 const mapStateToProps = state => {
   const { authReducer } = state;
-  // console.log('mapSTP------', authReducer);
   return {
     isLoading: authReducer.isLoading,
     token: authReducer.token

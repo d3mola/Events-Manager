@@ -13,7 +13,7 @@ import Loading from '../commons/Loading';
  * @class AddCenter
  * @extends {React.Component}
  */
-class EditCenterForm extends React.Component {
+export class EditCenterForm extends React.Component {
   /**
    * Creates an instance of EditCenterForm.
    * @param {object} props
@@ -188,7 +188,7 @@ class EditCenterForm extends React.Component {
 }
 
 EditCenterForm.propTypes = {
-  match: PropTypes.object.isRequired,
+  match: PropTypes.object,
   fetchSingleCenter: PropTypes.func.isRequired,
   updateCenter: PropTypes.func.isRequired,
   selectedCenter: PropTypes.object
@@ -202,8 +202,8 @@ const mapStateToProps = state => {
   return {
     selectedCenter: state.centersReducer.selectedCenter,
     editingCenter: state.centersReducer.editingCenter,
-    message: state.flashMessages.message,
-    className: state.flashMessages.className
+    // message: state.flashMessages.message,
+    // className: state.flashMessages.className
   };
 };
 

@@ -43,7 +43,7 @@ export class CenterDetailsContainer extends Component {
 
   render() {
     const { open } = this.state;
-    const { selectedCenter, match } = this.props;
+    const { selectedCenter, match, isFetching } = this.props;
     return (
       <div>
         <Header
@@ -64,7 +64,7 @@ export class CenterDetailsContainer extends Component {
           { selectedCenter && <h2>Delete {selectedCenter.name}</h2> }
           <p>
             Are you sure you want to delete this center? It may have unintended
-            consequeces if it's currently booked by a customer!
+            consequeces if its currently booked by a customer!
           </p>
           <button
             className="btn btn-outline-danger btn-md"
@@ -83,6 +83,7 @@ export class CenterDetailsContainer extends Component {
           selectedCenter={selectedCenter}
           handleDelete={this.handleCenterDelete}
           match={match}
+          isFetching={isFetching}
         />
         
         <Footer />

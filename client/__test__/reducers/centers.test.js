@@ -42,12 +42,14 @@ describe('Centers Reducers', () => {
       initialState.centersReducer
     );
   });
+
   it('should handle GET_CENTERS', () => {
     action = { type: types.GET_CENTERS };
     recievedState = centersReducer(initialState.centersReducer, action);
     expect(recievedState.isFetching).toEqual(true);
     expect(recievedState.centers.length).toBe(2)
   });
+
   it('should handle GET_CENTERS_SUCCESS', () => {
     action = { type: types.GET_CENTERS_SUCCESS, centers };
     newState = centersReducer(initialState.centersReducer, action);
@@ -55,12 +57,14 @@ describe('Centers Reducers', () => {
     expect(newState.centers.length).toBe(2);
     expect(newState.isFetching).toEqual(false);
   });
+
   it('should handle GET_CENTERS_FAILURE', () => {
     action = { type: types.GET_CENTERS_FAILURE, error };
     newState = centersReducer(initialState.centersReducer, action);
     expect(newState.centers.length).toBe(2);
     expect(newState.isFetching).toEqual(false);
   });
+
   it('should handle ADD_CENTER', () => {
     initialState.centersReducer.centers = centers;
     action = { type: types.ADD_CENTER, newCenter };
@@ -68,6 +72,7 @@ describe('Centers Reducers', () => {
     expect(recievedState.addingCenter).toEqual(true);
     expect(recievedState.centers.length).toEqual(2);
   });
+
   it('should handle ADD_CENTER_SUCCESS', () => {
     action = { type: types.ADD_CENTER_SUCCESS, center: newCenter };
     newState = centersReducer(initialState.centersReducer, action);
@@ -77,6 +82,7 @@ describe('Centers Reducers', () => {
     expect(newState.centers.length).toEqual(3);
     expect(newState.addingCenter).toEqual(false);
   });
+
   it('should handle ADD_CENTER_FAILURE', () => {
     action = { type: types.ADD_CENTER_FAILURE, error };
     recievedState = centersReducer(initialState.centersReducer, action);
@@ -86,6 +92,7 @@ describe('Centers Reducers', () => {
     expect(recievedState.centers.length).toEqual(2);
     expect(recievedState.error).toEqual('this is an error');
   });
+
   it('should handle GET_SINGLE_CENTER', () => {
     recievedState = centersReducer(
       initialState.centersReducer,
@@ -94,6 +101,7 @@ describe('Centers Reducers', () => {
     expect(recievedState.selectedCenter).toEqual(null);
     expect(recievedState.isFetching).toEqual(true);
   });
+
   it('should handle GET_SINGLE_CENTER_SUCCESS', () => {
     recievedState = centersReducer(
       initialState.centersReducer,
@@ -102,10 +110,104 @@ describe('Centers Reducers', () => {
     expect(recievedState.selectedCenter).toEqual(firstCenter);
     expect(recievedState.isFetching).toEqual(false);
   });
-  it('should handle DELETE_CENTER', () => {});
-  it('should handle DELETE_CENTER_SUCCESS', () => {});
-  it('should handle DELETE_CENTER_FAILURE', () => {});
-  it('should handle EDIT_CENTER', () => {});
-  it('should handle EDIT_CENTER_FAILURE', () => {});
-  it('should handle EDIT_CENTER_SUCCESS', () => {});
+
+  it('should handle DELETE_CENTER', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.DELETE_CENTER, centerId: firstCenter.centerId }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+  });
+
+  it('should handle DELETE_CENTER_SUCCESS', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.DELETE_CENTER_SUCCESS, message: 'Center deleted' }
+    );
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.message).toEqual('Center deleted');
+  });
+
+  it('should handle DELETE_CENTER_FAILURE', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.DELETE_CENTER_FAILURE, error: 'Unsuccessful' }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.error).toEqual('Unsuccessful');
+  });
+
+  it('should handle EDIT_CENTER', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.EDIT_CENTER, center: firstCenter }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.editingCenter).toEqual(true);
+  });
+
+  it('should handle EDIT_CENTER_SUCCESS', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer, {
+        type: types.EDIT_CENTER_SUCCESS,
+        response: {
+          updatedCenter: { name: 'updated center' }
+      } }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.updatedCenter.name).toEqual('updated center');
+    expect(recievedState.editingCenter).toEqual(false);
+  });
+
+  it('should handle EDIT_CENTER_FAILURE', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.EDIT_CENTER_FAILURE, center: firstCenter }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.editingCenter).toEqual(false);
+  });
+
+  it('should handle SEARCH_CENTERS', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.SEARCH_CENTERS, payload: firstCenter.location }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.isFetching).toEqual(true);
+  });
+
+  it('should handle SEARCH_CENTERS_SUCCESS', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.SEARCH_CENTERS_SUCCESS, centers: [firstCenter] }
+    );
+    expect(recievedState.centers).toEqual([firstCenter]);
+    expect(recievedState.centers.length).toEqual(1);
+    expect(recievedState.isFetching).toEqual(false);
+  });
+
+  it('should handle SEARCH_CENTERS_FAILURE', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.SEARCH_CENTERS_FAILURE, center: firstCenter }
+    );
+    expect(recievedState.centers).toEqual([ ...centers ]);
+    expect(recievedState.centers.length).toEqual(2);
+    expect(recievedState.isFetching).toEqual(false);
+  });
+
+  it('should handle CLEAR_FLASH_MESSAGE', () => {
+    recievedState = centersReducer(
+      initialState.centersReducer,
+      { type: types.CLEAR_FLASH_MESSAGE }
+    );
+    expect(recievedState.error).toEqual(null);
+  });
 });

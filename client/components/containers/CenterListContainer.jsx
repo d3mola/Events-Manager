@@ -13,7 +13,6 @@ import Footer from '../commons/Footer';
 import {
   getCenters,
   searchCenters,
-  clearFlashMessage
 } from '../../actions/actionCreators';
 import CenterListComponent from '../presentationals/CenterListComponent';
 
@@ -24,7 +23,7 @@ import CenterListComponent from '../presentationals/CenterListComponent';
  *
  * @extends {React.Component}
  */
-class CenterListContainer extends React.Component {
+export class CenterListContainer extends React.Component {
   /**
    * @description fetch centers as soon as component renders
    *
@@ -59,8 +58,6 @@ class CenterListContainer extends React.Component {
    * @returns { array } list of centers taht satisfy the param
    */
   onShowSizeChange = (current, pageSize) => {
-    console.log(current);
-    console.log(pageSize);
     this.props.getCenters(current, pageSize);
   };
 
@@ -87,7 +84,7 @@ class CenterListContainer extends React.Component {
           <Search
             centers={this.props.centers}
             onSearch={query => this.props.searchCenters(query)}
-            onclearFlashMessage={this.props.clearFlashMessage}
+            getCenters={this.props.getCenters}
           />
 
           {isAdmin === 'true' && (
@@ -129,7 +126,10 @@ CenterListContainer.propTypes = {
   centers: PropTypes.array.isRequired,
   getCenters: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.string,
+  paginationData: PropTypes.object,
+  searchCenters: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -144,7 +144,6 @@ export default connect(
   mapStateToProps,
   {
     getCenters,
-    searchCenters,
-    clearFlashMessage
+    searchCenters
   }
 )(CenterListContainer);
