@@ -4,7 +4,6 @@ import db from '../models';
 const { Center, Event } = db;
 
 const updateCenter = (req, res, data, id) => {
-  console.log(data, ">>>>>>>>>>>>>>>>>")
   Center.update(
     {
       name: data.name,

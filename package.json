@@ -10,9 +10,10 @@
     "nodemon": "nodemon ./server/app",
     "test:db": "cross-env NODE_ENV=test sequelize db:migrate:undo:all &&cross-env NODE_ENV=test sequelize db:migrate",
     "test:server": "npm run test:db &&cross-env NODE_ENV=test nyc --reporter=lcov --reporter=html --reporter=text mocha --compilers js:babel-core/register ./server/test/**/*.spec.js --timeout 250000 --exit",
-    "test:client": "jest client/",
+    "test:client": "jest client/ && codecov",
     "test:client:watch": "jest client/ --watch",
     "test:client:coverage": "jest client/ --coverage",
+    "test:all": "npm run test:server && npm run test:client",
     "jest": "jest client/ --coverage --watch",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
@@ -45,15 +46,7 @@
     },
     "coverageDirectory": "<rootDir>/client/coverage",
     "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
-    "collectCoverageFrom": [
-      "!client/index.js",
-      "client/**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!client/coverage/**",
-      "!client/build/**",
-      "!client/__test__/**"
-    ]
+    "testURL": "http://localhost"
   },
   "engines": {
     "node": "8.11.1",
@@ -154,6 +147,8 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "codecov": "^3.0.4",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",

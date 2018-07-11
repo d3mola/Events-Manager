@@ -63,19 +63,17 @@ export class SignIn extends React.Component {
    * @returns {object} signin
    */
   render() {
-    const { isLoading, token } = this.props;
-    const loadingIndicator = isLoading ? (
-      // <Loader type="TailSpin" color="#5cb85c" height="50" width="50" />
-      <Loading />
-    ) : null;
+    const { isLoading } = this.props;
     return (
       <div className="login-page">
+      { isLoading && <Loading /> }
         <Header
           links={{ centers: 'centers', events: 'events', register: 'register' }}
         />
         <br />
-        <div className="container">
-          <div className="row">
+        <div className="container fill-viewport">
+          <div className="row"> 
+          <div className="col-md-3 align-items-center"></div>
             <div className="col-md-6 mx-auto">
               <form
                 id="form-box"
@@ -109,11 +107,8 @@ export class SignIn extends React.Component {
                     onChange={this.handleChange}
                   />
                 </div>
-                {loadingIndicator}
-                {/* <div className="text-center">{loadingIndicator}</div> */}
-                {/* {isLoading ? <h1>loading...dan..</h1> : <h1>empty...dan..</h1>} */}
                 <input
-                  className="btn btn-outline-success"
+                  className="btn btn-success form-buttons"
                   type="submit"
                   value="Sign in"
                   disabled={isLoading}
@@ -124,8 +119,7 @@ export class SignIn extends React.Component {
                 </p>
               </form>
             </div>
-            {/* <hr/> */}
-            {/* <UserAction /> */}
+            <div className="col-md-3"></div>
           </div>
         </div>
       </div>

@@ -28,11 +28,9 @@ export default class Search extends React.Component {
       width: '350px'
     };
 
-    // const { centers } = this.props;
     return (
       <form action="" method="post" onSubmit={this.handleSearch}>
-        <div className="input-group mx-auto" style={style}>
-          {/* <i className="fa fa-search" /> */}
+        <div className="input-group mx-auto" id="search-bar" style={style}>
           <input
             type="text"
             name="query"

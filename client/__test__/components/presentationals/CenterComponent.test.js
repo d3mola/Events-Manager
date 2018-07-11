@@ -8,7 +8,6 @@ let wrapper;
 const getDetails = jest.fn();
 // const history = {push: jest.fn()};
 const history = createHistory();
-// console.log(history, "******")
 history.push = jest.fn;
 
 describe('Center Component', () => {

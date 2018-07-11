@@ -8,5 +8,4 @@ Enzyme.configure({ adapter: new Adapter() });
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
-// global.history = { push:jest.fn() }
 global.sinon = sinon;

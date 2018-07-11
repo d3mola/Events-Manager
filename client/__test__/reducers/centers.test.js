@@ -30,13 +30,9 @@ const error = 'this is an error';
 
 describe('Centers Reducers', () => {
   beforeEach(() => {
-    // console.log('66666666666', initialState.centersReducer.centers)
     return initialState.centersReducer.centers = centers
   });
 
-  // afterEach(() => {
-  //   return initialState.centersReducer.centers = []
-  // })
   it('should return the initial state', () => {
     expect(centersReducer(initialState.centersReducer, {})).toEqual(
       initialState.centersReducer

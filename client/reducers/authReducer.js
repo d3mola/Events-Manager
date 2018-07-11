@@ -10,9 +10,8 @@ const authReducer = (state = initialState.authReducer, action) => {
         ...state,
         isLoading: false,
         user: action.user.username,
-        isAdmin: action.user.isAdmin,
-        // response: action.response.message,
-        token: action.token, // most useful based on new implementataion
+        isAdmin: action.user.isAdmin.toString(),
+        token: action.token,
         error: null
       };
     case types.SIGN_IN_FAILURE:
@@ -20,7 +19,6 @@ const authReducer = (state = initialState.authReducer, action) => {
         ...state,
         isLoading: false,
         token: null,
-        // isAuthenticated: false,
         error: action.error
       };
     case types.SIGN_UP:
@@ -31,7 +29,7 @@ const authReducer = (state = initialState.authReducer, action) => {
         isLoading: false,
         error: null,
         user: action.user.username,
-        isAdmin: action.user.isAdmin,
+        isAdmin: action.user.isAdmin.toString(),
         token: action.token
       };
     case types.SIGN_UP_FAILURE:

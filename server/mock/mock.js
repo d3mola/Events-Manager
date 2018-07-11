@@ -152,6 +152,4 @@ const data = {
   }
 };
 
-// console.log('fake data', data.newUser2)
-
 export default data;

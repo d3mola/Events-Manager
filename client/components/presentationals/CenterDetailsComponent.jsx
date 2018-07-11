@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Loading from '../commons/Loading';
 
 const CenterDetailsComponent = props => {
-  const { selectedCenter, match, isFetching, handleModalOpen } = props;
+  const { selectedCenter, match, isFetching, handleModalOpen, token, isAdmin } = props;
   if (isFetching || !selectedCenter) {
     return (
       <div className="fill-viewport">
@@ -15,7 +15,7 @@ const CenterDetailsComponent = props => {
   }
   return (
     <div className="fill-viewportt center-details containerr">
-      <h3>Center details</h3>
+      <h3>Details of {selectedCenter.name}</h3>
       <div className="card-main">
         <div className="main-left mb-5">
           <div className="card-img">
@@ -35,29 +35,27 @@ const CenterDetailsComponent = props => {
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged.
             </p>
-            <div className="name-capacity">
-              <h4>{selectedCenter.name}</h4>
-              <p>{selectedCenter.capacity} persons</p>
+            <div>
+              <p><span className="name-capacity">Capacity:</span> {selectedCenter.capacity}</p>
             </div>
 
-            <p className="price">&#8358; {selectedCenter.price}</p>
+            <p><span className="price">Price:</span> &#8358; {selectedCenter.price}</p>
 
-            <div className="buttons">
+            { token && isAdmin === 'true' &&<div className="buttons">
               <Link
                 to={match.url + '/edit'}
                 style={{ marginRight: 10 }}
-                className="btn btn-outline-primary btn-md">
+                className="btn btn-primary btn-lg">
                 <i className="fa fa-edit" /> Edit
               </Link>
               <button
-                className="btn btn-outline-danger btn-md"
+                className="btn btn-danger btn-md"
                 onClick={() => handleModalOpen()}
                 >
                 <i className="fa fa-trash" /> Delete
               </button>
-            </div>
+            </div>}
           </div>
-          <div className="calendar">calendar comes here!!!</div>
         </div>
       </div>
     </div>
@@ -68,11 +66,12 @@ CenterDetailsComponent.propTypes = {
   selectedCenter: PropTypes.object,
   match: PropTypes.object.isRequired,
   handleModalOpen: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  token: PropTypes.string,
+  isAdmin: PropTypes.string
 };
 
 CenterDetailsComponent.defaultProps = {
-  // selectedCenter: {}
 };
 
 export default CenterDetailsComponent;

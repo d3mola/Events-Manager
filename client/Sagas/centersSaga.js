@@ -8,6 +8,24 @@ import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
 
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
 /**
  * Aysnc operation to get all centers
  */
@@ -61,7 +79,6 @@ export function* fetchcentersAsync(action) {
  */
 export function* watchFetchCentersAsync() {
   yield takeLatest(types.GET_CENTERS, fetchcentersAsync);
-  // yield takeEvery(types.GET_CENTERS, fetchcentersAsync);
 }
 
 /**
@@ -87,7 +104,6 @@ export function* addCenterAsync(action) {
       'x-access-token': token,
       'Content-Type': 'multipart/form-data'
     };
-    console.log(headers, "here")
     const response = yield call(
       axios.post,
       `${url}/centers`,
@@ -116,7 +132,6 @@ export function* addCenterAsync(action) {
  * @export
  */
 export function* watchAddCenterAsync() {
-  // console.log('listening for ADD_CENTER');
   yield takeEvery(types.ADD_CENTER, addCenterAsync);
 }
 
@@ -137,11 +152,17 @@ export function* fetchSingleCenterAsync(action) {
       center: response.data.center
     });
   } catch (error) {
-    console.log(error.response.data.message);
-    yield put({
-      type: types.GET_SINGLE_CENTER_FAILURE,
-      error: error.reponse.data.message
-    });
+    if (error.response) {
+      yield put({
+        type: types.GET_SINGLE_CENTER_FAILURE,
+        error: 'Network error, please refresh'
+      });
+    } else { 
+      yield put({
+        type: types.GET_SINGLE_CENTER_FAILURE,
+        error: error.reponse.data.message
+      });
+    }
   }
 }
 

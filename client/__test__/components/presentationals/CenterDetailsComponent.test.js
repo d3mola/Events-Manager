@@ -38,7 +38,9 @@ describe(' Center Details Component', () => {
       }
     },
     isFetching: false,
-    handleModalOpen: jest.fn()
+    handleModalOpen: jest.fn(),
+    token: 'eyadbeubf.fdhweiu.dfsms.jds',
+    isAdmin: 'true'
   };
 
   it('renders', () => {

@@ -19,7 +19,7 @@ const paginate = (model, limit=12, offset=0) => {
 
       return paginationOptions;
 
-    }).catch(error => console.log(error));
+    }).catch(error => error);
 }
 
 export default paginate;

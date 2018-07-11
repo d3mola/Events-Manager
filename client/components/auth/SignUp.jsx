@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { signUp } from '../../actions/actionCreators';
 import Header from '../commons/Header';
-import Footer from '../commons/Footer';
 import Loading from '../commons/Loading';
 
 /**
@@ -131,7 +130,7 @@ export class SignUp extends React.Component {
                   />
                 </div>
                 <input
-                  className="btn btn-outline-success"
+                  className="btn btn-success form-buttons"
                   type="submit"
                   value="Register"
                   disabled={isLoading}
@@ -145,15 +144,14 @@ export class SignUp extends React.Component {
             </div>
           </div>
         </div>
-        <hr />
-        <Footer />
       </div>
     );
   }
 }
 
 SignUp.propTypes = {
-  signUp: PropTypes.func.isRequired
+  signUp: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({

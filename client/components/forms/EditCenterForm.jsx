@@ -80,7 +80,6 @@ export class EditCenterForm extends React.Component {
 
   fileChangedHandler(event) {
     const image = event.target.files['0'];
-    console.log(image);
     this.setState(prevState => ({ ...prevState, image }));
   }
 
@@ -173,7 +172,7 @@ export class EditCenterForm extends React.Component {
                 </div>
 
                 <input
-                  className="btn btn-outline-success"
+                  className="btn btn-success form-buttons"
                   type="submit"
                   value="Save"
                 />

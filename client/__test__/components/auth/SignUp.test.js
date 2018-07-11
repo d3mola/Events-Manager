@@ -29,7 +29,6 @@ describe('Sign up Component', () => {
 
     wrapper = shallow(<SignUp {...props} />);
 
-    // console.log('****', store);
   });
 
   it('should render successfully', () => {

@@ -28,7 +28,6 @@ export class AddEvent extends Component {
   }
 
   handleChange(e) {
-    // console.log(e.target.name, e.target.value);
     this.setState({
       data: { ...this.state.data, [e.target.name]: e.target.value }
     });
@@ -134,7 +133,7 @@ export class AddEvent extends Component {
                 </div>
 
                 <input
-                  className="btn btn-success"
+                  className="btn btn-success form-buttons"
                   type="submit"
                   value="Schedule"
                 />
@@ -143,8 +142,7 @@ export class AddEvent extends Component {
             <div className="col col-md-3"></div>
           </div>
         </div>
-        <hr />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
@@ -154,18 +152,13 @@ AddEvent.propTypes = {
   addEvent: PropTypes.func.isRequired,
   getCenters: PropTypes.func.isRequired,
   centers: PropTypes.array,
-  // message: PropTypes.string,
-  // className: PropTypes.string,
   error: PropTypes.string,
   addingEvent: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
   centers: state.centersReducer.centers,
-  // message: state.flashMessages.message,
-  // className: state.flashMessages.className,
   error: state.eventsReducer.error,
-  // error: state.flashMessages.error,
   addingEvent: state.eventsReducer.addingEvent
 });
 

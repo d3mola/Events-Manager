@@ -136,7 +136,7 @@ export class AddCenter extends React.Component {
                 </div>
 
                 <input
-                  className="btn btn-success"
+                  className="btn btn-success form-buttons"
                   type="submit"
                   value="Create"
                   disabled={addingCenter}

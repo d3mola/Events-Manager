@@ -1,7 +1,5 @@
-// presentaional component for list of centers
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 
 import Loading from '../commons/Loading';
 import CenterComponent from './CenterComponent';
@@ -9,16 +7,10 @@ import CenterComponent from './CenterComponent';
 const CenterListComponent = props => {
   const { centers, match, isFetching, error } = props;
 
-  // if (error) {
-  //   console.log(error, 'here');
-  // }
   const renderCenters = () => {
     if (isFetching) {
       return <Loading />;
     } else {
-      // if (error) {
-      //   return <FlashMessage error="error" className="danger" />;
-      // }
       if (centers.length === 0) {
         return <h3 className="text-center">No centers at this time.</h3>;
       }
@@ -38,11 +30,9 @@ const CenterListComponent = props => {
   };
 
   return (
-    // <div className="mainn">
-      <div className="container">
-        <div className="cards fill-viewport">{renderCenters()}</div>
-      </div>
-    // </div>
+    <div className="container">
+      <div className="cards fill-viewport">{renderCenters()}</div>
+    </div>
   );
 };
 

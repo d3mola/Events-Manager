@@ -29,10 +29,8 @@ export default {
 
 
         if (req.file) {
-          console.log('uploading to cloud...');
           uploadImage(req.file)
             .then(({ secure_url, public_id }) => {
-              console.log('upload successful');
               Center.create({
                 name,
                 location,

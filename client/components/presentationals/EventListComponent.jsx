@@ -19,7 +19,7 @@ const EventListComponent = ({ events, match, isFetching, error }) => {
     ? <Loading />
     : events.length === 0
       ? <h3 className="mx-auto fill-viewport">No event created</h3>
-      : <div>{renderEventsList()}</div>
+      : <div className="e-list">{renderEventsList()}</div>
   )
 }
 

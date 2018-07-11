@@ -55,14 +55,12 @@ export class EventDetailsContainer extends Component {
         <Modal
           open={open}
           onClose={this.onCloseModal}
-          // center
           handleDelete={this.handleEventDelete}
           match={match}>
           {currentEvent && <h2>Delete {currentEvent.title}</h2>}
           <p>Are you sure you want to delete this event?</p>
           <button
-            className="btn btn-outline-danger btn-md"
-            // onClick={() => console.log(this.props)}
+            className="btn btn-danger btn-md pull-right"
             onClick={() => {
               this.setState({ open: false });
               this.props.deleteEvent(match.params.id);
@@ -102,7 +100,6 @@ EventDetailsContainer.propTypes = {
 };
 
 EventDetailsContainer.defaultProps = {
-  // currentEvent: {}
 };
 
 export default connect(

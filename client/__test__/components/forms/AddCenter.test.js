@@ -41,9 +41,6 @@ describe('AddCenter Component', () => {
     );
 
     expect(wrapper.instance().handleChange.calledOnce).toEqual(true);
-
-    wrapper.find('#name').simulate('change', {
-      target: { name: 'name', value: 'first center' }});
     expect(spy.calledOnce).toBeTruthy();
     expect(wrapper.state().name).toBe('first center');
   });

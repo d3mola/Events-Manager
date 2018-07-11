@@ -118,7 +118,6 @@ describe('User', () => {
           confirmPassword: '123456'
         })
         .end((err, res) => {
-          // console.log(err);
           // expect(res.status).to.equal(409);
           // expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('Another account uses this email!');

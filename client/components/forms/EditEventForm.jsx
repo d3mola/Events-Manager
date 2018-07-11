@@ -70,14 +70,15 @@ export class EditEventForm extends Component {
   render() {
     const { title, notes, centerId, date } = this.state;
     const { centers } = this.props;
-    return !this.props.currentEvent.name ? (
+    return !this.props.currentEvent.title ? (
+    // return !!this.props.currentEvent === true ? (
       <Loading />
     ) : (
       <div className="">
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
-        <div className="containerr edit-event-body">
+        <div className="containerr edit-event-body fill-viewport">
           <div className="row">
             <div className="col-md-6 mx-auto">
               <form
@@ -88,11 +89,6 @@ export class EditEventForm extends Component {
                 <h3 className="text-center" style={{ bottom: 20 }}>
                   Edit Event!
                 </h3>
-                <em
-                  style={{ fontWeight: 700, marginBottom: 20, color: 'black' }}
-                >
-                  editing {title}...
-                </em>
 
                 <div className="form-group">
                   <label htmlFor="event-name">Event Name:</label>
@@ -152,7 +148,7 @@ export class EditEventForm extends Component {
 
                 <div className="form-group">
                   <label htmlFor="date">
-                    Choose a date and time:<br />MM/DD/YYYY
+                    Choose a date and time:
                   </label>
                   <input
                     required
@@ -165,14 +161,13 @@ export class EditEventForm extends Component {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-success">
-                  <i className="fa fa-send" />
+                <button type="submit" className="btn btn-success form-buttons">
+                  Save
                 </button>
               </form>
             </div>
           </div>
         </div>
-        <hr />
         <Footer />
       </div>
     );

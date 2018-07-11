@@ -5,7 +5,6 @@ $white: #fff;
 $greenyellow: #adff2f;
 $yellowgreen: #9acd32;
 $darkgreen: #16534e;
-// 16534e
 $black: #000;
 $Quicksand: 'Quicksand', sans-serif;
 $open-sans: 'Open Sans';
@@ -31,6 +30,7 @@ body {
   a.navbar-brand {
     font-weight: 600;
     font-size: 21px;
+    padding-left: 64px;
     &:hover {
       font-size: 22px;
     }
@@ -91,9 +91,6 @@ img {
   width: 100%;
   height: 300px;
 }
-// h4 {
-// 	margin-top: 30px;
-// }
 
 // register and login pages
 .register-page,
@@ -104,9 +101,9 @@ img {
   background-blend-mode: overlay;
   min-height: 100vh;
   #form-box {
+    margin-top: 150px;
     font-weight: 600;
     background-color: rgba(255,255,255,0.9);
-    // background-color: rgba(255,255,255,0.55);
     font-size: 1.1em;
     font-family: $open-sans;
     h2 {
@@ -149,6 +146,7 @@ img {
 
 .edit-event-form,
 .edit-center-form {
+  margin-top: 127px !important;
   background-color: rgba(255,255,255,0.55);
   color: #000;
   font-family: $open-sans;
@@ -191,7 +189,7 @@ img {
       height: 700px;
       width: 600px;
       margin-left: 20px;
-      border: 1px solid #16534e;
+      // border: 1px solid #16534e;
       .card-img {
         padding: 5px;
         height: 100%;
@@ -218,7 +216,7 @@ img {
       flex-direction: column;
       height: 700px;
       width: 400px;
-      border: 1px solid #16534e;
+      // border: 1px solid #16534e;
       padding-right: 10px;
       padding-left: 10px;
       padding-top: 25px;
@@ -229,17 +227,14 @@ img {
         flex-direction: column;
         height: 400px;
         width: 100%;
-        border-bottom: 1px solid #16534e;
+        // border-bottom: 1px solid #16534e;
         .name-capacity {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-evenly;
-          margin-top: 25px;
+          font-weight: 500;
+          color: #5f9ea0
         }
         .price {
-          display: flex;
-          justify-content: center;
-          margin-top: 10px;
+          font-weight: 500;
+          color: #5f9ea0
         }
         .buttons {
           display: flex;
@@ -316,9 +311,26 @@ img {
     text-align: center;
     box-shadow: 2px 2px 3px #999;
     z-index: 1000;
+    span {
+      display: none;
+    };
+
     &:hover {
     color: white;
     transform: scale(1.04);
+
+    span {
+      border: #fff 1px solid;
+      padding: 0px 0px 4px 0px;
+      display: inline-block;
+      z-index: 10001;
+      background: #15534e;
+      width: 100px;
+      position: absolute;
+      bottom: 80px;
+      right: -22px;
+      text-decoration: none;
+    }
     }
     .my-float {
       margin-top: 22px;
@@ -489,10 +501,21 @@ img {
 
   .e-list {
     display: flex;
-    // flex-direction: column;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 30px;
-    // margin-top: 20px;
   }
+}
+
+.form-buttons {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#search-bar {
+  width: 507px !important;
+  height: 42px;
+  margin-top: 23px;
+  margin-bottom: 3px;
 }

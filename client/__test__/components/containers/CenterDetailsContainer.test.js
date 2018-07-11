@@ -22,7 +22,9 @@ describe('CenterDetailsContainer Component', () => {
       fetchSingleCenter: jest.fn(),
       deleteCenter: jest.fn(),
       match: {url: '/centers', params: 1},
-      isFetching: false
+      isFetching: false,
+      token: 'eyadbeubf.fdhweiu.dfsms.jds',
+      isAdmin: 'true'
     }
 
     wrapper = shallow(<CenterDetailsContainer {...props}/>);
@@ -50,7 +52,7 @@ describe('CenterDetailsContainer Component', () => {
 
   it('should call onCloseModal method', () => {
     wrapper.instance().onCloseModal();
-    expect(wrapper.state().open).toEqual(false);    
+    expect(wrapper.state().open).toEqual(false);
   });
 });
 
@@ -61,4 +63,3 @@ describe('Connected Component', () => {
     expect(wrapper.length).toEqual(1);    
   });
 });
-

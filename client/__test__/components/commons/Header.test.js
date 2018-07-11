@@ -19,7 +19,6 @@ let token = localStorage.getItem('token');
 let tokenHasExpired = () => false;
 
 tokenHasExpired = jest.fn();
-// console.log('**', token)
 const locations = [];
 const history = {
   push(location) {
@@ -44,7 +43,6 @@ const mockStore = configureStore();
 //     history.push = jest.fn();
 //     mountedComponent = shallow(<Header {...props} />);
 //   }
-//   console.log('_____', token)
 //   return mountedComponent;
 // };
 

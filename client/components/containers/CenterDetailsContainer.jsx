@@ -43,7 +43,7 @@ export class CenterDetailsContainer extends Component {
 
   render() {
     const { open } = this.state;
-    const { selectedCenter, match, isFetching } = this.props;
+    const { selectedCenter, match, isFetching, isAdmin, token } = this.props;
     return (
       <div>
         <Header
@@ -67,8 +67,7 @@ export class CenterDetailsContainer extends Component {
             consequeces if its currently booked by a customer!
           </p>
           <button
-            className="btn btn-outline-danger btn-md"
-            // onClick={() => console.log(this.props)}
+            className="btn btn-danger btn-md pull-right"
             onClick={() => {
               this.setState({open: false});
               this.props.deleteCenter(match.params.id)
@@ -84,6 +83,8 @@ export class CenterDetailsContainer extends Component {
           handleDelete={this.handleCenterDelete}
           match={match}
           isFetching={isFetching}
+          isAdmin={isAdmin}
+          token={token}
         />
         
         <Footer />
@@ -100,7 +101,9 @@ export class CenterDetailsContainer extends Component {
 const mapStateToProps = state => ({
   selectedCenter: state.centersReducer.selectedCenter,
   isFetching: state.centersReducer.isFetching,
-  message: state.centersReducer.message
+  message: state.centersReducer.message,
+  isAdmin: state.authReducer.isAdmin,
+  token: state.authReducer.token
 });
 
 CenterDetailsContainer.propTypes = {
@@ -108,7 +111,9 @@ CenterDetailsContainer.propTypes = {
   fetchSingleCenter: PropTypes.func.isRequired,
   deleteCenter: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.string,
+  token: PropTypes.string
 };
 
 CenterDetailsContainer.defaultProps = {

@@ -88,7 +88,7 @@ export class Header extends React.Component {
 
 Header.propTypes = {
   links: PropTypes.object.isRequired,
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

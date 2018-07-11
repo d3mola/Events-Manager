@@ -10,10 +10,8 @@ const EventDetailsComponent = ({
   isFetching,
   handleModalOpen
 }) => {
-  // console.log('currentEvent', currentEvent);
   let component;
   if (!currentEvent) {
-    // <Loading />
     component = <h3 className="fill-viewport" >No such event exists!</h3>;
   } else {
     component = (

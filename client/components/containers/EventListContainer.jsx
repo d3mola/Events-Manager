@@ -55,7 +55,7 @@ export class EventListContainer extends React.Component {
         />
         <div className="e-list-page">
           <h3>My Events</h3>
-          <div className="e-list">
+          <div className="e-list fill-viewport">
             <EventListComponent
               events={events}
               match={match}
@@ -81,6 +81,7 @@ export class EventListContainer extends React.Component {
         </div>
         <Link to="/events/add" className="float">
           <i className="fa fa-plus my-float" />
+          <span>add event</span>
         </Link>
         <Footer />
       </div>

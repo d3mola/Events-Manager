@@ -88,9 +88,12 @@ export class CenterListContainer extends React.Component {
           />
 
           {isAdmin === 'true' && (
+            <div>
             <Link to="/centers/add" className="float">
               <i className="fa fa-plus my-float" />
+              <span>add center</span>
             </Link>
+            </div>
           )}
 
           <CenterListComponent
