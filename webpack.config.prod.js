@@ -1,15 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
-// const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-//   template: './client/index.html',
-//   filename: 'index.html',
-//   inject: 'body'
-// });
 
 module.exports = {
   entry: [
