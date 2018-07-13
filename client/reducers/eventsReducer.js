@@ -52,7 +52,6 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
         error: action.error
       };
     case actionTypes.DELETE_EVENT_SUCCESS:
-      console.log(action)
       events = state.events.filter(
         event => event.id !== action.response.event.id
       );

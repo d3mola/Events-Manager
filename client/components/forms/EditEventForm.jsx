@@ -53,7 +53,7 @@ export class EditEventForm extends Component {
     event.preventDefault();
     this.props.editEvent(this.state);
   }
-
+ 
   /**
    * changes state when form fields are changed
    * @param {any} event

@@ -93,7 +93,6 @@ export class EventListContainer extends React.Component {
           <button
             className="btn btn-danger btn-md pull-right"
             onClick={() => {
-              console.log('clicked', match);
               this.setState({ open: false });
               this.handleEventDelete(this.state.id);
             }}>
