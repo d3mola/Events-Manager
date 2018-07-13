@@ -75,7 +75,7 @@ export class EditEventForm extends Component {
     ) : (
       <div className="">
         <Header
-          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+          links={{ centers: 'centers', events: 'events' }}
         />
         <div className="containerr edit-event-body fill-viewport">
           <div className="row">

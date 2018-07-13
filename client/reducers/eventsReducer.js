@@ -2,6 +2,7 @@ import initialState from './initialState';
 import * as actionTypes from '../actions/actionTypes';
 
 const eventsReducer = (state = initialState.eventsReducer, action) => {
+  let events, currentEvent;
   switch (action.type) {
     case actionTypes.ADD_EVENT:
       return { ...state, addingEvent: true,  };
@@ -51,7 +52,11 @@ const eventsReducer = (state = initialState.eventsReducer, action) => {
         error: action.error
       };
     case actionTypes.DELETE_EVENT_SUCCESS:
-      return { ...state, error: null };
+      console.log(action)
+      events = state.events.filter(
+        event => event.id !== action.response.event.id
+      );
+      return { ...state, events, currentEvent };
 
     case actionTypes.DELETE_EVENT_FAILURE:
       return { ...state, error: action.error };

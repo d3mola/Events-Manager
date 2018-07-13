@@ -209,7 +209,6 @@ img {
       margin-right: 20px;
       display: flex;
       flex-direction: column;
-      height: 700px;
       width: 400px;
       padding-right: 10px;
       padding-left: 10px;
@@ -219,7 +218,6 @@ img {
       .description {
         display: flex;
         flex-direction: column;
-        height: 400px;
         width: 100%;
         .name-capacity {
           font-weight: 500;
@@ -377,7 +375,7 @@ img {
   display: flex;
   flex-direction: column;
   width: 480px;
-  height: 195px;
+  height: 410px;
   font-family: $open-sans;
   font-weight: 500;
   margin-bottom: 30px;
@@ -387,6 +385,7 @@ img {
     display: flex;
     flex-direction: row;
     margin: 18px 40px;
+    padding-top: 21px;
     min-width: 70%;
     height: 10%;
     justify-content: space-between;
@@ -483,7 +482,7 @@ img {
   h3 {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 40px;
     font-family: 'Lucida Grande';
     font-weight: 500;
   }
@@ -555,12 +554,16 @@ img {
       }
     }
 
-    .ed-buttons {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      margin-top: 18px
-    }
   }
+}
+
+.ed-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding-bottom: 30px;
+  padding-top: 30px;
 }

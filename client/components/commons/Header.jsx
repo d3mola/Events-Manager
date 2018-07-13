@@ -13,6 +13,11 @@ import LogoutButton from '../auth/LogoutButton';
  */
 export class Header extends React.Component {
 
+/**
+ * checks if token has expired
+ * @param {array} rawToken - token to be checked
+ * @returns {boolean} - expiration status
+ */
   tokenHasExpired = (rawToken) => {
     if (process.env.NODE_ENV === 'test') return false;
     if(rawToken) {
@@ -59,7 +64,7 @@ export class Header extends React.Component {
             <ul className="navbar-nav ml-auto mr-5">
               {Object.entries(links).map(link => {
                 return (
-                  <li key={link[0]} className="nav-item mr-3">
+                  <li key={link[0]} className="nav-item mr-3" id={link[0]}>
                     <NavLink className="nav-link" to={`/${link[1]}`}>
                       {link[0].toUpperCase()}
                     </NavLink>

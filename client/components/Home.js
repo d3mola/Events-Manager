@@ -32,7 +32,7 @@ class Home extends React.Component {
                   <div className="col-12">
                     <h1>Party like there is no tomorrow!</h1>
                     <p>Do you plan to hold your dream event, we have centers that can meet your needs.</p>
-                    <Link to="/centers" className="btn btn-success">
+                    <Link id="cta-btn" to="/centers" className="btn btn-success">
                       <b>Book a center</b>
                     </Link>
                   </div>
@@ -42,7 +42,7 @@ class Home extends React.Component {
           </section>
         </div>
 
-        <Footer />
+        <Footer id="Footer"/>
       </div>
     );
   }
