@@ -80,7 +80,7 @@ export default {
    * @returns {object} response onject with updated event
    */
   updateEvent: (req, res) => {
-    const id = req.params.eventId;
+    const id = Number(req.params.eventId);
     Event.findById(id)
       .then(event => {
         if (!event) {
@@ -165,7 +165,7 @@ export default {
      * set the isavailble status to false
      * then destroy
      */
-    const id = req.params.eventId;
+    const id = Number(req.params.eventId);
     Event.findById(id)
       .then(event => {
         if (!event) {

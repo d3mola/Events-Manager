@@ -182,7 +182,7 @@
         }
       }
     },
-    "users/auth/events": {
+    "/users/auth/events": {
       "get": {
         "tags": ["Events"],
         "summary": "Gets all my events",
@@ -203,13 +203,19 @@
         }
       }
     },
-    "users/auth/events/{eventId}": {
+    "/users/auth/events/{id}": {
       "get": {
         "tags": ["Events"],
         "summary": "Gets one of my events",
         "description": "Gets the details of one of the events created by this user",
         "security": [{
           "UserToken": []
+        }],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "type": "integer",
+          "description": "The event to retrieve."
         }],
         "responses": {
           "200": {
@@ -230,7 +236,7 @@
         }
       }
     },
-    "/events/{eventId}": {
+    "/events/{id}": {
       "put": {
         "tags": ["Events"],
         "summary": "Updates an event",
@@ -239,7 +245,7 @@
           "UserToken": []
         }],
         "parameters": [{
-          "name": "eventId",
+          "name": "id",
           "in": "path",
           "type": "integer",
           "description": "The event to update.",
@@ -348,7 +354,7 @@
         },
         {
           "in": "formData",
-          "name": "loaction",
+          "name": "location",
           "type": "string",
           "required": true
         },
@@ -440,37 +446,42 @@
         "tags": ["Centers"],
         "summary": "Modifies a center",
         "description": "modifies a center and saves it to the database.",
-        "parameters": [{
+        "security": [{
+          "UserToken": []
+        }],
+        "parameters": [
+          {
+          "in": "path",
+          "name": "id",
+          "type": "integer",
+          "required": true
+        },
+          {
           "in": "formData",
           "name": "name",
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         {
           "in": "formData",
-          "name": "loaction",
-          "type": "string",
-          "required": true
+          "name": "location",
+          "type": "string"
         },
         {
           "in": "formData",
           "name": "price",
           "type": "string",
-          "format": "number",
-          "required": true
+          "format": "number"
         },
         {
           "in": "formData",
           "name": "capacity",
           "type": "string",
-          "format": "number",
-          "required": true
+          "format": "number"
         },
         {
           "in": "formData",
           "name": "image",
-          "type": "file",
-          "required": true
+          "type": "file"
         }],
         "responses": {
           "200": {
