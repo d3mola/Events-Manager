@@ -10,7 +10,23 @@ import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
 
-console.log(process.env.NODE_ENV, "here_____________________");
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
 
 /**
  * Aysnc operation to sign up
@@ -91,17 +107,17 @@ export function* loginAsync(action) {
         default:
           message = 'Something went wrong';
       }
+      toastr.error(error.response.data.message);
     }
     yield put({ type: types.SIGN_IN_FAILURE, error: message });
     localStorage.removeItem('token');
-    toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 
 /**
  * listens for sign_up action type call then calls signInAsync
- * @returns {function} .
+ * @returns {any} .
  * @export
  */
 export function* watchSignInAsync() {
@@ -112,24 +128,22 @@ export function* watchSignInAsync() {
  *  log out saga
  */
 
+ // logs out a user
 export function* logout() {
-  try {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('isAdmin');
-    yield put({
-      type: types.LOG_OUT_SUCCESS,
-      isAuthenticated: false,
-      token: null,
-      user: null,
-      isAdmin: false
-    });
-    yield put(push('/'));
-  } catch (error) {
-    console.log(error);
-  }
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('isAdmin');
+  yield put({
+    type: types.LOG_OUT_SUCCESS,
+    isAuthenticated: false,
+    token: null,
+    user: null,
+    isAdmin: false
+  });
+  yield put(push('/'));
 }
 
+// wwatched for LOG_OUT action and calls logout
 export function* watchLogout() {
   yield takeLatest(types.LOG_OUT, logout);
 }

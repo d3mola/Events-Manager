@@ -116,7 +116,6 @@ describe('Authenticate middleware', () => {
   it.skip('should return an error if secret is not provided', (done) => {
     request
       .get(`${apiBase}/users`)
-      // .set({ 'x-access-token': token })
       .send({
         email: 'thanos@gmail.com',
         password: 123456
@@ -163,7 +162,6 @@ describe('Authenticate middleware', () => {
     });
 
     it('should return an error if the token is invalid', (done) => {
-      // select * from÷
       request
         .get(`${apiBase}/users`)
         .set({ 'x-access-token': token+' ' })
@@ -180,7 +178,6 @@ describe('Authenticate middleware', () => {
       });
 
     it.skip('should return an error if the user doesnt exist in the db', (done) => {
-      // select * from÷
       request
         .get(`${apiBase}/users`)
         .set({ 'x-access-token': token+' ' })
@@ -189,8 +186,6 @@ describe('Authenticate middleware', () => {
           password: 123456
         })
         .end((err, res) => {
-          // expect(res.statusCode).to.equal(200);
-          // expect(res.body.success).to.equal(true);
           expect(res.body.message).to.equal('Show me the errors :)');
           done();
         });

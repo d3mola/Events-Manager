@@ -8,12 +8,30 @@ import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
 
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
 /**
  * Aysnc operation to get all centers
  */
 
 /**
- * Get centers async operation
+ * Get centers async operation to fetch centers
  * @export
  * @param {any} action
  * @returns {object} response
@@ -61,8 +79,8 @@ export function* fetchcentersAsync(action) {
  */
 export function* watchFetchCentersAsync() {
   yield takeLatest(types.GET_CENTERS, fetchcentersAsync);
-  // yield takeEvery(types.GET_CENTERS, fetchcentersAsync);
 }
+
 
 /**
  * Aysnc operation to add a center
@@ -87,7 +105,6 @@ export function* addCenterAsync(action) {
       'x-access-token': token,
       'Content-Type': 'multipart/form-data'
     };
-    console.log(headers, "here")
     const response = yield call(
       axios.post,
       `${url}/centers`,
@@ -116,14 +133,20 @@ export function* addCenterAsync(action) {
  * @export
  */
 export function* watchAddCenterAsync() {
-  // console.log('listening for ADD_CENTER');
   yield takeEvery(types.ADD_CENTER, addCenterAsync);
 }
+
 
 /**
  * get a single center
  */
 
+ /**
+ * worker saga performs async operation to fetch a single center
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
 export function* fetchSingleCenterAsync(action) {
   const token = localStorage.getItem('token');
   try {
@@ -137,14 +160,26 @@ export function* fetchSingleCenterAsync(action) {
       center: response.data.center
     });
   } catch (error) {
-    console.log(error.response.data.message);
-    yield put({
-      type: types.GET_SINGLE_CENTER_FAILURE,
-      error: error.reponse.data.message
-    });
+    if (error.response) {
+      yield put({
+        type: types.GET_SINGLE_CENTER_FAILURE,
+        error: 'Network error, please refresh'
+      });
+    } else { 
+      yield put({
+        type: types.GET_SINGLE_CENTER_FAILURE,
+        error: error.reponse.data.message
+      });
+    }
   }
 }
 
+/**
+ * watcher saga listens for GET_SINGLE_CENTER action
+ * then calls fetchSingleCenterAsync
+ * @returns {object} centersAsync
+ * @export
+ */
 export function* watchGetSingleCenterAsync() {
   yield takeEvery(types.GET_SINGLE_CENTER, fetchSingleCenterAsync);
 }
@@ -153,6 +188,13 @@ export function* watchGetSingleCenterAsync() {
  * update center saga
  */
 
+
+ /**
+ * worker saga performs async operation to update a center
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
 export function* editCenterAsync(action) {
   const token = localStorage.getItem('token');
   try {
@@ -187,6 +229,13 @@ export function* editCenterAsync(action) {
   }
 }
 
+
+/**
+ * watcher saga listens for EDIT_CENTER action
+ * then calls editCenterAsync
+ * @returns {function} centersAsync
+ * @export
+ */
 export function* watchEditCenterAsync() {
   yield takeEvery(types.EDIT_CENTER, editCenterAsync);
 }
@@ -195,6 +244,12 @@ export function* watchEditCenterAsync() {
  * delete center saga
  */
 
+ /**
+ * worker saga performs async operation to delete a center
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
 export function* deleteCenterAsync(action) {
   const token = localStorage.getItem('token');
   try {
@@ -205,7 +260,7 @@ export function* deleteCenterAsync(action) {
     );
     yield put({
       type: types.DELETE_CENTER_SUCCESS,
-      response: response.data
+      message: response.data.message
     });
     toastr.success(response.data.message);
     yield put(push('/centers'));
@@ -219,13 +274,20 @@ export function* deleteCenterAsync(action) {
   }
 }
 
+// listens for DELETE_CENTER action and calls deleteCenterAsync
 export function* watchDeleteCenterAsync() {
   yield takeEvery(types.DELETE_CENTER, deleteCenterAsync);
 }
 
-// search centers
 
-// worker saga
+// search centers saga
+
+/**
+ * worker saga performs async operation to search a center
+ * @export
+ * @param {any} action
+ * @returns {object} response
+ */
 export function* searchCentersAysnc({ type, payload }) {
   const token = localStorage.getItem('token');
   const searchQuery = `name=${payload}&location=${payload}`;
@@ -244,15 +306,17 @@ export function* searchCentersAysnc({ type, payload }) {
       type: types.SEARCH_CENTERS_FAILURE,
       error: error.response.data.message
     });
-
-    yield put({
-      type: types.FAILURE_FLASH_MESSAGE,
-      error: error.response.data.message
-    });
+    toastr.error(error.response.data.message);
+    yield put({ type: types.CLEAR_FLASH_MESSAGE });
   }
 }
 
-//nwatcher
+/**
+ * watcher saga listens for SEARCH_CENTERS action
+ * then calls editCenterAsync
+ * @returns {function} centersAsync
+ * @export
+ */
 export function* watchSearchCentersAysnc() {
   yield takeLatest(types.SEARCH_CENTERS, searchCentersAysnc);
 }

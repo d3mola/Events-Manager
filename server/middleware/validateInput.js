@@ -120,7 +120,6 @@ class ValidateInput {
     const paramKeys = Object.keys(req.params);
     const paramKey1 = paramKeys[0];
     const id = Number(req.params[paramKey1]);
-    // const id = parseInt(req.params[paramKey1], 10);
 
     if ((id && typeof id !== 'number') || !Number.isInteger(id)) {
       return res.status(400).json({
@@ -130,7 +129,6 @@ class ValidateInput {
     }
 
     if (Number(id).toString().length > 9) {
-      // if (parseInt(id, 10).length > 9) {
       return res.status(400).json({
         success: false,
         message: 'Parameter too long'

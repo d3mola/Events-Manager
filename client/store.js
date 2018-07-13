@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-// import logger from 'redux-logger';
 import { routerMiddleware } from 'react-router-redux';
 
 import rootReducer from './reducers/index';
@@ -13,7 +12,6 @@ const routingMiddleware = routerMiddleware(history);
 const middleware = applyMiddleware(
   sagaMiddleware,
   routingMiddleware
-  // logger
 );
 
 // create store
@@ -26,7 +24,5 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
-
-// console.log(store.getState());// get current state of the store
 
 export default store;

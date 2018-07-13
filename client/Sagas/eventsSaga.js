@@ -8,13 +8,31 @@ import * as types from '../actions/actionTypes';
 
 let url = setApiUrl(process.env.NODE_ENV);
 
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-bottom-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
 /**
  * Aysnc operation to get a users events
  */
 
 /**
  * Get events async operation
- * @export
+ * @export 
  * @param {any} action
  * @returns {object} response
  */
@@ -22,7 +40,7 @@ export function* getEventsAsync(action) {
   const page = action.page || 1;
   const limit = action.limit || 10;
   const paginationQuery = `page=${page}&limit=${limit}`;
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');  
   try {
     const response = yield call(
       axios.get,
@@ -52,9 +70,6 @@ export function* getEventsAsync(action) {
           break;
         default:
           message = 'Something went wrong';
-          console.log(
-            'error - remember to dispatch get events failure action here'
-          );
       }
     }
     yield put({ type: types.GET_EVENTS_FAILURE, error: message });
@@ -69,7 +84,6 @@ export function* getEventsAsync(action) {
  * @export
  */
 export function* watchGetEventsAsync() {
-  // console.log('listening for GET_EVENTS');
   yield takeEvery(types.GET_EVENTS, getEventsAsync);
 }
 
@@ -86,7 +100,6 @@ export function* watchGetEventsAsync() {
 export function* getSingleEventAsync(action) {
   const token = localStorage.getItem('token');
   try {
-    console.log('trying to fetch details of a single event api..', action);
     const response = yield call(
       axios.get,
       `${url}/users/auth/events/${action.eventId}`,
@@ -130,10 +143,6 @@ export function* addEventAsync(action) {
     },{ headers: { 'x-access-token': token } });
 
     yield put({ type: types.ADD_EVENT_SUCCESS, response: response.data });
-    yield put({
-      type: types.SUCCESS_FLASH_MESSAGE,
-      response: { message: response.data.message }
-    });
     toastr.success(response.data.message);
     yield put(push('/events'));
   } catch (error) {
@@ -151,7 +160,6 @@ export function* addEventAsync(action) {
  * @returns {function} addEventAsync
  */
 export function* watchAddEventAsync() {
-  // console.log('listening for ADD_EVENT');
   yield takeEvery(types.ADD_EVENT, addEventAsync);
 }
 
@@ -174,7 +182,7 @@ export function* editEventAsync(action) {
   } catch (error) {
     yield put({
       type: types.EDIT_EVENT_FAILURE,
-      error
+      error: error.response.data.message
     });
     toastr.error(error.response.data.message);
     yield put({ type: types.CLEAR_FLASH_MESSAGE });
@@ -193,6 +201,7 @@ export function* watchEditEventAsync() {
  * Delete Event Async
  */
 
+// perfroms async operation to delete a n event
 export function* deleteEventAsync(action) {
   const token = localStorage.getItem('token');
   try {
@@ -214,6 +223,7 @@ export function* deleteEventAsync(action) {
   }
 }
 
+// watches for DELETE_EVENT action, then calls deleteEventAsync
 export function* watchDeleteEventAsync() {
   yield takeEvery(types.DELETE_EVENT, deleteEventAsync);
 }

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import sequelize from 'sequelize';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
@@ -6,7 +7,7 @@ import _ from 'lodash';
 import db from '../models';
 
 dotenv.config();
-const { User, Event } = db;
+const { User, Event, Center } = db;
 
 export default {
   /**
@@ -185,9 +186,31 @@ export default {
         })
       ),
 
+  /**
+   * @description gets a single event
+   *
+   * @param {object} req HTTP request object
+   * @param {object} res HTTP response object
+   *
+   * @returns {object} queried event
+   */
   getOneUserEvent: (req, res) => {
     Event.find({
-      where: { id: req.params.eventId }
+      where: { id: req.params.eventId },
+      include: [{
+        attributes: [],
+        model: Center,
+      }],
+      attributes: [
+        'id',
+        'title',
+        'notes',
+        'centerId',
+        'userId',
+        'date',
+        [sequelize.col('Center.name'), 'centerName'],
+        [sequelize.col('Center.location'), 'centerLocation']
+      ]
     })
       .then(event => {
         // compare userId in req.user which is from decoded token

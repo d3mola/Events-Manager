@@ -3,20 +3,20 @@ import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'react-router-redux';
 
 import history from '../history';
-import PrivateRoute from '../customRoutes/PrivateRoutes';
-import AdminRoute from '../customRoutes/AdminRoute';
+import PrivateRoute from './customRoutes/PrivateRoutes';
+import AdminRoute from './customRoutes/AdminRoute';
 
 import Home from './Home';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import CentersListPage from '../pages/CenterListPage';
-import CenterDetailsPage from '../pages/CenterDetailsPage';
-import AddCenter from './AddCenter';
-import AddEvent from './AddEvent';
-import EventDetailsPage from '../pages/EventDetailsPage';
-import EventListPage from '../pages/EventListPage';
-import EditEventForm from './EditEventForm.jsx';
-import EditCenterForm from './EditCenterForm.jsx';
+import SignIn from './auth/SignIn';
+import SignUp from './auth/SignUp';
+import CentersListPage from './containers/CenterListContainer';
+import CenterDetailsPage from './containers/CenterDetailsContainer';
+import EventDetailsPage from './containers/EventDetailsContainer';
+import EventListPage from './containers/EventListContainer';
+import AddCenter from './forms/AddCenter';
+import AddEvent from './forms/AddEvent';
+import EditEventForm from './forms/EditEventForm.jsx';
+import EditCenterForm from './forms/EditCenterForm.jsx';
 import Error from './Error';
 import '../../node_modules/toastr/build/toastr.min.css';
 

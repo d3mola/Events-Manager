@@ -49,13 +49,6 @@ export default (sequelize, DataTypes) => {
 
   User.beforeCreate(user => hashPwd(user), { individualHooks: true });
 
-  // for password change situation
-  // User.beforeUpdate((user) => {
-  //   if (user.changed('password')) {
-  //     user = hashPwd(user);
-  //   }
-  // });
-
   User.associate = (models) => {
     User.hasMany(models.Event, {
       as: 'events',

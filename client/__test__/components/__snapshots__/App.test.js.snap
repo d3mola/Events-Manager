@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index successfully rendered 1`] = `
+<ConnectedRouter
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "createHref": [Function],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "length": 1,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
+>
+  <Switch>
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/"
+    />
+    <Route
+      component={[Function]}
+      path="/login"
+    />
+    <Route
+      component={[Function]}
+      path="/register"
+    />
+    <Connect(PrivateRoute)
+      component={[Function]}
+      path="/events/add"
+    />
+    <Connect(PrivateRoute)
+      component={[Function]}
+      path="/events/:id/edit"
+    />
+    <Connect(PrivateRoute)
+      component={[Function]}
+      path="/events/:id"
+    />
+    <Connect(PrivateRoute)
+      component={[Function]}
+      path="/events"
+    />
+    <Connect(AdminRoute)
+      component={[Function]}
+      path="/centers/add"
+    />
+    <Connect(AdminRoute)
+      component={[Function]}
+      path="/centers/:id/edit"
+    />
+    <Route
+      component={[Function]}
+      path="/centers/:id"
+    />
+    <Route
+      component={[Function]}
+      path="/centers"
+    />
+    <Route
+      component={[Function]}
+    />
+  </Switch>
+</ConnectedRouter>
+`;

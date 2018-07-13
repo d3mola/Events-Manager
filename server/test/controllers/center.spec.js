@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import app from '../../app';
 import db from '../../models';
 import mockData from '../../mock/mock';
-// import imageFile from '../../client/static/images/camera.jpg'
 
 dotenv.config();
 const { User, Center } = db;
@@ -23,15 +22,6 @@ let center = {
 
 describe('Center', () => {
   before(done => {
-    // Center.bulkCreate([
-    //   mockData.manchester,
-    //   mockData.chelsea,
-    //   mockData.arsenal,
-    //   mockData.liverpool,
-    //   mockData.everton,
-    //   mockData.burnley,
-    //   mockData.spurs
-    // ]);
 
     User.create({
       username: 'ademola',
@@ -336,7 +326,6 @@ describe('Center', () => {
     });
 
     it('should fetch all centers even if limit is not a number', done => {
-      // const limit = 'snmds';
       request
         .get('/api/v1/centers')
         .send({
@@ -552,7 +541,6 @@ describe('Center', () => {
       request
         .put('/api/v1/centers/1')
         .send({
-          // name: 'Diamond Hall',
           location: 'Lagos',
           capacity: 3333,
           price: 3333,

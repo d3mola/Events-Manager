@@ -61,7 +61,6 @@ export default {
               })
             );
         });
-        //
       })
       .catch(error =>
         res.status(500).json({
@@ -91,9 +90,6 @@ export default {
           });
         }
 
-        // if centerId is not supplied, use the original centerId from the db
-        // const centerId = req.body.centerId || event.centerId;
-        // check if the person that created the event is trying to update
         if (event.userId !== req.user.userId) {
           return res.status(403).json({
             success: false,
