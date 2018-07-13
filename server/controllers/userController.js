@@ -196,7 +196,7 @@ export default {
    */
   getOneUserEvent: (req, res) => {
     Event.find({
-      where: { id: req.params.eventId },
+      where: { id: Number(req.params.eventId) },
       include: [{
         attributes: [],
         model: Center,

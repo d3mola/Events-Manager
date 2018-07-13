@@ -46,7 +46,8 @@
     },
     "coverageDirectory": "<rootDir>/client/coverage",
     "testEnvironment": "jsdom",
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "collectCoverage": true
   },
   "engines": {
     "node": "8.11.1",

@@ -90,7 +90,7 @@ export default {
    * @returns {object} response object with updated center
    */
   update: (req, res) => {
-    const id = req.params.centerId;
+    const id = Number(req.params.centerId);
     Center.findById(id)
       .then(center => {
         if (!center) {
@@ -256,7 +256,7 @@ export default {
    */
   getACenter: (req, res) =>
     Center.find({
-      where: { id: req.params.centerId },
+      where: { id: Number(req.params.centerId) },
       include: [{ model: Event, as: 'events' }]
     })
       .then(center => {
@@ -289,7 +289,7 @@ export default {
    * @return {object} deletedCenter
    */
   deleteCenter: (req, res) => {
-    const id = req.params.centerId;
+    const id = Number(req.params.centerId);
 
     Center.findById(id)
       .then(center => {
