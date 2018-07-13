@@ -147,7 +147,9 @@ describe('Event Reducer', () => {
     initialState.eventsReducer.events  = events;
     receivedState = eventsReducer(
       initialState.eventsReducer,
-      { type: types.DELETE_EVENT_SUCCESS }
+      { type: types.DELETE_EVENT_SUCCESS, response: {
+        event: { id : 1 }
+      }}
     );
     expect(receivedState.error).toEqual(null);
   });

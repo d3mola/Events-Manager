@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../commons/Header';
-import Footer from '../commons/Footer';
 import Loading from '../commons/Loading';
 import { addEvent, getCenters } from '../../actions/actionCreators';
 
@@ -51,19 +50,14 @@ export class AddEvent extends Component {
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
         {addingEvent && <Loading />}
-        <Link to="/centers" style={{ color: 'white', marginLeft: 20 }}>
-          <i className="fa fa-angle-double-right" />
-          Go to events
-        </Link>
         <div className="container">
           <div className="row">
-            <div className="col col-md-3"></div>
+            <div className="col col-md-3" />
             <div className="col col-md-6">
               <form
                 className="jumbotron event-form-box"
                 id="form-box"
-                onSubmit={this.handleSubmit}
-              >
+                onSubmit={this.handleSubmit}>
                 <h2 className="text-center">Create An Event!</h2>
                 <div className="form-group">
                   <label htmlFor="event-name">Event Name:</label>
@@ -99,8 +93,7 @@ export class AddEvent extends Component {
                     name="centerId"
                     id="center"
                     value={centerId}
-                    onChange={this.handleChange}
-                  >
+                    onChange={this.handleChange}>
                     <option value="0" disabled>
                       Select
                     </option>
@@ -109,8 +102,7 @@ export class AddEvent extends Component {
                         <option
                           key={opt.id}
                           value={opt.id}
-                          title={opt.location}
-                        >
+                          title={opt.location}>
                           {opt.name}
                         </option>
                       );
@@ -139,10 +131,9 @@ export class AddEvent extends Component {
                 />
               </form>
             </div>
-            <div className="col col-md-3"></div>
+            <div className="col col-md-3" />
           </div>
         </div>
-        {/* <Footer /> */}
       </div>
     );
   }
@@ -162,4 +153,7 @@ const mapStateToProps = state => ({
   addingEvent: state.eventsReducer.addingEvent
 });
 
-export default connect(mapStateToProps, { getCenters, addEvent })(AddEvent);
+export default connect(
+  mapStateToProps,
+  { getCenters, addEvent }
+)(AddEvent);

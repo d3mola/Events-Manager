@@ -22,7 +22,7 @@ const CenterDetailsComponent = props => {
   }
   return (
     <div className="fill-viewportt center-details containerr">
-      <h3>Details of {selectedCenter.name}</h3>
+      <h3>{selectedCenter.name}</h3>
       <div className="card-main">
         <div className="main-left mb-5">
           <div className="card-img">

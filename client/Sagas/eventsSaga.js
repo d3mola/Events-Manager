@@ -212,7 +212,6 @@ export function* deleteEventAsync(action) {
     );
     yield put({ type: types.DELETE_EVENT_SUCCESS, response: response.data });
     toastr.success(response.data.message);
-    yield put(push('/events'));
   } catch (error) {
     yield put({
       type: types.DELETE_EVENT_FAILURE,

@@ -5,13 +5,19 @@ import Pagination from 'rc-pagination';
 import Select from 'rc-select';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
+import Modal from 'react-responsive-modal';
 
 import Header from '../commons/Header';
 import Footer from '../commons/Footer';
-import { getEvents } from '../../actions/actionCreators';
+import { getEvents, deleteEvent } from '../../actions/actionCreators';
 import EventListComponent from '../presentationals/EventListComponent';
 
 export class EventListContainer extends React.Component {
+  state = {
+    open: false,
+    id: null
+  };
+
   componentDidMount() {
     const parsedQueryString = queryString.parse(location.search);
     const { page, limit } = parsedQueryString;
@@ -42,8 +48,33 @@ export class EventListContainer extends React.Component {
     this.props.getEvents(current, pageSize);
   };
 
+  onOpenModal = id => {
+    this.setState({ open: true, id });
+  };
+
+  onCloseModal = () => {
+    this.setState({ open: false });
+  };
+
+  /**
+   * callback to handle deletion of an event
+   * passed down as props to component
+   * @param {number} id id of center to be deleted
+   * @returns {Promise} deletes a center
+   */
+  handleEventDelete = id => {
+    this.props.deleteEvent(this.state.id);
+  };
+
   render() {
-    const { events, match, isFetching, error, paginationData } = this.props;
+    const {
+      events,
+      match,
+      isFetching,
+      error,
+      paginationData,
+      onOpenModal
+    } = this.props;
     return (
       <div>
         <Header
@@ -52,6 +83,22 @@ export class EventListContainer extends React.Component {
             events: 'events'
           }}
         />
+        <Modal
+          open={this.state.open}
+          onClose={this.onCloseModal}
+          handleDelete={this.handleEventDelete}
+          match={match}>
+          <h2>Delete event{this.state.id}</h2>
+          <p>Are you sure you want to delete this event?</p>
+          <button
+            className="btn btn-danger btn-md pull-right"
+            onClick={() => {
+              this.setState({ open: false });
+              this.handleEventDelete(this.state.id);
+            }}>
+            <i className="fa fa-trash" /> Delete
+          </button>
+        </Modal>
         <div className="e-list-page">
           <h3>My Events</h3>
           <div className="e-list fill-viewport">
@@ -60,6 +107,8 @@ export class EventListContainer extends React.Component {
               match={match}
               isFetching={isFetching}
               error={error}
+              handleModalOpen={this.onOpenModal}
+              handleDelete={this.handleEventDelete}
             />
           </div>
 
@@ -94,7 +143,9 @@ EventListContainer.propTypes = {
   match: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   error: PropTypes.string,
-  paginationData: PropTypes.object
+  paginationData: PropTypes.object,
+  onOpenModal: PropTypes.func,
+  deleteEvent: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -107,6 +158,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getEvents
+    getEvents,
+    deleteEvent
   }
 )(EventListContainer);

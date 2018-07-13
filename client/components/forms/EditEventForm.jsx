@@ -53,7 +53,7 @@ export class EditEventForm extends Component {
     event.preventDefault();
     this.props.editEvent(this.state);
   }
-
+ 
   /**
    * changes state when form fields are changed
    * @param {any} event
@@ -75,7 +75,7 @@ export class EditEventForm extends Component {
     ) : (
       <div className="">
         <Header
-          links={{ centers: 'centers', events: 'events', logout: 'logout' }}
+          links={{ centers: 'centers', events: 'events' }}
         />
         <div className="containerr edit-event-body fill-viewport">
           <div className="row">
