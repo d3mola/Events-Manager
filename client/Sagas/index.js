@@ -14,7 +14,6 @@ import {
   watchAddEventAsync,
   watchEditEventAsync,
   watchDeleteEventAsync
-  // watchshowEditFormAsync
 } from './eventsSaga';
 
 /**
@@ -38,6 +37,5 @@ export default function* rootSaga() {
     watchDeleteEventAsync(),
     watchLogout(),
     watchSearchCentersAysnc()
-    // watchshowEditFormAsync()
   ]);
 }

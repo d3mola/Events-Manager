@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import dotenv from 'dotenv';
 import app from '../../app';
 import db from '../../models';
-// import mock from '../../mock/mock';
 
 dotenv.config();
 const { User, Event, Center } = db;
@@ -36,7 +35,6 @@ describe('User', () => {
       location: 'ibadan',
       capacity: 333330,
       price: 5000000,
-      // token: adminToken,
       userId: 1
     });
   });
@@ -54,7 +52,6 @@ describe('User', () => {
           .send({ email: 'babajide@gmail.com', password: 'babajide' })
           .end((err, res) => {
             expect(res.status).to.equal(200);
-            // userToken1 = res.body.token;
             done();
           });
       })
@@ -118,8 +115,8 @@ describe('User', () => {
           confirmPassword: '123456'
         })
         .end((err, res) => {
-          // expect(res.status).to.equal(409);
-          // expect(res.body.success).to.equal(false);
+          expect(res.status).to.equal(409);
+          expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('Another account uses this email!');
           done();
         });
@@ -135,8 +132,8 @@ describe('User', () => {
           confirmPassword: '123456'
         })
         .end((err, res) => {
-          // expect(res.status).to.equal(409);
-          // expect(res.body.success).to.equal(false);
+          expect(res.status).to.equal(409);
+          expect(res.body.success).to.equal(false);
           expect(res.body.message).to.equal('Username taken!');
           done();
         });
@@ -321,15 +318,6 @@ describe('User', () => {
           done();
         });
     });
-
-    // it('should serve the docs file', done => {
-    //   request
-    //     .get('/api/v1/bundle')
-    //     .end((err, res) => {
-    //       expect(res.status)
-    //       done();
-    //     });
-    // });
   });
 
   describe('GET /api/v1/users/logout', () => {

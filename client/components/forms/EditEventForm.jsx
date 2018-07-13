@@ -70,8 +70,7 @@ export class EditEventForm extends Component {
   render() {
     const { title, notes, centerId, date } = this.state;
     const { centers } = this.props;
-    return !this.props.currentEvent.title ? (
-    // return !!this.props.currentEvent === true ? (
+    return !this.props.currentEvent ? (
       <Loading />
     ) : (
       <div className="">
@@ -182,6 +181,9 @@ EditEventForm.propTypes = {
   currentEvent: PropTypes.object
 };
 
+EditEventForm.defaultProps = {
+  currentEvent: {},
+};
 /** maps reux state to props
  * @param {any} state
  * @returns {object} props

@@ -75,7 +75,6 @@ export class CenterListContainer extends React.Component {
         <Header
           links={{
             events: 'events'
-            // 'add center': 'centers/add'
           }}
         />
 
@@ -132,7 +131,8 @@ CenterListContainer.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   isAdmin: PropTypes.string,
   paginationData: PropTypes.object,
-  searchCenters: PropTypes.func
+  searchCenters: PropTypes.func,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

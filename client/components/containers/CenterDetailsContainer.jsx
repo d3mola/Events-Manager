@@ -50,14 +50,12 @@ export class CenterDetailsContainer extends Component {
           links={{
           centers: 'centers',
           events: 'events',
-          // 'add center': 'centers/add'
           }}
         />
 
         <Modal
           open={open}
           onClose={this.onCloseModal}
-          // center
           handleDelete={this.handleCenterDelete}
           match={match}
         >
@@ -116,9 +114,7 @@ CenterDetailsContainer.propTypes = {
   token: PropTypes.string
 };
 
-CenterDetailsContainer.defaultProps = {
-  // selectedCenter: {}
-};
+CenterDetailsContainer.defaultProps = {};
 
 export default connect(mapStateToProps, { fetchSingleCenter, deleteCenter })(
   CenterDetailsContainer

@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Logout } from '../../../components/auth/LogoutButton';
-// import {logout} from '../../actions/actionCreators'
 
 describe('Logout Compoonent', () => {
   const props = {

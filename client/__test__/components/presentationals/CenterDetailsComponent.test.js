@@ -51,7 +51,6 @@ describe(' Center Details Component', () => {
 
   it('renders a loading indicator while processing data', () => {
     const alteredProps = { ...props, selectedCenter: null };
-    // const wrapper = shallow(<CenterDetailsComponent />);
     const wrapper = shallow(<CenterDetailsComponent {...alteredProps} />);
     expect(wrapper.find('Loading').exists()).toBeTruthy();
     expect(wrapper.children.length).toBe(1);

@@ -20,7 +20,6 @@ export default class Search extends React.Component {
   handleSearch = event => {
     event.preventDefault();
     this.props.onSearch(this.state.query);
-    // if(this.state)
   };
 
   render() {

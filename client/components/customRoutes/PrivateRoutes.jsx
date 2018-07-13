@@ -34,7 +34,7 @@ const PrivateRoute = ({ component: Component, token, ...rest }) => {
 };
 
 PrivateRoute.propTypes = {
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
   component: PropTypes.func.isRequired
 };
 

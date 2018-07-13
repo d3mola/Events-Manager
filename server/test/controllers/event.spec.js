@@ -45,7 +45,6 @@ describe('Event', () => {
                 expect(res.status).to.equal(200);
                 expect(res.body.success).to.equal(true);
                 expect(res.body.payload.events).to.be.an('array');
-                // expect(res.body.events).to.have.lengthOf(3);
                 done();
               });
           });
@@ -398,8 +397,6 @@ describe('Event', () => {
                 date: '2018-12-12'
               })
               .end((err, res) => {
-                // expect(res.statusCode).to.equal(403);
-                // expect(res.body.success).to.equal(false);
                 expect(res.body.message).to.equal(
                   "You're not authorized to access this route"
                 );
@@ -410,8 +407,6 @@ describe('Event', () => {
 
       it.skip('should not update event if required fields are not supplied',
       done => {
-        // const newData = {...mockData.birthday};
-        // delete newData.title
         request
           .put('/api/v1/events/1')
           .set({ 'x-access-token': token })

@@ -1,5 +1,4 @@
 import faker from 'faker';
-// const faker = require('faker')
 
 const data = {
   admin: {
@@ -29,7 +28,6 @@ const data = {
     username: faker.internet.userName(),
     email: faker.internet.email(),
     password: faker.internet.password()
-    // password: 'password',
   },
   cunnyUser: {
     username: 'cunnyUser',
@@ -65,7 +63,7 @@ const data = {
     location: 'liberia',
     capacity: 2000,
     price: 30000,
-  },//
+  },
   manchester: {
     userId: 1,
     name: 'manchester hall',

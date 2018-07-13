@@ -201,6 +201,7 @@ export function* watchEditEventAsync() {
  * Delete Event Async
  */
 
+// perfroms async operation to delete a n event
 export function* deleteEventAsync(action) {
   const token = localStorage.getItem('token');
   try {
@@ -222,6 +223,7 @@ export function* deleteEventAsync(action) {
   }
 }
 
+// watches for DELETE_EVENT action, then calls deleteEventAsync
 export function* watchDeleteEventAsync() {
   yield takeEvery(types.DELETE_EVENT, deleteEventAsync);
 }

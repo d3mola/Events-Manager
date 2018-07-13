@@ -6,7 +6,6 @@ import CenterComponent from '../../../components/presentationals/CenterComponent
 let props;
 let wrapper;
 const getDetails = jest.fn();
-// const history = {push: jest.fn()};
 const history = createHistory();
 history.push = jest.fn;
 
@@ -29,7 +28,6 @@ describe('Center Component', () => {
     });
     
     it('renders', () => {
-      // const wrapper = shallow(<CenterComponent {...props} />);
       expect(wrapper.find('.card').exists()).toBeTruthy();
       expect(wrapper.find('.card').length).toBe(1);
       expect(wrapper.find('.card-text').length).toBeTruthy();
@@ -43,7 +41,6 @@ describe('Center Component', () => {
       .find('div')
       .first()
       .simulate('click')
-    // expect(history.push).toHaveBeenCalledTimes(1);
     expect(getDetails).toHaveBeenCalledTimes(1);
   });
 });

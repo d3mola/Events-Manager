@@ -17,7 +17,7 @@ let props;
 describe('AddEvent Component', () => {
   beforeEach(() => {
     props = {
-      currentEvent: { name: 'selected center', id: 1 },
+      currentEvent: { title: 'selected center', id: 1 },
       getSingleEvent: jest.fn(),
       editEvent: jest.fn(),
       match: { params: 1 },
@@ -37,8 +37,7 @@ describe('AddEvent Component', () => {
   });
 
   it('should render a Loading indicator when submitting payload', () => {
-    const alteredProps = {...props, currentEvent: {}}
-    wrapper = shallow(<EditEventForm {...alteredProps} />);
+    wrapper = shallow(<EditEventForm {...props} currentEvent={null} />);
     expect(wrapper.find('Loading').exists()).toBeTruthy();
   });
 

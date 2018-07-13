@@ -200,9 +200,7 @@ EditCenterForm.propTypes = {
 const mapStateToProps = state => {
   return {
     selectedCenter: state.centersReducer.selectedCenter,
-    editingCenter: state.centersReducer.editingCenter,
-    // message: state.flashMessages.message,
-    // className: state.flashMessages.className
+    editingCenter: state.centersReducer.editingCenter
   };
 };
 

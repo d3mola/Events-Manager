@@ -1,7 +1,5 @@
-// presentational component that lists events
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 
 import Loading from '../commons/Loading';
 import EventComponent from './EventComponent';

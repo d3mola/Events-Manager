@@ -12,12 +12,6 @@ const mockStore = configureStore();
 let wrapper;
 let store;
 let props;
-// const initialState = {
-//   isLoading: false,
-//   token: 'token',
-// }
-
-// const initialState = {};
 
 describe('Sign up Component', () => {
   beforeEach(() => {

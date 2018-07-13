@@ -117,7 +117,7 @@ export function* loginAsync(action) {
 
 /**
  * listens for sign_up action type call then calls signInAsync
- * @returns {function} .
+ * @returns {any} .
  * @export
  */
 export function* watchSignInAsync() {
@@ -128,6 +128,7 @@ export function* watchSignInAsync() {
  *  log out saga
  */
 
+ // logs out a user
 export function* logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
@@ -142,6 +143,7 @@ export function* logout() {
   yield put(push('/'));
 }
 
+// wwatched for LOG_OUT action and calls logout
 export function* watchLogout() {
   yield takeLatest(types.LOG_OUT, logout);
 }

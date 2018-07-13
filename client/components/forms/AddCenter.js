@@ -20,16 +20,25 @@ export class AddCenter extends React.Component {
     image: ''
   };
 
+/**
+ * @description handles file change
+ * 
+ * @param {object} event event object
+ * 
+ * @returns {object} new state that has the selected object
+ */
   fileChangedHandler = event => {
     const image = event.target.files['0'];
     this.setState(prevState => ({ ...prevState, image }));
   };
 
   /**
-   * submit handler
-   * @param {any} e
-   * @memberof SignUp
-   * @returns {undefined}
+   * handles submission of data
+   * @param {object} e event object
+   * 
+   * @memberof AddCenter
+   * 
+   * @returns {object} dispatched action
    */
   handleSubmit = e => {
     e.preventDefault();
@@ -39,8 +48,10 @@ export class AddCenter extends React.Component {
   /**
    * sadd center handler
    * @param {any} e
+   * 
    * @memberof AddCenter
-   * @returns {Undefined} sets form input values
+   * 
+   * @returns {object} sets form input values
    */
   handleChange = e => {
     // set the next state of the form
@@ -51,13 +62,16 @@ export class AddCenter extends React.Component {
 
   /**
    * renders signUpForm component
+   * 
    * @returns {jsx} jsx representation of rendered component
+   * 
    * @memberof AddCenter
    */
   render() {
     const { addingCenter } = this.props;
     return (
       <div className="add-center-page">
+      { addingCenter && <Loading/> }
         <Header
           links={{ centers: 'centers', events: 'events', logout: 'logout' }}
         />
@@ -70,7 +84,7 @@ export class AddCenter extends React.Component {
                 action=""
                 method="post"
                 onSubmit={this.handleSubmit}>
-                { addingCenter && <Loading/> }
+                {/* { addingCenter && <Loading/> } */}
                 <h2 className="text-center">Create A Center!</h2>
                 <div className="form-group">
                   <label htmlFor="name">Name:</label>
@@ -152,14 +166,10 @@ export class AddCenter extends React.Component {
 
 AddCenter.propTypes = {
   addCenter: PropTypes.func.isRequired,
-  // message: PropTypes.string,
-  // className: PropTypes.string
   addingCenter: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  // message: state.flashMessages.message,
-  // className: state.flashMessages.className,
   addingCenter: state.centersReducer.addingCenter
 });
 

@@ -71,7 +71,6 @@ describe('Auth Reducers', () => {
       type: types.SIGN_IN_FAILURE,
       error: 'login unsuccessful'
     };
-    // const wrongPassword = {...payload, password: 12345678}
     newState = authReducer(initialState.authReducer, action);
     expectedState = {
       isLoading: false,

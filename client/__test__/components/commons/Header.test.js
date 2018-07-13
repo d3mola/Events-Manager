@@ -27,24 +27,6 @@ const history = {
 };
 
 const mockStore = configureStore();
-// let wrapper;
-
-/**
- * @description Initialise the component
- *
- * @returns {object} mountedComponent - Mounted
- */
-// const getComponent = () => {
-//   if (!mountedComponent) {
-//     props = {
-//       links,
-//       token
-//     };
-//     history.push = jest.fn();
-//     mountedComponent = shallow(<Header {...props} />);
-//   }
-//   return mountedComponent;
-// };
 
 props = {
   links: {
@@ -58,7 +40,6 @@ describe('Loading component', () => {
   beforeEach(() => {});
 
   it('should successfully render the component', () => {
-    // wrapper = getComponent();
     const wrapper = shallow(<Header {...props} />);
     expect(wrapper).toBeDefined;
     expect(wrapper.find('div').exists()).toBeTruthy();

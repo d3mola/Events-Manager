@@ -6,7 +6,6 @@ import ValidateInput from '../middleware/validateInput';
 
 const router = express.Router();
 
-// testing the MVR link
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to Party Palace API' });
 });
