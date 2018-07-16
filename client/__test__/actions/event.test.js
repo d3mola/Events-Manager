@@ -1,28 +1,25 @@
 import * as actions from '../../actions/actionCreators';
-import * as types from '../../actions/actionTypes';
 
 describe('Event Actions', () => {
   it('should return an action to fetch all events', () => {
-    const expectedAction = { type: types.GET_EVENTS };
-    expect(actions.getEvents()).toEqual(expectedAction);
+    expect(actions.getEvents().type).toEqual('GET_EVENTS');
   });
   it('should return an action to fetch a single event', () => {
     const eventId = 4;
-    const expectedAction = { type: types.GET_SINGLE_EVENT, eventId };
-    expect(actions.getSingleEvent(eventId)).toEqual(expectedAction);
+    expect(actions.getSingleEvent(eventId).type).toEqual('GET_SINGLE_EVENT');
+    expect(actions.getSingleEvent(eventId).eventId).toEqual(4);
   });
   it('should return an action to create an event', () => {
-    const expectedAction = { type: types.ADD_EVENT };
-    expect(actions.addEvent()).toEqual(expectedAction);
+    expect(actions.addEvent().type).toEqual('ADD_EVENT');
   });
   it('should return an action to update an event', () => {
     const event = {};
-    const expectedAction = { type: types.EDIT_EVENT, event };
-    expect(actions.editEvent(event)).toEqual(expectedAction);
+    expect(actions.editEvent(event).type).toEqual('EDIT_EVENT');
+    expect(actions.editEvent(event).event).toEqual({});
   });
   it('should return an action to delete an event', () => {
     const eventId = 5;
-    const expectedAction = { type: types.DELETE_EVENT, eventId };
-    expect(actions.deleteEvent(eventId)).toEqual(expectedAction);
+    expect(actions.deleteEvent(eventId).type).toEqual('DELETE_EVENT');
+    expect(actions.deleteEvent(eventId).eventId).toEqual(5);
   });
 }); // Event actions

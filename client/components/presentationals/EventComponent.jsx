@@ -23,22 +23,22 @@ const EventComponent = ({
           </div>
         </div>
         <div className="e-card-body-bottom">
-          Venue: <br />
+          <b>Venue: </b><br />
           {centerName}
         </div>
         <div className="e-card-body-bottom">
-          Notes: <br />
+          <b>Notes:</b> <br />
           {notes}
         </div>
         <div className="ed-buttons">
           <Link
             to={match.url + `/${singleEvent.id}/edit`}
             style={{ marginRight: 10 }}
-            className="btn btn-primary btn-md ed-btn">
+            className="btn btn-primary btn-sm ed-btn">
             <i className="fa fa-edit" /> Edit
           </Link>
           <button
-            className="btn btn-danger btn-md ed-btn"
+            className="btn btn-danger btn-sm ed-btn"
             onClick={() => handleModalOpen(id)}>
             <i className="fa fa-trash" /> Delete 
           </button>

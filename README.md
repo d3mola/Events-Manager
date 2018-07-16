@@ -43,17 +43,24 @@ Follow the following instructions to get a copy of the project running on your l
 The documentation was created with swagger and you can find it at 
 [documentation](https://party-palace.herokuapp.com/api/v1/docs/)
 
-## Contribution
+## Contributing
+
+If you'd like to contribute to this project, please follow the steps below.
+
 - Fork this repository.
 - Clone it.
-- Push your changes to the remote branch
-- Open a pull request to the develop branch, and describe how your feature works
+- Checkout a new branch.
+- Provide a detailed commit message.
+- Make your changes and push to your branch.
+- Raise a pull request against the develop branch.
 
 
 Ensure your codes follow <a href="https://github.com/airbnb/javascript">AirBnB Javascript Styles Guide</a>
 
 
 ## License
+
+This project is licensed under MIT, feel free to use it.
 
 #### [MIT](./LICENSE) © [Ademola Ariya](https://twitter.com/demostic)
 

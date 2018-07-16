@@ -1,18 +1,18 @@
 import * as actions from '../../actions/actionCreators';
-import * as types from '../../actions/actionTypes';
 
 describe('Auth Actions', () => {
   it('should create an action to sign up', () => {
     const payload = {
       username: 'demo1',
       email: 'demo1@gmail.com',
-      password: 'password'
+      password: 'password',
+      confirmPassword: 'password'
     };
-    const expectedAction = {
-      type: types.SIGN_UP,
-      payload
-    };
-    expect(actions.signUp(payload)).toEqual(expectedAction);
+    expect(actions.signUp(payload).type).toEqual('SIGN_UP');
+    expect(actions.signUp(payload).payload.username).toEqual('demo1');
+    expect(actions.signUp(payload).payload.email).toEqual('demo1@gmail.com');
+    expect(actions.signUp(payload).payload.password).toEqual('password');
+    expect(actions.signUp(payload).payload.confirmPassword).toEqual('password');
   });
 
   it('should create an action to log in', () => {
@@ -20,15 +20,12 @@ describe('Auth Actions', () => {
       email: 'test@test.com',
       password: 'password'
     };
-    const expectedAction = {
-      type: types.SIGN_IN,
-      payload
-    };
-    expect(actions.signIn(payload)).toEqual(expectedAction);
+    expect(actions.signIn(payload).type).toEqual('SIGN_IN');
+    expect(actions.signIn(payload).payload.email).toEqual('test@test.com');
+    expect(actions.signIn(payload).payload.password).toEqual('password');
   });
 
   it('should create an action to logout', () => {
-    const expectedAction = { type: types.LOG_OUT };
-    expect(actions.logout()).toEqual(expectedAction);
+    expect(actions.logout().type).toEqual('LOG_OUT');
   });
 }); // Auth actions
