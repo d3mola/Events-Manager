@@ -15,12 +15,20 @@ const CenterListComponent = props => {
         return <h3 className="text-center">No centers at this time.</h3>;
       }
       return (
-        <div className="row fill-viewport" style={{display:'flex', justifyContent:'center', alignItems:'baseline'}}>
+        <div
+          id="c--list"
+          className="fill-viewport"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'baseline',
+            flexWrap: 'wrap',
+          }}
+          >
           {centers.map(center => (
             <div
-              className="col-md-4 col-sm-6 text-center center-list"
-              key={center.id}
-            >
+              className="text-center center-list"
+              key={center.id}>
               <CenterComponent center={center} match={match} />
             </div>
           ))}
@@ -30,7 +38,7 @@ const CenterListComponent = props => {
   };
 
   return (
-    <div className="container">
+    <div className="containerr">
       <div className="cards fill-viewport">{renderCenters()}</div>
     </div>
   );
