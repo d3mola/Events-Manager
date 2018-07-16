@@ -12,7 +12,8 @@ describe('Center Component', () => {
       },
       match: {
         url: 'someUrl'
-      }
+      },
+      handleModalOpen: jest.fn()
     }
     const wrapper = shallow(<EventComponent {...props}/>)
     expect(wrapper.find('div').exists()).toBeTruthy();

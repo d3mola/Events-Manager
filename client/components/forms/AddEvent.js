@@ -112,7 +112,7 @@ export class AddEvent extends Component {
 
                 <div className="form-group">
                   <label htmlFor="date">
-                    Choose a date and time:<br />MM/DD/YYYY
+                    Choose a date and time:
                   </label>
                   <input
                     className="form-control"

@@ -60,6 +60,11 @@ describe('AddEvent Component', () => {
     expect(wrapper.state().name).toEqual('');
   });
 
+  it('should display a message if no center was selected', () => {
+    wrapper.setProps({ selectedCenter: null });
+    expect(wrapper.find('h1').exists()).toBeTruthy();
+  });
+
   it('should update the form inputs with the data of selected center', () => {
     const spy = sinon.spy(wrapper.instance(), 'componentWillReceiveProps');
     const newProps= {
@@ -71,8 +76,6 @@ describe('AddEvent Component', () => {
     expect(spy.calledOnce).toBeTruthy();
     expect(wrapper.state().name).toEqual('received props');
   });
-
-
 });
 
 describe('Connected Component', () => {

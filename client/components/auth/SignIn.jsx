@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -108,6 +109,7 @@ export class SignIn extends React.Component {
                   />
                 </div>
                 <input
+                  id="login-btn"
                   className="btn btn-success form-buttons"
                   type="submit"
                   value="Sign in"

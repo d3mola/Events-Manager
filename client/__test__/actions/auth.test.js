@@ -14,6 +14,7 @@ describe('Auth Actions', () => {
     };
     expect(actions.signUp(payload)).toEqual(expectedAction);
   });
+
   it('should create an action to log in', () => {
     const payload = {
       email: 'test@test.com',
@@ -24,5 +25,10 @@ describe('Auth Actions', () => {
       payload
     };
     expect(actions.signIn(payload)).toEqual(expectedAction);
+  });
+
+  it('should create an action to logout', () => {
+    const expectedAction = { type: types.LOG_OUT };
+    expect(actions.logout()).toEqual(expectedAction);
   });
 }); // Auth actions

@@ -2,16 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import { Header } from '../../../components/commons/Header';
+import ConnectedHeader, { Header } from '../../../components/commons/Header';
+import Logout from '../../../components/auth/LogoutButton';
 import initialState from '../../../reducers/initialState';
 
-let mountedComponent;
+const mockStore = configureStore();
+
 let props;
-let links = {
-
-};
-
-
+let links = {};
 
 localStorage.setItem('token', 'headerToken');
 let token = localStorage.getItem('token');
@@ -26,14 +24,12 @@ const history = {
   },
 };
 
-const mockStore = configureStore();
-
 props = {
   links: {
     centers: 'centers',
     events: 'events'
   },
-  token
+  token: 'headerToken'
 };
 
 describe('Loading component', () => {
@@ -43,5 +39,20 @@ describe('Loading component', () => {
     const wrapper = shallow(<Header {...props} />);
     expect(wrapper).toBeDefined;
     expect(wrapper.find('div').exists()).toBeTruthy();
+  });
+
+  it('should render Logout component if user is logged in', () => {
+    const wrapper = shallow(<Header {...props} />);
+    wrapper.setProps({user: 'demola'});
+    expect(wrapper.find('p').exists()).toBeTruthy();
+    expect(wrapper.find(Logout).exists()).toBeTruthy();
+  });
+});
+
+describe('Header Container', () => {
+  it('should render connected component', () => {
+    const store = mockStore(initialState);
+    const wrapper = shallow(<ConnectedHeader store={store} {...props}/>);
+    expect(wrapper.length).toEqual(1);
   });
 });

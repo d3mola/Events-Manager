@@ -34,6 +34,12 @@ describe('Event Reducer', () => {
     );
   });
 
+  it('should return the initial state', () => {
+    expect(eventsReducer(undefined, {})).toEqual(
+      initialState.eventsReducer
+    );
+  });
+
   it('should handle ADD_EVENT', () => {
     receivedState = eventsReducer(
       initialState.eventsReducer,

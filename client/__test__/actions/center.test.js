@@ -36,4 +36,12 @@ describe('Center Actions', () => {
     };
     expect(actions.deleteCenter(centerId)).toEqual(expectedAction);
   });
+  it('should create an action to search for a center', () => {
+    const payload = 'lagos';
+    const expectedAction = {
+      type: types.SEARCH_CENTERS,
+      payload
+    };
+    expect(actions.searchCenters(payload)).toEqual(expectedAction);
+  });
 }); // Center actions

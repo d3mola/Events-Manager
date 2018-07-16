@@ -5,8 +5,8 @@ dotenv.config();
 
 module.exports = {
   up: queryInterface => queryInterface.bulkInsert('Users', [{
-    username: 'Demola',
-    email: 'demola@test.com',
+    username: 'admin',
+    email: 'admin@test.com',
     password: bcrypt.hashSync(process.env.SEEDED_USER_PASS, 10),
     isAdmin: true,
     createdAt: new Date(),

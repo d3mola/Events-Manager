@@ -26,7 +26,9 @@ describe('EventListComponent', () => {
     ],
     match: {},
     isFetching: false,
-    error: ''
+    error: '',
+    handleModalOpen: jest.fn(),
+    handleDelete: jest.fn()
   };
 
   it('renders succesfully', () => {
