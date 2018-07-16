@@ -130,9 +130,7 @@ export function* watchSignInAsync() {
 
  // logs out a user
 export function* logout() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem('isAdmin');
+  localStorage.clear();
   yield put({
     type: types.LOG_OUT_SUCCESS,
     isAuthenticated: false,

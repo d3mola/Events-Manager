@@ -13,7 +13,7 @@ const centers = (state = initialState.centersReducer, action) => {
     case types.GET_CENTERS_SUCCESS:
       return { ...state, centers: action.centers, isFetching: false, paginationData: action.paginationData };
     case types.GET_CENTERS_FAILURE:
-      return { ...state, isFetching: false };
+      return { ...state, isFetching: false , error: action.error};
     case types.ADD_CENTER:
       return { ...state, addingCenter: true };
       case types.ADD_CENTER_SUCCESS:
@@ -36,6 +36,12 @@ const centers = (state = initialState.centersReducer, action) => {
         ...state,
         isFetching: false,
         selectedCenter: action.center,
+      };
+    case types.GET_SINGLE_CENTER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.error
       };
     case types.DELETE_CENTER_SUCCESS:
       return {

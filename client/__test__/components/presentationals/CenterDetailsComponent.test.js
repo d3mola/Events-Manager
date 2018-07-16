@@ -50,11 +50,19 @@ describe(' Center Details Component', () => {
   });
 
   it('renders a loading indicator while processing data', () => {
-    const alteredProps = { ...props, selectedCenter: null };
+    const alteredProps = { ...props, isFetching: true };
     const wrapper = shallow(<CenterDetailsComponent {...alteredProps} />);
     expect(wrapper.find('Loading').exists()).toBeTruthy();
     expect(wrapper.children.length).toBe(1);
     expect(wrapper.find('.card-main').exists()).toBeFalsy();
+  });
+
+  it('renders an error message if center does not exist', () => {
+    const alteredProps = { ...props, selectedCenter: null };
+    const wrapper = shallow(<CenterDetailsComponent {...alteredProps} />);
+    expect(wrapper.find('Loading').exists()).toBeFalsy();
+    expect(wrapper.children.length).toBe(1);
+    expect(wrapper.find('div>h3').exists()).toBeTruthy();
   });
 
   it('calls the handleModalOpen function prop when button is clicked', () => {

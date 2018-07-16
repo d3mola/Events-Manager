@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home successfully rendered 1`] = `
+<div>
+  <Connect(Header)
+    links={
+      Object {
+        "centers": "centers",
+        "login": "login",
+        "register": "register",
+      }
+    }
+  />
+  <div>
+    <section
+      id="introduction"
+    >
+      <div
+        className="overlay"
+      >
+        <div
+          className="container"
+        >
+          <div
+            className="row align-items-center fill-viewport"
+          >
+            <div
+              className="col-12"
+            >
+              <h1>
+                Party like there is no tomorrow!
+              </h1>
+              <p>
+                Do you plan to hold your dream event, we have centers that can meet your needs.
+              </p>
+              <Link
+                className="btn btn-success"
+                id="cta-btn"
+                replace={false}
+                to="/centers"
+              >
+                <b>
+                  Book a center
+                </b>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <Footer
+    id="Footer"
+  />
+</div>
+`;

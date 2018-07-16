@@ -130,6 +130,7 @@ export class SignUp extends React.Component {
                   />
                 </div>
                 <input
+                  id="register-btn"
                   className="btn btn-success form-buttons"
                   type="submit"
                   value="Register"

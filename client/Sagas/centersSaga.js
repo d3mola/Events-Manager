@@ -58,17 +58,6 @@ export function* fetchcentersAsync(action) {
       error: error.response.data.message
     });
     yield put({ type: types.CLEAR_FLASH_MESSAGE});
-    let errorStatus = error.response.status;
-    switch (errorStatus) {
-      case 401:
-        yield put(push('/login'));
-        break;
-      case 500:
-        yield put(push('/centers'));
-        break;
-      default:
-        return errorStatus;
-    }
   }
 }
 
@@ -160,16 +149,20 @@ export function* fetchSingleCenterAsync(action) {
       center: response.data.center
     });
   } catch (error) {
-    if (error.response) {
+    if (!error.response) {
+      toastr.error('Network error, please refresh');
       yield put({
         type: types.GET_SINGLE_CENTER_FAILURE,
         error: 'Network error, please refresh'
       });
-    } else { 
+      yield put({ type: types.CLEAR_FLASH_MESSAGE });
+    } else {
+      toastr.error(error.response.data.message);
       yield put({
         type: types.GET_SINGLE_CENTER_FAILURE,
-        error: error.reponse.data.message
-      });
+        error: error.response.data.message });
+      yield({ type: types.CLEAR_FLASH_MESSAGE });
+      
     }
   }
 }

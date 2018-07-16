@@ -101,26 +101,12 @@ export const deleteEvent = eventId => ({
   eventId
 });
 
-export const showEditForm = () => ({
-  type: types.SHOW_EDIT_FORM
-});
-
-export const sendFlashMessage = (message, className) => ({
-  type: types.FLASH_MESSAGE,
-  payload: { message, className }
-});
-
 export const clearFlashMessage = () => ({
   type: types.CLEAR_FLASH_MESSAGE
 });
 
 export const logout = () => ({
   type: types.LOG_OUT
-});
-
-export const loginFailure = error => ({
-  type: types.SIGN_IN_FAILURE,
-  error
 });
 
 export const searchCenters = payload => ({

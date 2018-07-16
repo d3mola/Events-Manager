@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="10">
+
+  <testsuite name="features.test"
+    errors="0" failures="0" hostname="" id="" package="features.test" skipped="0"
+    tests="10" time="41.16" timestamp="Mon, 16 Jul 2018 10:47:33 GMT">
+  
+    <testcase name="Users can see home page" classname="features.test" time="6.028" assertions="17">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users cannot signup if username is taken" classname="features.test" time="9.622" assertions="7">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users cannot signup if email is taken" classname="features.test" time="5.218" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can signup" classname="features.test" time="6.400" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can get the details of a center" classname="features.test" time="2.446" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can logout" classname="features.test" time="2.157" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can login" classname="features.test" time="6.095" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can create a center" classname="features.test" time="3.193" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Users can update a center" classname="features.test" time="0.000" assertions="0">
+    </testcase>
+  
+    <testcase name="Users can delete a center" classname="features.test" time="0.000" assertions="0">
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

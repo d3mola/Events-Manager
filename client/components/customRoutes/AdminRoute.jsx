@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // only authed users can access this route
-const AdminRoute = ({ component: Component, isAdmin, ...rest }) => {
+export const AdminRoute = ({ component: Component, isAdmin, ...rest }) => {
   return (
     <Route
       {...rest}

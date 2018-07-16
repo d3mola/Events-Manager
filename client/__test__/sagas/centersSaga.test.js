@@ -18,24 +18,27 @@ import {
   GET_CENTERS_FAILURE,
   ADD_CENTER,
   ADD_CENTER_SUCCESS,
-  ADD_CENTER_FAILURE,
+  EDIT_CENTER,
+  EDIT_CENTER_SUCCESS,
+  EDIT_CENTER_FAILURE,
   GET_SINGLE_CENTER,
   GET_SINGLE_CENTER_SUCCESS,
+  GET_SINGLE_CENTER_FAILURE,
   DELETE_CENTER,
   DELETE_CENTER_SUCCESS,
   DELETE_CENTER_FAILURE,
   SEARCH_CENTERS,
   SEARCH_CENTERS_SUCCESS,
-  SEARCH_CENTERS_FAILURE
+  SEARCH_CENTERS_FAILURE,
+  ADD_CENTER_FAILURE
 } from '../../actions/actionTypes';
 
 localStorage.setItem('token', 'randomtoken');
 let token = localStorage.getItem('token');
-let headers = { 'x-access-token': token }
+let headers = { 'x-access-token': token };
 
 describe('Centers Saga Success >>>', () => {
-  it('fetches all centers', () => {
-
+  it('fetches centers', () => {
     const response = {
       data: {
         success: true,
@@ -44,7 +47,7 @@ describe('Centers Saga Success >>>', () => {
           paginationData: { page: 1, numPages: 1, count: 2 }
         }
       }
-    }
+    };
 
     const page = 1;
     const limit = 2;
@@ -52,31 +55,101 @@ describe('Centers Saga Success >>>', () => {
 
     const url = `http://localhost:8000/api/v1/centers?${paginationQuery}`;
 
-    return expectSaga(watchFetchCentersAsync)
+    return (
+      expectSaga(watchFetchCentersAsync)
+        .provide([[call(axios.get, url, { headers }), response]])
+        // assert that the saga will eventually yield `put`
+        // with the expected action
+        .put({
+          type: GET_CENTERS_SUCCESS,
+          centers: [],
+          paginationData: { page: 1, numPages: 1, count: 2 }
+        })
 
-      .provide([[call(axios.get, url, { headers }), response]])
-      // assert that the saga will eventually yield `put`
-      // with the expected action
-      .put({
-        type: GET_CENTERS_SUCCESS,
-        centers: [],
-        paginationData: { page: 1, numPages: 1, count: 2 }
-      })
+        .dispatch({ type: GET_CENTERS, page, limit })
 
-      .dispatch({ type: GET_CENTERS, page, limit })
-  
-      // run it
-      .run();
+        // run it
+        .run()
+    );
+  });
+
+  it('page and limitset to default if they are falsy ', () => {
+    const response = {
+      data: {
+        success: true,
+        payload: {
+          centers: [],
+          paginationData: { page: 1, numPages: 1, count: 2 }
+        }
+      }
+    };
+
+    const action = {
+      page: 0,
+      limit: 0
+    }
+
+    // const { page, limit } = action;
+
+    const paginationQuery = `page=1&limit=9`;
+
+    const url = `http://localhost:8000/api/v1/centers?${paginationQuery}`;
+
+    return (
+      expectSaga(watchFetchCentersAsync)
+        .provide([[call(axios.get, url, { headers }), response]])
+        // assert that the saga will eventually yield `put`
+        // with the expected action
+        .put({
+          type: GET_CENTERS_SUCCESS,
+          centers: [],
+          paginationData: { page: 1, numPages: 1, count: 2 }
+        })
+
+        .dispatch({ type: GET_CENTERS, page: action.page, limit: action.limit })
+
+        // run it
+        .run()
+    );
   });
 
   it.skip('adds a center', () => {
+    const action = {payload: {
+      name: 'andela hall',
+      location: 'lagos',
+      capacity: 5000,
+      price: 4000,
+      image: 'images.jpeg'
+    }};
 
+    const response = { data: { center: { name: 'Andela'} } };
+
+    const url = 'http://localhost:8000/api/v1/centers';
+
+    return (
+      expectSaga(watchAddCenterAsync)
+        .provide([[call(axios.post, url, action.payload, { headers }), response]])
+        // assert that the saga will eventually yield `put`
+        // with the expected action
+        .put({
+          type: ADD_CENTER_SUCCESS,
+          center: { name: 'Andela' }
+        })
+
+        .dispatch({ type: ADD_CENTER, payload: action.payload })
+
+        // run it
+        .run()
+    );
+  });
+
+  it.skip('updates a center', () => {
     const payload = {
       name: 'andela hall',
       location: 'lagos',
       capacity: 5000,
       price: 4000
-    }
+    };
 
     const response = {
       data: {
@@ -88,7 +161,7 @@ describe('Centers Saga Success >>>', () => {
           image: 'image'
         }
       }
-    }
+    };
 
     const url = 'http://localhost:8000/api/v1/centers';
 
@@ -99,26 +172,27 @@ describe('Centers Saga Success >>>', () => {
       'Content-Type': 'multipart/form-data'
     };
 
-    return expectSaga(watchAddCenterAsync)
+    return (
+      expectSaga(watchAddCenterAsync)
+        .provide([[call(axios.post, url, payload), response]])
+        // assert that the saga will eventually yield `put`
+        // with the expected action
+        .put({
+          type: ADD_CENTER_SUCCESS,
+          center: {
+            name: 'andela hall',
+            location: 'lagos',
+            capacity: 5000,
+            price: 4000,
+            image: 'image'
+          }
+        })
 
-      .provide([[call(axios.post, url, payload), response]])
-      // assert that the saga will eventually yield `put`
-      // with the expected action
-      .put({
-        type: ADD_CENTER_SUCCESS,
-        center: {
-          name: 'andela hall',
-          location: 'lagos',
-          capacity: 5000,
-          price: 4000,
-          image: 'image'
-        }
-      })
+        .dispatch({ type: ADD_CENTER, payload })
 
-      .dispatch({ type: ADD_CENTER, payload })
-  
-      // run it
-      .run();
+        // run it
+        .run()
+    );
   });
 
   it('fetches a single center', () => {
@@ -146,7 +220,6 @@ describe('Centers Saga Success >>>', () => {
   });
 
   it('deletes a center', () => {
-
     const response = {
       data: { message: 'Deleted' }
     };
@@ -166,7 +239,7 @@ describe('Centers Saga Success >>>', () => {
         .dispatch({ type: DELETE_CENTER, centerId: 1 })
 
         // run it
-        .run()
+        .run(300)
     );
   });
 
@@ -200,217 +273,138 @@ describe('Centers Saga Success >>>', () => {
   });
 });
 
-describe.skip('Center Saga Failure >>>', () => {
-  it(' does not fetch all events', () => {
+describe('Center Saga Failure >>>', () => {
+  it(' does not fetch all centers', () => {
     const error = { response: { data: { message: 'Something went wrong' } } };
 
     const page = 1;
     const limit = 2;
     const paginationQuery = `page=${page}&limit=${limit}`;
 
-    const url = `http://localhost:8000/api/v1/users/auth/events?${paginationQuery}`;
+    const url = `http://localhost:8000/api/v1/centers?${paginationQuery}`;
 
     return (
-      expectSaga(watchGetEventsAsync)
+      expectSaga(watchFetchCentersAsync)
         .provide([[call(axios.get, url, { headers }), throwError(error)]])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: GET_EVENTS_FAILURE,
-          error: error.response.data.message
+          type: GET_CENTERS_FAILURE,
+          error: 'Something went wrong'
         })
 
-        .dispatch({ type: GET_EVENTS, page, limit })
+        .dispatch({ type: GET_CENTERS, page, limit })
 
         // run it
         .run()
     );
   });
 
-  it(' does not fetch all events', () => {
+  it(' does not fetch details the details of a center', () => {
     const error = {};
 
-    const page = 1;
-    const limit = 2;
-    const paginationQuery = `page=${page}&limit=${limit}`;
+    const action = { centerId: 1 };
 
-    const url = `http://localhost:8000/api/v1/users/auth/events?${paginationQuery}`;
+    const url = `http://localhost:8000/api/v1/centers/${action.centerId}`;
 
     return (
-      expectSaga(watchGetEventsAsync)
+      expectSaga(watchGetSingleCenterAsync)
         .provide([[call(axios.get, url, { headers }), throwError(error)]])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: GET_EVENTS_FAILURE,
-          error: 'Possible network error, please reload the page'
+          type: GET_SINGLE_CENTER_FAILURE,
+          error: 'Network error, please refresh'
         })
 
-        .dispatch({ type: GET_EVENTS, page, limit })
+        .dispatch({ type: GET_SINGLE_CENTER, centerId: action.centerId })
 
         // run it
         .run()
     );
   });
 
-  it(' does not fetch all events - status 500', () => {
-    const error = {
-      response: { status: 500, data: { message: 'Server error, try again' } }
-    };
-
-    const page = 1;
-    const limit = 2;
-    const paginationQuery = `page=${page}&limit=${limit}`;
-
-    const url = `http://localhost:8000/api/v1/users/auth/events?${paginationQuery}`; //eslint-disable-line
-
-    return (
-      expectSaga(watchGetEventsAsync)
-        .provide([[call(axios.get, url, { headers }), throwError(error)]])
-        // assert that the saga will eventually yield `put`
-        // with the expected action
-        .put({
-          type: GET_EVENTS_FAILURE,
-          error: error.response.data.message
-        })
-
-        .dispatch({ type: GET_EVENTS, page, limit })
-
-        // run it
-        .run()
-    );
-  });
-
-  it(' does not fetch all events - status 401', () => {
-    const error = {
-      response: { status: 401, data: { message: 'You need to login' } }
-    };
-
-    const page = 1;
-    const limit = 2;
-    const paginationQuery = `page=${page}&limit=${limit}`;
-
-    const url = `http://localhost:8000/api/v1/users/auth/events?${paginationQuery}`; //eslint-disable-line
-
-    return (
-      expectSaga(watchGetEventsAsync)
-        .provide([[call(axios.get, url, { headers }), throwError(error)]])
-        // assert that the saga will eventually yield `put`
-        // with the expected action
-        .put({
-          type: GET_EVENTS_FAILURE,
-          error: error.response.data.message
-        })
-
-        .dispatch({ type: GET_EVENTS, page, limit })
-
-        // run it
-        .run()
-    );
-  });
-
-  it(' does not fetch all events - status 404', () => {
-    const error = {
-      response: { status: 404, data: { message: 'no events, do you wish to create one?' } }
-    };
-
-    const page = 1;
-    const limit = 2;
-    const paginationQuery = `page=${page}&limit=${limit}`;
-
-    const url = `http://localhost:8000/api/v1/users/auth/events?${paginationQuery}`; //eslint-disable-line
-
-    return (
-      expectSaga(watchGetEventsAsync)
-        .provide([[call(axios.get, url, { headers }), throwError(error)]])
-        // assert that the saga will eventually yield `put`
-        // with the expected action
-        .put({
-          type: GET_EVENTS_FAILURE,
-          error: error.response.data.message
-        })
-
-        .dispatch({ type: GET_EVENTS, page, limit })
-
-        // run it
-        .run()
-    );
-  });
-
-  it('errors while fetching a single event', () => {
+  it('errors while fetching a single center', () => {
     const error = { response: { data: { message: 'Something went wrong' } } };
 
-    const url = `http://localhost:8000/api/v1/users/auth/events/1`;
+    const action = { centerId: 1 };
+
+    const url = `http://localhost:8000/api/v1/centers/${action.centerId}`;
 
     return (
-      expectSaga(watchGetSingleEventAsync)
+      expectSaga(watchGetSingleCenterAsync)
         .provide([[call(axios.get, url, { headers }), throwError(error)]])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: GET_SINGLE_EVENT_FAILURE,
+          type: GET_SINGLE_CENTER_FAILURE,
           error: 'Something went wrong'
         })
 
-        .dispatch({ type: GET_SINGLE_EVENT, eventId: 1 })
+        .dispatch({ type: GET_SINGLE_CENTER, centerId: action.centerId })
 
         // run it
         .run()
     );
   });
 
-  it('errors while fetching a single event 2', () => {
-    const error = { message: 'Fallback error', response: { data: {} } };
+  it('errors while searching for a center', () => {
+    const payload = 'lagos';
 
-    const url = `http://localhost:8000/api/v1/users/auth/events/1`;
+    const searchQuery = `name=${payload}&location=${payload}`;
+
+    const error = {
+      response: { data: { message: 'Error!' } }
+    };
+
+    const url = `http://localhost:8000/api/v1/search?${searchQuery}`;
 
     return (
-      expectSaga(watchGetSingleEventAsync)
+      expectSaga(watchSearchCentersAysnc)
         .provide([[call(axios.get, url, { headers }), throwError(error)]])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: GET_SINGLE_EVENT_FAILURE,
-          error: 'Fallback error'
+          type: SEARCH_CENTERS_FAILURE,
+          error: 'Error!'
         })
 
-        .dispatch({ type: GET_SINGLE_EVENT, eventId: 1 })
+        .dispatch({ type: SEARCH_CENTERS, payload: 'lagos' })
 
         // run it
         .run()
     );
   });
 
-  it('errors while creating an event', () => {
-    const event = {
-      title: 'event one',
-      notes: 'notes',
-      centerId: 1,
-      date: '12-12-2002'
+  it.skip('errors while creating an event', () => {
+    const center = {
+      nmae: 'center one'
     };
 
     const error = { response: { data: { message: 'Something went wrong' } } };
 
-    const url = 'http://localhost:8000/api/v1/events';
+    const url = 'http://localhost:8000/api/v1/center';
 
     return (
-      expectSaga(watchAddEventAsync)
-        .provide([[call(axios.post, url, event, { headers }), throwError(error)]])
+      expectSaga(watchAddCenterAsync)
+        .provide([
+          [call(axios.post, url, center, { headers }), throwError(error)]
+        ])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: ADD_EVENT_ERROR,
+          type: ADD_CENTER_FAILURE,
           error: 'Something went wrong'
         })
 
-        .dispatch({ type: ADD_EVENT, event })
+        .dispatch({ type: ADD_CENTER, center })
 
         // run it
-        .run()
+        .run(1200)
     );
   });
 
-  it('errros while updating an event', () => {
+  it.skip('errros while updating an event', () => {
     const event = {
       id: 1,
       title: 'event two',
@@ -455,22 +449,24 @@ describe.skip('Center Saga Failure >>>', () => {
     );
   });
 
-  it('errros while deleting an event', () => {
+  it('errros while deleting a center', () => {
     const error = { response: { data: { message: 'Something went wrong' } } };
 
-    const url = `http://localhost:8000/api/v1/events/1`;
+    const action = { centerId: 1 }
+
+    const url = `http://localhost:8000/api/v1/centers/${action.centerId}`;
 
     return (
-      expectSaga(watchDeleteEventAsync)
+      expectSaga(watchDeleteCenterAsync)
         .provide([[call(axios.delete, url, { headers }), throwError(error)]])
         // assert that the saga will eventually yield `put`
         // with the expected action
         .put({
-          type: DELETE_EVENT_FAILURE,
+          type: DELETE_CENTER_FAILURE,
           error: 'Something went wrong'
         })
 
-        .dispatch({ type: DELETE_EVENT, eventId: 1 })
+        .dispatch({ type: DELETE_CENTER, centerId: 1 })
 
         // run it
         .run()

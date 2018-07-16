@@ -36,7 +36,10 @@ describe('Auth Reducers', () => {
       isAdmin: null,
       error: null
     };
-    expect(newState).toEqual(expectedState);
+    expect(newState.isLoading).toEqual(true);
+    expect(newState.token).toEqual(null);
+    expect(newState.isAdmin).toEqual(null);
+    expect(newState.user).toEqual(null);
   });
 
   it('should handle SIGN_IN_SUCCESS', () => {
@@ -63,7 +66,10 @@ describe('Auth Reducers', () => {
       isAdmin: 'false',
       error: null
     }
-    expect(newState).toEqual(expectedState);
+    expect(newState.token).toEqual('randomToken');
+    expect(newState.user).toEqual('demola');
+    expect(newState.isAdmin).toEqual('false');
+    expect(newState.isLoading).toEqual(false);
   });
 
   it('should handle SIGN_IN_FAILURE', () => {
@@ -80,7 +86,11 @@ describe('Auth Reducers', () => {
       user: null,
       error: 'login unsuccessful'
     };
-    expect(newState).toEqual(expectedState);
+    expect(newState.error).toEqual('login unsuccessful');
+    expect(newState.token).toEqual(null);
+    expect(newState.isAdmin).toEqual(null);
+    expect(newState.user).toEqual(null);
+    expect(newState.isLoading).toEqual(false);
   });
 
   it('should handle SIGN_UP', () => {
@@ -94,7 +104,8 @@ describe('Auth Reducers', () => {
       user: null,
       error: null
     };
-    expect(newState).toEqual(expectedState);
+    expect(newState.isLoading).toEqual(true);
+    expect(newState.isAdmin).toEqual(null);
   });
 
   it('should handle SIGN_UP_SUCCESS', () => {
@@ -116,7 +127,10 @@ describe('Auth Reducers', () => {
       user: 'thanos',
       error: null
     };
-    expect(newState).toEqual(expectedState);
+    expect(newState.isLoading).toEqual(false);
+    expect(newState.token).toEqual('randomToken');
+    expect(newState.isAdmin).toEqual('false');
+    expect(newState.error).toEqual(null);
   });
   
   it('should handle SIGN_UP_FAILURE', () => {
@@ -125,14 +139,10 @@ describe('Auth Reducers', () => {
       error: 'signup unsuccessful'
     };
     newState = authReducer(initialState.authReducer, action);
-    expectedState = {
-      isLoading: false,
-      isAuthenticated: false,
-      token: null,
-      isAdmin: null,
-      user: null,
-      error: 'signup unsuccessful'
-    };
+    expect(newState.isLoading).toEqual(false);
+    expect(newState.token).toEqual(null);
+    expect(newState.isAdmin).toEqual('false');
+    expect(newState.error).toEqual('signup unsuccessful');
   });
 
   it('should handle LOG_OUT', () => {

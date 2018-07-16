@@ -12,7 +12,10 @@ export const Logout = props => {
 
   return (
     <div>
-      <button className="btn btn-outline-success btn-md" onClick={handleLogout}>
+      <button
+        id="logout"
+        className="btn btn-outline-success btn-md"
+        onClick={handleLogout}>
         Logout
       </button>
     </div>
@@ -23,4 +26,7 @@ Logout.propTypes = {
   logout: PropTypes.func.isRequired
 };
 
-export default connect(null, { logout })(Logout);
+export default connect(
+  null,
+  { logout }
+)(Logout);
