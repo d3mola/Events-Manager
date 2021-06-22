@@ -72,7 +72,7 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'client/build'),
     historyApiFallback: true,
-    host:'0.0.0.0'
+    host: '0.0.0.0',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
