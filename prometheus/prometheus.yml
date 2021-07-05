@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: [
+        'events-manager:8080',
+      ]
