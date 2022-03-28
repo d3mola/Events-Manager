@@ -21,6 +21,13 @@ spec:
     spec:
       containers:
       - name: events-manager
-        image: damola12345/dockerhub:myfirstimagepush 
+        image: damola12345/dockerhub:myfirstimagepush
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
         ports:
           - containerPort: 8080
