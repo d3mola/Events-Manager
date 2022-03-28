@@ -6,12 +6,23 @@ import path from 'path';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import winston from 'winston';
+import client from 'prom-client';
 
 import routes from './routes';
 import swaggerDoc from '../server/doc/swagger.json';
 
 // Load .env
 dotenv.config();
+
+// // Create a Registry which registers the metrics
+// const register = new client.Registry()
+// // Add a default label which is added to all metrics
+// register.setDefaultLabels({
+//   app: 'example-nodejs-app'
+// })
+// // Enable the collection of default metrics
+// client.collectDefaultMetrics({ register })
+const collectDefaultMetrics = client.collectDefaultMetrics;
 
 // Set up the express app
 const app = express();
@@ -24,6 +35,11 @@ app.use(logger('dev'));
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/metrics', (req, res) => {
+  collectDefaultMetrics(5000);
+  res.send(client.collectDefaultMetrics.metricsList);
+});
 
 /**
  * @description Express middleware that serves the static assets

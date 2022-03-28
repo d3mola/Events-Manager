@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-manager-deploy
+  labels:
+    name: events-manager-deploy
+    app: events-manager-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: events-manager-pod
+      app: events-manager-app
+
+  template:
+    metadata:
+      name: events-manager-pod
+      labels:
+        name: events-manager-pod
+        app: events-manager-app
+    spec:
+      containers:
+      - name: events-manager
+        image: damola12345/dockerhub:myfirstimagepush
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "1"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
+        ports:
+          - containerPort: 8080

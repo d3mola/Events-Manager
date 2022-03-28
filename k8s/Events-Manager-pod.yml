@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: events-manager-pod
+  labels:
+    name: events-manager-pod
+    app: events-manager-app
+spec:
+  containers:
+  - name: events-manager
+    image: damola12345/dockerhub:myfirstimagepush 
+    ports:
+      - containerPort: 8080
